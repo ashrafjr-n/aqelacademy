@@ -4,6 +4,7 @@ import { CourseSummaryCard } from "@/components/courses/course-summary-card";
 import { InstructorCard } from "@/components/courses/instructor-card";
 import { PageHeader } from "@/components/ui/page-header";
 import { RichText } from "@/components/ui/rich-text";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { courses, getCourse } from "@/content/courses";
 
 export const dynamicParams = false;
@@ -32,8 +33,10 @@ export default async function CoursePage({ params }: PageProps<"/courses/[slug]"
         </aside>
         <div>
           <RichText blocks={course.body} />
-          <h2 className="mt-12 mb-4 text-2xl font-bold text-ink">المدرب</h2>
-          <InstructorCard instructor={course.instructor} />
+          <div className="mt-12">
+            <SectionHeading title="المدرب" />
+            <InstructorCard instructor={course.instructor} />
+          </div>
         </div>
       </div>
     </>

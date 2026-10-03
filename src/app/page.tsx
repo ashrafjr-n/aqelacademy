@@ -43,8 +43,8 @@ export default function HomePage() {
       <section className="bg-brand-soft py-20">
         <div className="container-site">
           <SplitSection image={journeySection.image}>
-            <h2 className="text-2xl font-bold text-ink md:text-3xl">{journeySection.title}</h2>
-            <p className="mt-4 text-lg leading-relaxed">{journeySection.text}</p>
+            <SectionHeading title={journeySection.title} />
+            <p className="text-lg leading-relaxed">{journeySection.text}</p>
             <div className="mt-6">
               <CheckList items={journeySection.points} />
             </div>
