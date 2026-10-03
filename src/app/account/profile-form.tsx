@@ -1,9 +1,10 @@
 "use client";
 
+import { UserRound } from "lucide-react";
 import { useActionState } from "react";
 import { updateProfile } from "@/app/account/actions";
-import { CountrySelect } from "@/components/forms/country-select";
 import { FormAlert } from "@/components/forms/form-alert";
+import { PhoneCountryFields } from "@/components/forms/phone-country-fields";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { TextField } from "@/components/forms/text-field";
 import { initialFormState } from "@/lib/forms";
@@ -24,21 +25,18 @@ export function ProfileForm({ fullName, phone, country }: ProfileFormProps) {
       <TextField
         name="fullName"
         label="الاسم الكامل"
+        icon={UserRound}
         autoComplete="name"
         required
         defaultValue={values.fullName}
         error={state.fieldErrors?.fullName}
       />
-      <TextField
-        name="phone"
-        label="رقم الهاتف"
-        type="tel"
-        autoComplete="tel"
-        ltr
-        defaultValue={values.phone}
-        error={state.fieldErrors?.phone}
+      <PhoneCountryFields
+        defaultCountry={values.country}
+        defaultPhone={values.phone}
+        countryError={state.fieldErrors?.country}
+        phoneError={state.fieldErrors?.phone}
       />
-      <CountrySelect defaultValue={values.country} error={state.fieldErrors?.country} />
       <SubmitButton label="حفظ التغييرات" pendingLabel="جارٍ الحفظ…" />
     </form>
   );

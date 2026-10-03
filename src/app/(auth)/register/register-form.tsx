@@ -1,12 +1,15 @@
 "use client";
 
+import { Mail, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useActionState } from "react";
 import { signUp } from "@/app/(auth)/actions";
-import { CountrySelect } from "@/components/forms/country-select";
+import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
+import { PasswordField } from "@/components/forms/password-field";
+import { PhoneCountryFields } from "@/components/forms/phone-country-fields";
 import { SubmitButton } from "@/components/forms/submit-button";
-import { FieldMessage, TextField } from "@/components/forms/text-field";
+import { TextField } from "@/components/forms/text-field";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { initialFormState } from "@/lib/forms";
 
@@ -27,6 +30,7 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
       <TextField
         name="fullName"
         label="الاسم الكامل"
+        icon={UserRound}
         autoComplete="name"
         required
         defaultValue={state.values?.fullName}
@@ -35,6 +39,7 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
       <TextField
         name="email"
         label="البريد الإلكتروني"
+        icon={Mail}
         type="email"
         autoComplete="email"
         required
@@ -42,39 +47,32 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
         defaultValue={state.values?.email}
         error={state.fieldErrors?.email}
       />
-      <TextField
+      <PasswordField
         name="password"
         label="كلمة المرور"
-        type="password"
         autoComplete="new-password"
-        required
-        ltr
         hint="10 أحرف على الأقل، وفيها حرف إنجليزي ورقم."
         error={state.fieldErrors?.password}
       />
-      <TextField
-        name="phone"
-        label="رقم الهاتف"
-        type="tel"
-        autoComplete="tel"
-        ltr
-        defaultValue={state.values?.phone}
-        error={state.fieldErrors?.phone}
+      <PhoneCountryFields
+        defaultCountry={state.values?.country}
+        defaultPhone={state.values?.phone}
+        countryError={state.fieldErrors?.country}
+        phoneError={state.fieldErrors?.phone}
       />
-      <CountrySelect defaultValue={state.values?.country} error={state.fieldErrors?.country} />
       <div>
-        <label className="flex items-start gap-3">
+        <label className="flex items-start gap-3 text-sm">
           <input
             type="checkbox"
             name="privacy"
             required
             aria-invalid={state.fieldErrors?.privacy ? true : undefined}
             aria-describedby={state.fieldErrors?.privacy ? "field-privacy-error" : undefined}
-            className="mt-1 size-5 shrink-0 accent-brand"
+            className="mt-0.5 size-5 shrink-0 accent-brand"
           />
           <span>
             قرأت{" "}
-            <Link href="/policy" target="_blank" className="font-semibold text-brand underline hover:text-brand-dark">
+            <Link href="/policy" target="_blank" className="font-bold text-brand underline hover:text-brand-dark">
               سياسة الخصوصية
             </Link>{" "}
             وأوافق عليها.
