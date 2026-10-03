@@ -40,4 +40,15 @@ export const authCopy = {
     title: "تأكيد الرابط",
     subtitle: "اضغط الزر لإكمال العملية.",
   },
+  resendConfirmation: {
+    prompt: "لم يصلك رابط التأكيد؟",
+    success: "أرسلنا رابط تأكيد جديدًا إلى بريدك. تفقّد صندوق الوارد ومجلد الرسائل غير المرغوب فيها (Spam).",
+  },
 } as const;
+
+/** Side panel on the sign-in and sign-up pages (large screens). */
+export const authPanel = {
+  title: "منصّتك للتدريب في تحليل السلوك التطبيقي والتأهيل",
+  points: ["احجز دورتك بخطوات بسيطة", "تابع حالة طلبك أولًا بأول", "تواصل مباشرة مع الدكتور"],
+  security: "بياناتك محمية ومشفّرة",
+};

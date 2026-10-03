@@ -3,6 +3,8 @@ import type { z } from "zod";
 export interface FormState<Field extends string = string> {
   status: "idle" | "error" | "success";
   message?: string;
+  /** Machine-readable reason for an error, when the UI needs to react to it. */
+  code?: string;
   fieldErrors?: Partial<Record<Field, string>>;
   /** Non-secret inputs echoed back so the form keeps them after a failed submit. */
   values?: Partial<Record<Field, string>>;

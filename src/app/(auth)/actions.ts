@@ -9,7 +9,7 @@ import { requireUser } from "@/lib/dal/session";
 import { getEnv } from "@/lib/env";
 import { fieldErrorsOf, formValues, type FormState } from "@/lib/forms";
 import { createClient } from "@/lib/supabase/server";
-import { forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema } from "@/lib/validation/auth";
+import { emailWithCaptchaSchema, loginSchema, registerSchema, resetPasswordSchema } from "@/lib/validation/auth";
 
 /** Where auth emails send people back to; the route picks the next page by link type. */
 function emailLinkTarget(): string {
@@ -25,7 +25,7 @@ export async function signIn(previous: FormState, formData: FormData): Promise<F
   const { email, password, captchaToken } = parsed.data;
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken } });
-  if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
+  if (error) return { status: "error", message: authErrorMessage(error), code: error.code, values, attempt };
 
   redirect(safeNextPath(formData.get("next")));
 }
@@ -57,7 +57,7 @@ export async function signUp(previous: FormState, formData: FormData): Promise<F
 export async function requestPasswordReset(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
   const values = formValues(formData, ["email"]);
-  const parsed = forgotPasswordSchema.safeParse(Object.fromEntries(formData));
+  const parsed = emailWithCaptchaSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
 
   const { email, captchaToken } = parsed.data;
@@ -66,6 +66,24 @@ export async function requestPasswordReset(previous: FormState, formData: FormDa
   if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
 
   return { status: "success", message: authCopy.forgotPassword.success, attempt };
+}
+
+export async function resendConfirmation(previous: FormState, formData: FormData): Promise<FormState> {
+  const attempt = previous.attempt + 1;
+  const values = formValues(formData, ["email"]);
+  const parsed = emailWithCaptchaSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
+
+  const { email, captchaToken } = parsed.data;
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email,
+    options: { emailRedirectTo: emailLinkTarget(), captchaToken },
+  });
+  if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
+
+  return { status: "success", message: authCopy.resendConfirmation.success, values, attempt };
 }
 
 export async function updatePassword(previous: FormState, formData: FormData): Promise<FormState> {

@@ -2,7 +2,7 @@ import type { AuthError } from "@supabase/supabase-js";
 
 const messages: Record<string, string> = {
   invalid_credentials: "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
-  email_not_confirmed: "يرجى تأكيد بريدك الإلكتروني أولًا من الرابط الذي أرسلناه لك.",
+  email_not_confirmed: "حسابك غير مفعّل بعد. افتح رابط التأكيد الذي أرسلناه إلى بريدك، أو اطلب رابطًا جديدًا بالأسفل.",
   captcha_failed: "تعذّر التحقق من أنك لست روبوتًا. حاول مرة أخرى.",
   over_request_rate_limit: "محاولات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.",
   over_email_send_rate_limit: "أرسلنا رسائل كثيرة مؤخرًا. انتظر قليلًا ثم حاول مرة أخرى.",
