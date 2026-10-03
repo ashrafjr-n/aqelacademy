@@ -11,6 +11,7 @@ It's an Arabic, right-to-left marketing site built with Next.js. It replaces the
 - Tailwind CSS 4
 - [lucide-react](https://lucide.dev) icons
 - Cairo font via `next/font`
+- Hosted on [Cloudflare Workers](https://developers.cloudflare.com/workers/) via the [OpenNext adapter](https://opennext.js.org/cloudflare)
 
 ## Getting started
 
@@ -25,12 +26,24 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command         | Description                      |
-| --------------- | -------------------------------- |
-| `npm run dev`   | Start the development server     |
-| `npm run build` | Create a production build        |
-| `npm run start` | Serve the production build       |
-| `npm run lint`  | Run ESLint                       |
+| Command           | Description                                                    |
+| ----------------- | -------------------------------------------------------------- |
+| `npm run dev`     | Start the development server                                   |
+| `npm run build`   | Create a Next.js production build                              |
+| `npm run preview` | Build for Cloudflare and run it locally in the Workers runtime |
+| `npm run deploy`  | Build for Cloudflare and deploy to Workers                     |
+| `npm run lint`    | Run ESLint                                                     |
+
+## Deployment
+
+The site runs on Cloudflare Workers (worker name `aqelacademy`, configured in `wrangler.jsonc`) and is served on `aqelacademy.com`. `www.aqelacademy.com` redirects to the apex domain.
+
+Deploys run through Cloudflare Workers Builds, connected to this repository. Every push to `master` builds and deploys automatically.
+
+- Build command: `npx opennextjs-cloudflare build`
+- Deploy command: `npx opennextjs-cloudflare deploy`
+
+Use `npm run preview` to check a build in the Workers runtime before pushing.
 
 ## Pages
 
