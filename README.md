@@ -114,6 +114,8 @@ npx supabase db push
 | `/reset-password`  | Set a new password           |
 | `/auth/confirm`    | Confirm an email link        |
 | `/account`         | Profile and sign out         |
+| `/account/bookings` | My bookings and their status |
+| `/courses/[slug]/book` | Confirm a course booking (signed in) |
 
 ## Project structure
 
