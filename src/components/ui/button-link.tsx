@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-
-type ButtonVariant = "primary" | "outline" | "whatsapp";
+import { buttonClassName, type ButtonVariant } from "@/components/ui/button-styles";
 
 interface ButtonLinkProps {
   href: string;
@@ -11,17 +10,8 @@ interface ButtonLinkProps {
   external?: boolean;
 }
 
-const baseClasses =
-  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
-
-const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-brand text-white hover:bg-brand-dark",
-  outline: "border border-ink/20 bg-white text-ink hover:border-brand hover:text-brand",
-  whatsapp: "bg-whatsapp text-white hover:brightness-95",
-};
-
 export function ButtonLink({ href, children, variant = "primary", external = false }: ButtonLinkProps) {
-  const className = `${baseClasses} ${variantClasses[variant]}`;
+  const className = buttonClassName(variant);
 
   if (external) {
     return (
