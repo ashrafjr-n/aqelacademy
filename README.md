@@ -35,6 +35,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run deploy`  | Build for Cloudflare and deploy to Workers                     |
 | `npm run lint`    | Run ESLint                                                     |
 | `npm run test:db` | Run the database security tests against a throwaway local Postgres |
+| `npm run db:types` | Regenerate `src/types/database.ts` from the linked Supabase project |
 
 ## Environment variables
 
