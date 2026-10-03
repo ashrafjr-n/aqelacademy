@@ -10,6 +10,7 @@ const notices = {
   "link-invalid": { tone: "error", text: "الرابط غير صالح أو انتهت صلاحيته. اطلب رابطًا جديدًا." },
   "email-confirmed": { tone: "success", text: "تم تأكيد بريدك الإلكتروني. أهلًا بك في الأكاديمية!" },
   "password-updated": { tone: "success", text: "تم تغيير كلمة المرور بنجاح." },
+  "booking-created": { tone: "success", text: "تم إرسال طلب الحجز! سيراجعه الدكتور ويصلك إشعار بالرد." },
 } satisfies Record<string, Notice>;
 
 export function getNotice(code: unknown): Notice | undefined {
