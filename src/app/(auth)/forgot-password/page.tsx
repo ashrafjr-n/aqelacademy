@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { connection } from "next/server";
 import { ForgotPasswordForm } from "@/app/(auth)/forgot-password/forgot-password-form";
 import { AuthHeading } from "@/components/auth/auth-heading";
 import { authCopy } from "@/content/auth";
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
   title: authCopy.forgotPassword.title,
 };
 
-export default function ForgotPasswordPage() {
+export default async function ForgotPasswordPage() {
+  // Rendered per request: the captcha site key is a runtime variable, not a build-time one.
+  await connection();
+
   return (
     <>
       <AuthHeading title={authCopy.forgotPassword.title} subtitle={authCopy.forgotPassword.subtitle} />
