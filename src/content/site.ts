@@ -26,6 +26,8 @@ export const mainNav: NavLink[] = [
   { href: "/contact-us", label: "اتصل بنا" },
 ];
 
+export const accountLink: NavLink = { href: "/account", label: "حسابي" };
+
 export const footerLinks: NavLink[] = [
   { href: "/about-us", label: "من نحن" },
   { href: "/courses", label: "الدورات التدريبية" },

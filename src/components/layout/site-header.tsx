@@ -1,7 +1,8 @@
+import { UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { MobileNav } from "@/components/layout/mobile-nav";
-import { mainNav, site } from "@/content/site";
+import { accountLink, mainNav, site } from "@/content/site";
 
 export function SiteHeader() {
   return (
@@ -27,7 +28,17 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <MobileNav links={mainNav} />
+        <div className="flex items-center gap-2">
+          <Link
+            href={accountLink.href}
+            aria-label={accountLink.label}
+            className="flex items-center gap-2 rounded-full border border-ink/20 px-3 py-2 text-sm font-bold text-ink transition-colors hover:border-brand hover:text-brand sm:px-4"
+          >
+            <UserRound aria-hidden="true" className="size-5" />
+            <span className="hidden sm:inline">{accountLink.label}</span>
+          </Link>
+          <MobileNav links={mainNav} />
+        </div>
       </div>
     </header>
   );
