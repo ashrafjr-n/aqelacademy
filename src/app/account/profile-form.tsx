@@ -35,7 +35,6 @@ export function ProfileForm({ fullName, phone, country }: ProfileFormProps) {
         type="tel"
         autoComplete="tel"
         ltr
-        hint="مع رمز الدولة، مثل ‎+962791234567"
         defaultValue={values.phone}
         error={state.fieldErrors?.phone}
       />

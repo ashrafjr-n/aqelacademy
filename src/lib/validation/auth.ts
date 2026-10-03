@@ -27,7 +27,7 @@ export const phoneSchema = z
   .string()
   .transform((value) => value.replace(/[\s-]/g, ""))
   .refine((value) => value === "" || /^\+[1-9][0-9]{6,14}$/.test(value), {
-    error: "اكتب الرقم مع رمز الدولة، مثل ‎+962791234567.",
+    error: "اكتب الرقم مع رمز الدولة (يبدأ بـ +).",
   })
   .transform((value) => value || null);
 

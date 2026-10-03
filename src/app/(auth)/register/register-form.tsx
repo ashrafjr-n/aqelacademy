@@ -58,7 +58,6 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
         type="tel"
         autoComplete="tel"
         ltr
-        hint="مع رمز الدولة، مثل ‎+962791234567"
         defaultValue={state.values?.phone}
         error={state.fieldErrors?.phone}
       />
