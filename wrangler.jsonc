@@ -21,5 +21,13 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	// Serve only on the real domain. Cloudflare creates the DNS records on deploy,
+	// so the old A/AAAA records for these hostnames must be deleted first.
+	"routes": [
+		{ "pattern": "aqelacademy.com", "custom_domain": true },
+		{ "pattern": "www.aqelacademy.com", "custom_domain": true }
+	],
+	"workers_dev": false,
+	"preview_urls": false
 }
