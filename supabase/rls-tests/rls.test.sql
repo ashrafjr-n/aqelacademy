@@ -53,6 +53,16 @@ select tests.expect_error($$insert into auth.users (email, raw_user_meta_data) v
 select tests.expect_error($$insert into auth.users (email, raw_user_meta_data) values ('y@test.local', '{"full_name": "Bad Phone", "phone": "0791234567", "privacy_accepted": true}')$$, '23514');
 select tests.expect_error($$insert into auth.users (email, raw_user_meta_data) values ('z@test.local', '{"full_name": "", "privacy_accepted": true}')$$, '23514');
 
+-- ---------------------------------------------------------------- OAuth (Google) sign-up
+insert into auth.users (id, email, raw_app_meta_data, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-0000000000a1', 'g1@gmail.test', '{"provider": "google"}', '{"name": "Google User"}'),
+  ('00000000-0000-0000-0000-0000000000a2', 'noname@gmail.test', '{"provider": "google"}', '{}');
+select tests.check((select full_name from public.profiles where id = '00000000-0000-0000-0000-0000000000a1') = 'Google User', 'google sign-up takes the name from the provider');
+select tests.check((select full_name from public.profiles where id = '00000000-0000-0000-0000-0000000000a2') = 'noname', 'google sign-up without a name falls back to the email');
+select tests.check((select privacy_accepted_at is not null from public.profiles where id = '00000000-0000-0000-0000-0000000000a1'), 'google sign-up records consent time');
+-- Keep the rest of the suite's counts unchanged (profiles cascade).
+delete from auth.users where id in ('00000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a2');
+
 -- ---------------------------------------------------------------- anon: no access at all
 set role anon;
 select tests.expect_error('select 1 from public.profiles', '42501');
