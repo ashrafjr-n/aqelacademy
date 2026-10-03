@@ -1,0 +1,25 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "aqelacademy",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2026-10-01",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			// Self-reference binding used by OpenNext; must match "name" above.
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "aqelacademy"
+		}
+	],
+	"images": {
+		// next/image optimization via Cloudflare Images (free: 5,000 unique transformations/month).
+		"binding": "IMAGES"
+	},
+	"observability": {
+		"enabled": true
+	}
+}
