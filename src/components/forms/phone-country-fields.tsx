@@ -34,6 +34,8 @@ export function PhoneCountryFields({ defaultCountry = "", defaultPhone = "", cou
             <Globe aria-hidden="true" className="size-5" />
           </span>
           <select
+            // React only applies a select's defaultValue on mount: remount when it changes.
+            key={defaultCountry}
             id={countryId}
             name="country"
             defaultValue={defaultCountry}
