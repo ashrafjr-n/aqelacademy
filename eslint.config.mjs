@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Old WordPress backup, kept locally for reference only.
+    "public_html/**",
   ]),
 ]);
 
