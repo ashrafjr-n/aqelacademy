@@ -1,5 +1,6 @@
 "use client";
 
+import { CircleAlert, LoaderCircle, ShieldCheck } from "lucide-react";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 
@@ -7,6 +8,7 @@ interface TurnstileOptions {
   sitekey: string;
   language: string;
   size: "flexible";
+  appearance: "interaction-only";
   callback: (token: string) => void;
   "expired-callback": () => void;
   "error-callback": () => void;
@@ -21,18 +23,22 @@ declare global {
   }
 }
 
+type CaptchaStatus = "checking" | "verified" | "failed";
+
 interface TurnstileWidgetProps {
   siteKey: string;
 }
 
 /**
- * Cloudflare Turnstile captcha. Its one-time token is posted as `captchaToken`
- * and verified by Supabase Auth. Remount (change `key`) to get a fresh token after a submit.
+ * Cloudflare Turnstile captcha, invisible unless Cloudflare needs the visitor to interact.
+ * Its one-time token is posted as `captchaToken` and verified by Supabase Auth.
+ * Remount (change `key`) to get a fresh token after a submit.
  */
 export function TurnstileWidget({ siteKey }: TurnstileWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isScriptReady, setIsScriptReady] = useState(false);
   const [token, setToken] = useState("");
+  const [status, setStatus] = useState<CaptchaStatus>("checking");
 
   useEffect(() => {
     const container = containerRef.current;
@@ -42,22 +48,50 @@ export function TurnstileWidget({ siteKey }: TurnstileWidgetProps) {
       sitekey: siteKey,
       language: "ar",
       size: "flexible",
-      callback: setToken,
-      "expired-callback": () => setToken(""),
-      "error-callback": () => setToken(""),
+      appearance: "interaction-only",
+      callback: (newToken) => {
+        setToken(newToken);
+        setStatus("verified");
+      },
+      "expired-callback": () => {
+        setToken("");
+        setStatus("checking");
+      },
+      "error-callback": () => {
+        setToken("");
+        setStatus("failed");
+      },
     });
     return () => window.turnstile?.remove(widgetId);
   }, [isScriptReady, siteKey]);
 
   return (
-    <>
+    <div>
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
         strategy="afterInteractive"
         onReady={() => setIsScriptReady(true)}
       />
-      <div ref={containerRef} className="min-h-16" />
+      <div ref={containerRef} />
       <input type="hidden" name="captchaToken" value={token} />
-    </>
+      <CaptchaStatusLine status={status} />
+    </div>
+  );
+}
+
+const statusContent = {
+  checking: { icon: LoaderCircle, text: "جارٍ التحقق الأمني…", className: "text-body [&>svg]:animate-spin" },
+  verified: { icon: ShieldCheck, text: "تم التحقق الأمني", className: "text-success" },
+  failed: { icon: CircleAlert, text: "تعذّر التحقق الأمني. حدّث الصفحة وحاول مرة أخرى.", className: "text-danger" },
+} as const;
+
+function CaptchaStatusLine({ status }: { status: CaptchaStatus }) {
+  const { icon: Icon, text, className } = statusContent[status];
+
+  return (
+    <p aria-live="polite" className={`flex items-center gap-1.5 text-xs ${className}`}>
+      <Icon aria-hidden="true" className="size-4" />
+      {text}
+    </p>
   );
 }
