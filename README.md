@@ -33,6 +33,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run preview` | Build for Cloudflare and run it locally in the Workers runtime |
 | `npm run deploy`  | Build for Cloudflare and deploy to Workers                     |
 | `npm run lint`    | Run ESLint                                                     |
+| `npm run test:db` | Run the database security tests against a throwaway local Postgres |
 
 ## Deployment
 
@@ -44,6 +45,25 @@ Deploys run through Cloudflare Workers Builds, connected to this repository. Eve
 - Deploy command: `npx opennextjs-cloudflare deploy`
 
 Use `npm run preview` to check a build in the Workers runtime before pushing.
+
+## Database
+
+The database runs on [Supabase](https://supabase.com) (Postgres). The schema lives in `supabase/migrations/`:
+
+- **Tables:** profiles, courses, bookings, messages, notifications, audit log.
+- **Access rules:** every table has Row Level Security. Grants are explicit and column-level wherever a client can write. Anonymous visitors get no access.
+- **Admins:** listed in `private.admins`, which is not exposed through the API.
+- **Server-side logic:** booking decisions, notifications, the audit log, and rate limits are written by database triggers, never by clients.
+
+Apply migrations to the linked project:
+
+```bash
+npx supabase login
+npx supabase link --project-ref <project-ref>
+npx supabase db push
+```
+
+`npm run test:db` replays the migrations on a temporary local Postgres and checks the access rules. It needs `initdb`, `pg_ctl`, and `psql` on `PATH`. Docker is not required.
 
 ## Pages
 
