@@ -15,6 +15,8 @@ interface PhoneCountryFieldsProps {
 
 /** Optional country + phone. The country's dialing code is shown and added on the server. */
 export function PhoneCountryFields({ defaultCountry = "", defaultPhone = "", countryError, phoneError }: PhoneCountryFieldsProps) {
+  // Only drives the visible "+code" prefix; the select itself stays uncontrolled so React's
+  // automatic form reset after a submit restores it to the submitted value.
   const [country, setCountry] = useState(defaultCountry);
   const dialCode = dialCodeOf(country);
   const defaultDialCode = dialCodeOf(defaultCountry);
@@ -34,7 +36,7 @@ export function PhoneCountryFields({ defaultCountry = "", defaultPhone = "", cou
           <select
             id={countryId}
             name="country"
-            value={country}
+            defaultValue={defaultCountry}
             onChange={(event) => setCountry(event.target.value)}
             aria-invalid={countryError ? true : undefined}
             aria-describedby={describedByOf(countryId, countryError)}
