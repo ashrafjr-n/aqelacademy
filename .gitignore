@@ -46,8 +46,10 @@ yarn-error.log*
 # env files
 .env*
 
-# vercel
-.vercel
+# cloudflare / opennext
+.open-next/
+.wrangler/
+.dev.vars*
 
 # typescript
 *.tsbuildinfo

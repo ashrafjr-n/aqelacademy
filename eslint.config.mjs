@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Cloudflare build output.
+    ".open-next/**",
+    ".wrangler/**",
     // Old WordPress backup, kept locally for reference only.
     "public_html/**",
   ]),
