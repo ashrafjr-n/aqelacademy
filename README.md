@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aqel Academy
 
-## Getting Started
+Website for **أكاديمية الدكتور موفق عقل لتحليل السلوك التطبيقي والتأهيل** (Dr. Muaffaq Aqel Academy for Applied Behavior Analysis and Rehabilitation): training programs in ABA, special education, and behavioral rehabilitation.
 
-First, run the development server:
+It's an Arabic, right-to-left marketing site built with Next.js. It replaces the academy's previous WordPress site.
+
+## Tech stack
+
+- [Next.js 16](https://nextjs.org) (App Router) + React 19
+- TypeScript
+- Tailwind CSS 4
+- [lucide-react](https://lucide.dev) icons
+- Cairo font via `next/font`
+
+## Getting started
+
+Requires Node.js 20.9 or later.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command         | Description                      |
+| --------------- | -------------------------------- |
+| `npm run dev`   | Start the development server     |
+| `npm run build` | Create a production build        |
+| `npm run start` | Serve the production build       |
+| `npm run lint`  | Run ESLint                       |
 
-## Learn More
+## Pages
 
-To learn more about Next.js, take a look at the following resources:
+| Route              | Page                         |
+| ------------------ | ---------------------------- |
+| `/`                | Home                         |
+| `/courses`         | Course list                  |
+| `/courses/[slug]`  | Course details               |
+| `/blog`            | Articles                     |
+| `/blog/[slug]`     | Article                      |
+| `/about-us`        | About the academy            |
+| `/faqs`            | Frequently asked questions   |
+| `/contact-us`      | Contact details              |
+| `/policy`          | Privacy policy               |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/          Routes (App Router)
+  components/   UI components (layout, ui, home, courses, blog)
+  content/      Site content: courses, articles, pages, contact details
+  lib/          Formatting and link helpers
+  types/        Shared content types
+  assets/       Images
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All site copy lives in `src/content/`. To add a course or an article, add an entry to `courses.ts` or `articles.ts`. The pages and cards pick it up automatically.
