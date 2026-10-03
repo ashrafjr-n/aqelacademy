@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { authCopy } from "@/content/auth";
+import { isEmailLinkType } from "@/lib/auth/email-link";
 import { authErrorMessage } from "@/lib/auth/errors";
 import { safeNextPath } from "@/lib/auth/redirect";
 import { requireUser } from "@/lib/dal/session";
@@ -78,4 +79,17 @@ export async function updatePassword(previous: FormState, formData: FormData): P
   if (error) return { status: "error", message: authErrorMessage(error), attempt };
 
   redirect("/account?notice=password-updated");
+}
+
+/** Second step of every email link: a POST, so link scanners that pre-open URLs can't burn the token. */
+export async function confirmEmailLink(formData: FormData): Promise<void> {
+  const tokenHash = formData.get("tokenHash");
+  const type = formData.get("type");
+  if (typeof tokenHash !== "string" || !isEmailLinkType(type)) redirect("/login?notice=link-invalid");
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
+  if (error) redirect("/login?notice=link-invalid");
+
+  redirect(type === "recovery" ? "/reset-password" : "/account?notice=email-confirmed");
 }
