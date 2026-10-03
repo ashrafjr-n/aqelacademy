@@ -45,12 +45,13 @@ Open [http://localhost:4646](http://localhost:4646).
 | `SUPABASE_URL`             | Supabase project URL                            |
 | `SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key                        |
 | `TURNSTILE_SITE_KEY`       | Cloudflare Turnstile site key (captcha)         |
+| `GOOGLE_CLIENT_ID`         | Google OAuth client ID ("Continue with Google"), optional |
 
-Locally they live in `.env.local`. In production they are Worker variables set in the Cloudflare dashboard. `wrangler.jsonc` keeps them across deploys. All four are read at runtime on the server only.
+Locally they live in `.env.local`. In production they are Worker variables (set in the Cloudflare dashboard, or in `wrangler.jsonc` for public values). They are read at runtime on the server only.
 
 ## Authentication
 
-Accounts use Supabase Auth with email and password. The flow lives in `src/app/(auth)` and `src/app/account`:
+Accounts use Supabase Auth with email and password, or "Continue with Google": Google Identity Services gives the browser an ID token, and Supabase verifies it with a per-attempt nonce. The flow lives in `src/app/(auth)` and `src/app/account`:
 
 - **Sign-up:** email confirmation is required. Sign-up, login and password reset are protected by Turnstile, which Supabase Auth verifies.
 - **Email links:** they open `/auth/confirm`, which verifies the token only after a click, so link scanners can't use it up.
