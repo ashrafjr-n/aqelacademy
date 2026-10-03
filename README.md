@@ -19,6 +19,7 @@ Requires Node.js 20.9 or later.
 
 ```bash
 npm install
+cp .env.example .env.local   # then fill in the values
 npm run dev
 ```
 
@@ -34,6 +35,33 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run deploy`  | Build for Cloudflare and deploy to Workers                     |
 | `npm run lint`    | Run ESLint                                                     |
 | `npm run test:db` | Run the database security tests against a throwaway local Postgres |
+
+## Environment variables
+
+| Name                       | Purpose                                         |
+| -------------------------- | ----------------------------------------------- |
+| `SITE_URL`                 | Public origin, used in auth email links         |
+| `SUPABASE_URL`             | Supabase project URL                            |
+| `SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key                        |
+| `TURNSTILE_SITE_KEY`       | Cloudflare Turnstile site key (captcha)         |
+
+Locally they live in `.env.local`. In production they are Worker variables set in the Cloudflare dashboard. `wrangler.jsonc` keeps them across deploys. All four are read at runtime on the server only.
+
+## Authentication
+
+Accounts use Supabase Auth with email and password. The flow lives in `src/app/(auth)` and `src/app/account`:
+
+- **Sign-up:** email confirmation is required. Sign-up, login and password reset are protected by Turnstile, which Supabase Auth verifies.
+- **Email links:** they open `/auth/confirm`, which verifies the token only after a click, so link scanners can't use it up.
+- **Session cookies:** they are `httpOnly`. `src/middleware.ts` refreshes the session before protected pages render and redirects signed-out visitors to `/login`.
+- **Server checks:** every page and action re-checks the user through the data access layer in `src/lib/dal`.
+
+Auth settings (password policy, captcha, Resend SMTP, Arabic email templates in `supabase/templates/`) are versioned in `supabase/config.toml`. To apply them, put `SUPABASE_AUTH_CAPTCHA_SECRET` and `RESEND_API_KEY` in `supabase/.env` (gitignored), then run:
+
+```bash
+npx supabase config diff
+npx supabase config push
+```
 
 ## Deployment
 
@@ -78,6 +106,12 @@ npx supabase db push
 | `/faqs`            | Frequently asked questions   |
 | `/contact-us`      | Contact details              |
 | `/policy`          | Privacy policy               |
+| `/register`        | Create an account            |
+| `/login`           | Sign in                      |
+| `/forgot-password` | Request a password reset     |
+| `/reset-password`  | Set a new password           |
+| `/auth/confirm`    | Confirm an email link        |
+| `/account`         | Profile and sign out         |
 
 ## Project structure
 
@@ -86,7 +120,7 @@ src/
   app/          Routes (App Router)
   components/   UI components (layout, ui, home, courses, blog)
   content/      Site content: courses, articles, pages, contact details
-  lib/          Formatting and link helpers
+  lib/          Helpers, validation, Supabase clients, data access layer (dal/)
   types/        Shared content types
   assets/       Images
 ```
