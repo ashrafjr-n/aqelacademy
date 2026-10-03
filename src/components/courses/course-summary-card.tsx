@@ -10,7 +10,7 @@ interface CourseSummaryCardProps {
 }
 
 export function CourseSummaryCard({ course }: CourseSummaryCardProps) {
-  const bookingUrl = whatsappUrl(`مرحبًا، أرغب بالتسجيل في ${course.title}`);
+  const questionUrl = whatsappUrl(`مرحبًا، لدي استفسار عن ${course.title}`);
   const details = [
     { id: "duration", icon: Clock, label: "المدة", value: `${course.durationWeeks} أسابيع` },
     { id: "hours", icon: GraduationCap, label: "عدد الساعات", value: `${course.trainingHours} ساعة تدريبية` },
@@ -37,11 +37,15 @@ export function CourseSummaryCard({ course }: CourseSummaryCardProps) {
           ))}
         </dl>
         <div className="mt-6 grid">
-          <ButtonLink href={bookingUrl} variant="whatsapp" external>
-            احجز مقعدك عبر واتساب
-          </ButtonLink>
+          <ButtonLink href={`/courses/${course.slug}/book`}>احجز مقعدك الآن</ButtonLink>
         </div>
         <p className="mt-3 text-center text-xs">المقاعد محدودة</p>
+        <p className="mt-4 border-t border-line pt-4 text-center text-sm">
+          لديك سؤال؟{" "}
+          <a href={questionUrl} target="_blank" rel="noopener noreferrer" className="font-bold text-whatsapp hover:underline">
+            تواصل معنا عبر واتساب
+          </a>
+        </p>
       </div>
     </div>
   );
