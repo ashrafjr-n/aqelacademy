@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { z } from "zod";
 import { authCopy } from "@/content/auth";
 import { isEmailLinkType } from "@/lib/auth/email-link";
 import { authErrorMessage } from "@/lib/auth/errors";
@@ -97,6 +98,31 @@ export async function updatePassword(previous: FormState, formData: FormData): P
   if (error) return { status: "error", message: authErrorMessage(error), attempt };
 
   redirect("/account?notice=password-updated");
+}
+
+const googleSignInSchema = z.object({
+  credential: z.string().min(1),
+  nonce: z.string().min(16),
+});
+
+/**
+ * "Continue with Google": the browser gets an ID token from Google Identity Services and
+ * Supabase verifies it (signature, audience = our client ID, and sha256(nonce)).
+ * Returns an error message, or redirects on success.
+ */
+export async function signInWithGoogle(credential: string, nonce: string, next: string): Promise<string> {
+  const parsed = googleSignInSchema.safeParse({ credential, nonce });
+  if (!parsed.success) return "تعذّر تسجيل الدخول باستخدام Google. حاول مرة أخرى.";
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithIdToken({
+    provider: "google",
+    token: parsed.data.credential,
+    nonce: parsed.data.nonce,
+  });
+  if (error) return authErrorMessage(error);
+
+  redirect(safeNextPath(next));
 }
 
 /** Second step of every email link: a POST, so link scanners that pre-open URLs can't burn the token. */
