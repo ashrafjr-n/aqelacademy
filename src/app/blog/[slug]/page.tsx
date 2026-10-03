@@ -27,18 +27,20 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[slug]">)
   return (
     <>
       <PageHeader title={article.title} parents={[{ href: "/blog", label: "المقالات" }]} />
-      <article className="container-site max-w-3xl py-16">
-        <p className="flex items-center gap-2 text-sm">
-          <CalendarDays aria-hidden="true" className="size-4 text-brand" />
-          <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-        </p>
-        <div className="relative mt-6 aspect-[3/2] overflow-hidden rounded-3xl bg-surface">
-          <Image src={article.image.src} alt={article.image.alt} fill sizes="(min-width: 768px) 48rem, 100vw" preload className="object-cover" />
-        </div>
-        <div className="mt-10">
-          <RichText blocks={article.body} />
-        </div>
-      </article>
+      <div className="container-site py-16">
+        <article className="mx-auto max-w-3xl">
+          <p className="flex items-center gap-2 text-sm">
+            <CalendarDays aria-hidden="true" className="size-4 text-brand" />
+            <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+          </p>
+          <div className="relative mt-6 aspect-[3/2] overflow-hidden rounded-3xl bg-surface">
+            <Image src={article.image.src} alt={article.image.alt} fill sizes="(min-width: 768px) 48rem, 100vw" preload className="object-cover" />
+          </div>
+          <div className="mt-10">
+            <RichText blocks={article.body} />
+          </div>
+        </article>
+      </div>
     </>
   );
 }
