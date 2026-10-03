@@ -45,6 +45,7 @@ yarn-error.log*
 
 # env files
 .env*
+!.env.example
 
 # cloudflare / opennext
 .open-next/
