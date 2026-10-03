@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+/* Palette copied from the old WordPress theme (EduPress). */
+@theme {
+  --color-brand: #ff782d;
+  --color-brand-dark: #e8621a;
+  --color-brand-soft: #fff3eb;
+  --color-ink: #162648;
+  --color-body: #555555;
+  --color-surface: #f5f5f5;
+  --color-line: #eaeaea;
+  --color-whatsapp: #25d366;
+}
+
+@theme inline {
+  --font-sans: var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+}
+
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1rem;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-body);
+}
