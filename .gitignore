@@ -8,8 +8,8 @@ graphify-out/
 
 # local-only: old WordPress backup and raw exports
 public_html/
-*.sql
-*.sql.gz
+/*.sql
+/*.sql.gz
 *.zip
 *.pdf
 
