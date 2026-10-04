@@ -29,7 +29,7 @@ export default async function NotificationsPage() {
     <>
       {hasUnread && (
         <form action={markAllNotificationsRead} className="flex justify-end">
-          <SubmitButton label={notificationsCopy.markAllRead} pendingLabel="جارٍ التحديث…" variant="outline" icon={CheckCheck} fullWidth={false} />
+          <SubmitButton label={notificationsCopy.markAllRead} pendingLabel="جارٍ التحديث…" variant="outline" icon={<CheckCheck aria-hidden="true" className="size-5" />} fullWidth={false} />
         </form>
       )}
       <ul className="overflow-hidden rounded-3xl border border-line bg-white">

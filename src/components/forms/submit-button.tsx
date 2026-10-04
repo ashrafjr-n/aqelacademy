@@ -1,6 +1,7 @@
 "use client";
 
-import { LoaderCircle, type LucideIcon } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+import type { ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import { buttonClassName, type ButtonVariant } from "@/components/ui/button-styles";
 
@@ -8,12 +9,13 @@ interface SubmitButtonProps {
   label: string;
   pendingLabel: string;
   variant?: ButtonVariant;
-  icon?: LucideIcon;
+  /** A rendered icon element; Server Components can't pass the icon component itself. */
+  icon?: ReactNode;
   /** Forms stack their button full width; inline action rows don't. */
   fullWidth?: boolean;
 }
 
-export function SubmitButton({ label, pendingLabel, variant = "primary", icon: Icon, fullWidth = true }: SubmitButtonProps) {
+export function SubmitButton({ label, pendingLabel, variant = "primary", icon, fullWidth = true }: SubmitButtonProps) {
   const { pending } = useFormStatus();
 
   return (
@@ -23,7 +25,7 @@ export function SubmitButton({ label, pendingLabel, variant = "primary", icon: I
       aria-busy={pending}
       className={`${buttonClassName(variant)} py-3.5 text-base ${fullWidth ? "w-full" : ""}`}
     >
-      {pending ? <LoaderCircle aria-hidden="true" className="size-5 animate-spin" /> : Icon && <Icon aria-hidden="true" className="size-5" />}
+      {pending ? <LoaderCircle aria-hidden="true" className="size-5 animate-spin" /> : icon}
       {pending ? pendingLabel : label}
     </button>
   );

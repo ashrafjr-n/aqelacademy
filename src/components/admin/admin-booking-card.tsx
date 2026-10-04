@@ -98,7 +98,7 @@ export function AdminBookingCard({ booking, returnTo }: AdminBookingCardProps) {
       <div className="flex flex-wrap gap-3 border-t border-line pt-5">
         {booking.status !== "approved" && (
           <DecisionForm bookingId={booking.id} decision="approved" returnTo={returnTo}>
-            <SubmitButton label="موافقة" pendingLabel="جارٍ الحفظ…" variant="success" icon={Check} fullWidth={false} />
+            <SubmitButton label="موافقة" pendingLabel="جارٍ الحفظ…" variant="success" icon={<Check aria-hidden="true" className="size-5" />} fullWidth={false} />
           </DecisionForm>
         )}
         {booking.status !== "rejected" && (

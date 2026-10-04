@@ -28,7 +28,7 @@ export function MessageComposer({ bookingId }: MessageComposerProps) {
         hint={messagesCopy.composerHint}
         defaultValue={state.values?.body}
       />
-      <SubmitButton label={messagesCopy.send} pendingLabel={messagesCopy.sending} icon={Send} />
+      <SubmitButton label={messagesCopy.send} pendingLabel={messagesCopy.sending} icon={<Send aria-hidden="true" className="size-5" />} />
     </form>
   );
 }
