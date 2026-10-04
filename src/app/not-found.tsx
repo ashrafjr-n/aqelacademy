@@ -1,14 +1,23 @@
+import { AppFooter } from "@/components/layout/app-footer";
+import { SiteHeader } from "@/components/layout/site-header";
 import { ButtonLink } from "@/components/ui/button-link";
 
+/** Renders outside the group layouts, so it brings its own header and footer. */
 export default function NotFound() {
   return (
-    <section className="container-site py-32 text-center">
-      <p className="text-6xl font-extrabold text-brand">404</p>
-      <h1 className="mt-4 text-2xl font-bold text-ink">الصفحة غير موجودة</h1>
-      <p className="mt-3">ربما تم نقل الصفحة أو أن الرابط غير صحيح.</p>
-      <div className="mt-8">
-        <ButtonLink href="/">العودة إلى الرئيسية</ButtonLink>
-      </div>
-    </section>
+    <>
+      <SiteHeader />
+      <main id="main" className="flex flex-1 items-center bg-canvas">
+        <section className="container-site py-24 text-center">
+          <p className="text-7xl font-extrabold text-brand">404</p>
+          <h1 className="mt-4 text-2xl font-bold text-ink">الصفحة غير موجودة</h1>
+          <p className="mt-3">ربما تم نقل الصفحة أو أن الرابط غير صحيح.</p>
+          <div className="mt-8">
+            <ButtonLink href="/">العودة إلى الرئيسية</ButtonLink>
+          </div>
+        </section>
+      </main>
+      <AppFooter />
+    </>
   );
 }
