@@ -71,6 +71,7 @@ select tests.expect_error('select 1 from public.bookings', '42501');
 select tests.expect_error('select 1 from public.messages', '42501');
 select tests.expect_error('select 1 from public.notifications', '42501');
 select tests.expect_error('select 1 from public.audit_logs', '42501');
+select tests.expect_error('select public.current_user_is_admin()', '42501');
 reset role;
 
 -- ---------------------------------------------------------------- user A: profile
@@ -83,6 +84,7 @@ select tests.expect_error($$update public.profiles set email = 'evil@test.local'
 select tests.expect_error($$update public.profiles set privacy_accepted_at = null where id = '00000000-0000-0000-0000-00000000000a'$$, '42501');
 select tests.expect_error('select 1 from private.admins', '42501');
 select tests.check(not private.is_admin(), 'A is not an admin');
+select tests.check(not public.current_user_is_admin(), 'A is not an admin through the public check');
 
 -- ---------------------------------------------------------------- user A: bookings
 insert into public.bookings (user_id, course_slug, user_note) values ('00000000-0000-0000-0000-00000000000a', 'abat', 'Interested');
@@ -113,6 +115,7 @@ reset role;
 set role authenticated;
 select tests.login('00000000-0000-0000-0000-00000000000d');
 select tests.check(private.is_admin(), 'D is an admin');
+select tests.check(public.current_user_is_admin(), 'D is an admin through the public check');
 select tests.check((select count(*) from public.profiles) = 3, 'admin sees all profiles');
 select tests.check((select count(*) from public.bookings) = 6, 'admin sees all bookings');
 select tests.check((select count(*) from public.notifications where type = 'booking_created') = 6, 'admin is notified of every booking');
