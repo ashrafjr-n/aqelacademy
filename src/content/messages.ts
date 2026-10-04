@@ -11,6 +11,7 @@ export const messagesCopy = {
   emptyAdmin: "لا توجد رسائل بعد. اكتب أول رسالة للطالب.",
   waitForApproval: "تستطيع مراسلة الدكتور بعد الموافقة على طلبك.",
   composerLabel: "رسالتك",
+  composerPlaceholder: "اكتب رسالتك…",
   composerHint: "لا تكتب معلومات صحية أو بيانات حساسة.",
   send: "إرسال",
   sending: "جارٍ الإرسال…",
