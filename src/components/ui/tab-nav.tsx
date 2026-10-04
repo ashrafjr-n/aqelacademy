@@ -4,15 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { NavLink } from "@/types/content";
 
-interface AccountTabsProps {
+interface TabNavProps {
   tabs: NavLink[];
+  label: string;
 }
 
-export function AccountTabs({ tabs }: AccountTabsProps) {
+/** Pill-style section tabs; the tab matching the current path is marked as the current page. */
+export function TabNav({ tabs, label }: TabNavProps) {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="أقسام الحساب" className="flex gap-2 rounded-full bg-surface p-1.5">
+    <nav aria-label={label} className="flex gap-2 rounded-full bg-surface p-1.5">
       {tabs.map((tab) => {
         const isActive = pathname === tab.href;
         return (
