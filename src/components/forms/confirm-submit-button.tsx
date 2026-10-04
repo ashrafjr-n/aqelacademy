@@ -1,26 +1,26 @@
 "use client";
 
-import type { LucideIcon } from "lucide-react";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { buttonClassName, type ButtonVariant } from "@/components/ui/button-styles";
 
 interface ConfirmSubmitButtonProps {
   label: string;
   question: string;
-  icon: LucideIcon;
+  /** A rendered icon element; Server Components can't pass the icon component itself. */
+  icon: ReactNode;
   variant?: ButtonVariant;
 }
 
 /** Submit button that asks "are you sure?" first, for decisions that change what a student sees. */
-export function ConfirmSubmitButton({ label, question, icon: Icon, variant = "danger" }: ConfirmSubmitButtonProps) {
+export function ConfirmSubmitButton({ label, question, icon, variant = "danger" }: ConfirmSubmitButtonProps) {
   const [isConfirming, setIsConfirming] = useState(false);
   const { pending } = useFormStatus();
 
   if (!isConfirming) {
     return (
       <button type="button" onClick={() => setIsConfirming(true)} className={`${buttonClassName(variant)} py-3.5 text-base`}>
-        <Icon aria-hidden="true" className="size-5" />
+        {icon}
         {label}
       </button>
     );

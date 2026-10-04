@@ -103,12 +103,12 @@ export function AdminBookingCard({ booking, returnTo }: AdminBookingCardProps) {
         )}
         {booking.status !== "rejected" && (
           <DecisionForm bookingId={booking.id} decision="rejected" returnTo={returnTo}>
-            <ConfirmSubmitButton label="رفض" question="رفض هذا الطلب؟" icon={X} />
+            <ConfirmSubmitButton label="رفض" question="رفض هذا الطلب؟" icon={<X aria-hidden="true" className="size-5" />} />
           </DecisionForm>
         )}
         {booking.status !== "pending" && (
           <DecisionForm bookingId={booking.id} decision="pending" returnTo={returnTo}>
-            <ConfirmSubmitButton label="إعادة للانتظار" question="إعادة الطلب للانتظار؟" icon={RotateCcw} variant="outline" />
+            <ConfirmSubmitButton label="إعادة للانتظار" question="إعادة الطلب للانتظار؟" icon={<RotateCcw aria-hidden="true" className="size-5" />} variant="outline" />
           </DecisionForm>
         )}
       </div>

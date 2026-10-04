@@ -68,7 +68,7 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
           <h2 className="text-lg font-bold text-danger">حذف الحساب</h2>
           <p className="leading-relaxed">يحذف حسابك وبياناتك وحجوزاتك ورسائلك نهائيًا، ولا يمكن التراجع عن ذلك.</p>
           <form action={deleteAccount}>
-            <ConfirmSubmitButton label="حذف حسابي نهائيًا" question="متأكد؟ لا يمكن التراجع." icon={Trash2} />
+            <ConfirmSubmitButton label="حذف حسابي نهائيًا" question="متأكد؟ لا يمكن التراجع." icon={<Trash2 aria-hidden="true" className="size-5" />} />
           </form>
         </section>
       )}
