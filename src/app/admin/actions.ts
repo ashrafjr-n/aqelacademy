@@ -10,7 +10,8 @@ const bookingStatusSchema = z.enum(["pending", "approved", "rejected"]);
 const decisionSchema = z.object({
   bookingId: z.uuid(),
   decision: bookingStatusSchema,
-  returnTo: bookingStatusSchema,
+  /** A list filter to go back to, or "detail" for the booking's own page. */
+  returnTo: z.union([bookingStatusSchema, z.literal("detail")]),
 });
 
 /** Approve, reject, or reopen a booking, then go back to the list the doctor was on. */
@@ -22,5 +23,6 @@ export async function decideBooking(formData: FormData): Promise<void> {
   const updated = await setBookingStatus(bookingId, decision);
   revalidatePath("/admin", "layout");
   revalidatePath("/account/bookings");
-  redirect(`/admin/bookings?status=${returnTo}&notice=${updated ? `booking-${decision}` : "decision-failed"}`);
+  const notice = updated ? `booking-${decision}` : "decision-failed";
+  redirect(returnTo === "detail" ? `/admin/bookings/${bookingId}?notice=${notice}` : `/admin/bookings?status=${returnTo}&notice=${notice}`);
 }

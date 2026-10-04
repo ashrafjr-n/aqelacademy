@@ -4,6 +4,7 @@ import type { NavLink } from "@/types/content";
 export const adminTabs: NavLink[] = [
   { href: "/admin", label: "الرئيسية" },
   { href: "/admin/bookings", label: "الطلبات" },
+  { href: "/admin/messages", label: "الرسائل" },
   { href: "/admin/students", label: "الطلاب" },
 ];
 

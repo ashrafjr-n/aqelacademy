@@ -1,11 +1,13 @@
-import { BookOpen, CalendarDays, Check, Globe, RotateCcw, X } from "lucide-react";
+import { BookOpen, CalendarDays, Check, Globe, MessageCircle, RotateCcw, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { decideBooking } from "@/app/admin/actions";
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import { ContactButtons } from "@/components/admin/contact-buttons";
 import { SubmitButton } from "@/components/forms/submit-button";
+import { ButtonLink } from "@/components/ui/button-link";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { adminCopy, adminWhatsAppMessage } from "@/content/admin";
+import { messagesCopy } from "@/content/messages";
 import { bookingStatuses, type BookingStatus } from "@/content/bookings";
 import { countries } from "@/content/countries";
 import { getCourse } from "@/content/courses";
@@ -14,14 +16,16 @@ import { formatDate } from "@/lib/format";
 
 interface AdminBookingCardProps {
   booking: AdminBooking;
-  /** The list this card is shown in, so the doctor lands back on it after a decision. */
-  returnTo: BookingStatus;
+  /** Where the doctor lands after a decision: the list this card is in, or the booking's own page. */
+  returnTo: DecisionReturn;
 }
+
+type DecisionReturn = BookingStatus | "detail";
 
 interface DecisionFormProps {
   bookingId: string;
   decision: BookingStatus;
-  returnTo: BookingStatus;
+  returnTo: DecisionReturn;
   children: ReactNode;
 }
 
@@ -82,6 +86,13 @@ export function AdminBookingCard({ booking, returnTo }: AdminBookingCardProps) {
           whatsappMessage={adminWhatsAppMessage(firstName, courseTitle)}
           noPhoneText={adminCopy.noPhone}
         />
+      )}
+
+      {returnTo !== "detail" && (
+        <ButtonLink href={`/admin/bookings/${booking.id}`} variant="outline">
+          <MessageCircle aria-hidden="true" className="size-5" />
+          {messagesCopy.openConversation}
+        </ButtonLink>
       )}
 
       <div className="flex flex-wrap gap-3 border-t border-line pt-5">
