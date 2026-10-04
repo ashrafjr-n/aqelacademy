@@ -24,7 +24,10 @@ export interface AdminStudent extends StudentContact {
 export interface AdminCounts {
   pending: number;
   approved: number;
+  rejected: number;
   students: number;
+  /** Messages from students the doctor hasn't opened yet. */
+  unreadMessages: number;
 }
 
 // ponytail: lists are capped instead of paginated; add pagination if the academy outgrows it.
@@ -63,17 +66,22 @@ async function countBookings(status: BookingStatus): Promise<number> {
   return count ?? 0;
 }
 
-export async function getAdminCounts(): Promise<AdminCounts> {
-  await requireAdmin();
+/** Cached per request: the dashboard layout (nav badges) and its pages both read it. */
+export const getAdminCounts = cache(async (): Promise<AdminCounts> => {
+  const user = await requireAdmin();
   const supabase = await createClient();
-  const [pending, approved, students] = await Promise.all([
+  const [pending, approved, rejected, students, unreadMessages] = await Promise.all([
     countBookings("pending"),
     countBookings("approved"),
+    countBookings("rejected"),
     supabase.from("profiles").select("id", { count: "exact", head: true }),
+    // ponytail: "not sent by me" equals "from a student" while there's a single admin; compare with booking owners if more join.
+    supabase.from("messages").select("id", { count: "exact", head: true }).neq("sender_id", user.id).is("read_at", null),
   ]);
   if (students.error) throw students.error;
-  return { pending, approved, students: students.count ?? 0 };
-}
+  if (unreadMessages.error) throw unreadMessages.error;
+  return { pending, approved, rejected, students: students.count ?? 0, unreadMessages: unreadMessages.count ?? 0 };
+});
 
 /** Pending requests oldest first (a queue); decided ones newest first. */
 export async function getAdminBookings(status: BookingStatus, limit = LIST_LIMIT): Promise<AdminBooking[]> {
