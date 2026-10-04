@@ -34,6 +34,7 @@ export interface InboxEntry {
   studentName: string;
   lastMessage: string;
   lastMessageAt: string;
+  lastFromStudent: boolean;
   unreadFromStudent: number;
 }
 
@@ -198,6 +199,7 @@ export async function getAdminInbox(): Promise<InboxEntry[]> {
       studentName: message.booking?.student?.full_name ?? "حساب محذوف",
       lastMessage: message.body,
       lastMessageAt: message.created_at,
+      lastFromStudent: fromStudent,
       unreadFromStudent: 0,
     };
     if (fromStudent && message.read_at === null) entry.unreadFromStudent += 1;
