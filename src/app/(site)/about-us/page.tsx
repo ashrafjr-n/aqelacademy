@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cardClassName } from "@/components/ui/card";
 import { CheckList } from "@/components/ui/check-list";
 import { PageHeader } from "@/components/ui/page-header";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -25,7 +26,7 @@ export default function AboutPage() {
         </SplitSection>
       </section>
 
-      <section className="bg-surface py-16">
+      <section className="bg-canvas py-16">
         <div className="container-site">
           <SplitSection image={aboutAcademy.image} imageSide="start">
             <SectionHeading title={aboutAcademy.title} />
@@ -42,7 +43,7 @@ export default function AboutPage() {
       </section>
 
       <section className="container-site grid gap-12 py-16 lg:grid-cols-2">
-        <div>
+        <div className={`${cardClassName} p-6 sm:p-8`}>
           <SectionHeading title={aboutWhyUs.title} />
           <CheckList items={aboutWhyUs.points} />
         </div>
@@ -56,12 +57,15 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="container-site">
+      <section className="container-site pb-20">
         <SectionHeading title={aboutValues.title} />
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {aboutValues.items.map((value) => (
-            <li key={value.title} className="rounded-2xl border border-line p-6">
-              <h3 className="text-lg font-bold text-brand">{value.title}</h3>
+          {aboutValues.items.map((value, index) => (
+            <li key={value.title} className={`${cardClassName} p-6`}>
+              <span aria-hidden="true" className="text-3xl font-extrabold tabular-nums text-brand/25">
+                0{index + 1}
+              </span>
+              <h3 className="mt-2 text-lg font-bold text-ink">{value.title}</h3>
               <p className="mt-2 leading-relaxed">{value.text}</p>
             </li>
           ))}
