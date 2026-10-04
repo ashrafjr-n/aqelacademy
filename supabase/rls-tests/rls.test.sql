@@ -199,6 +199,8 @@ reset role;
 set role authenticated;
 select tests.login('00000000-0000-0000-0000-00000000000d');
 select tests.expect_error('select public.delete_my_account()', 'P0001');
+select tests.login('00000000-0000-0000-0000-00000000000d', 'password');
+select tests.expect_error('select public.delete_my_account()', 'P0001');
 select tests.login('00000000-0000-0000-0000-00000000000b');
 select public.delete_my_account();
 reset role;
