@@ -1,6 +1,6 @@
 import { BadgeCheck, CheckCheck, MessageCircle, Ticket, type LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { markAllNotificationsRead, openNotification } from "@/app/account/notifications/actions";
+import { markAllNotificationsRead, openNotification } from "@/app/(app)/account/notifications/actions";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { notificationsCopy, type NotificationType } from "@/content/notifications";
 import { getMyNotifications } from "@/lib/dal/notifications";

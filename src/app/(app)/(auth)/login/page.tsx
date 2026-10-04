@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { LoginForm } from "@/app/(auth)/login/login-form";
+import { LoginForm } from "@/app/(app)/(auth)/login/login-form";
 import { AuthDivider } from "@/components/auth/auth-divider";
 import { AuthHeading } from "@/components/auth/auth-heading";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";

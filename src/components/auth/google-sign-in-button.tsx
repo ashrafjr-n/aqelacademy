@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Script from "next/script";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { signInWithGoogle } from "@/app/(auth)/actions";
+import { signInWithGoogle } from "@/app/(app)/(auth)/actions";
 import { FormAlert } from "@/components/forms/form-alert";
 
 interface GoogleIdConfiguration {

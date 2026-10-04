@@ -2,7 +2,7 @@
 
 import { Mail } from "lucide-react";
 import { useActionState } from "react";
-import { requestPasswordReset } from "@/app/(auth)/actions";
+import { requestPasswordReset } from "@/app/(app)/(auth)/actions";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";

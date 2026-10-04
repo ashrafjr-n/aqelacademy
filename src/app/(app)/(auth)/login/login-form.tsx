@@ -2,8 +2,8 @@
 
 import { Mail } from "lucide-react";
 import { useActionState } from "react";
-import { signIn } from "@/app/(auth)/actions";
-import { ResendConfirmation } from "@/app/(auth)/login/resend-confirmation";
+import { signIn } from "@/app/(app)/(auth)/actions";
+import { ResendConfirmation } from "@/app/(app)/(auth)/login/resend-confirmation";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
 import { PasswordField } from "@/components/forms/password-field";

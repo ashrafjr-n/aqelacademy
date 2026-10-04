@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ResetPasswordForm } from "@/app/(auth)/reset-password/reset-password-form";
+import { ResetPasswordForm } from "@/app/(app)/(auth)/reset-password/reset-password-form";
 import { AuthHeading } from "@/components/auth/auth-heading";
 import { authCopy } from "@/content/auth";
 import { requireUser } from "@/lib/dal/session";

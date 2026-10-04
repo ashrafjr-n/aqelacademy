@@ -2,7 +2,7 @@
 
 import { UserRound } from "lucide-react";
 import { useActionState } from "react";
-import { updateProfile } from "@/app/account/actions";
+import { updateProfile } from "@/app/(app)/account/actions";
 import { FormAlert } from "@/components/forms/form-alert";
 import { PhoneCountryFields } from "@/components/forms/phone-country-fields";
 import { SubmitButton } from "@/components/forms/submit-button";

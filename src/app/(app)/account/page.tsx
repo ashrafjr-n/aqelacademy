@@ -1,8 +1,8 @@
 import { LayoutDashboard, LogOut, Trash2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { deleteAccount, signOut } from "@/app/account/actions";
-import { ProfileForm } from "@/app/account/profile-form";
+import { deleteAccount, signOut } from "@/app/(app)/account/actions";
+import { ProfileForm } from "@/app/(app)/account/profile-form";
 import { ConfirmSubmitButton } from "@/components/forms/confirm-submit-button";
 import { FormAlert } from "@/components/forms/form-alert";
 import { buttonClassName } from "@/components/ui/button-styles";

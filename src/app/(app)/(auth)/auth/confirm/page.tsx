@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { confirmEmailLink } from "@/app/(auth)/actions";
+import { confirmEmailLink } from "@/app/(app)/(auth)/actions";
 import { AuthHeading } from "@/components/auth/auth-heading";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";

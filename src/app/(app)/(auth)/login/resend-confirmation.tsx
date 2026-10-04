@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { resendConfirmation } from "@/app/(auth)/actions";
+import { resendConfirmation } from "@/app/(app)/(auth)/actions";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";
