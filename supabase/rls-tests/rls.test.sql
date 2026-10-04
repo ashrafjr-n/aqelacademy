@@ -133,6 +133,8 @@ reset role;
 set role authenticated;
 select tests.login('00000000-0000-0000-0000-00000000000a');
 select tests.check((select count(*) from public.notifications) = 2, 'A is notified of the decision and the message');
+select tests.check((select booking_status from public.notifications where type = 'booking_status_changed') = 'approved', 'decision notification keeps the announced status');
+select tests.expect_error($$update public.notifications set booking_status = 'rejected'$$, '42501');
 select tests.check((select count(*) from public.messages) = 1, 'A sees only messages in own booking');
 select tests.check((select count(*) from public.audit_logs) = 0, 'A cannot read the audit log');
 insert into public.messages (booking_id, sender_id, body) select id, '00000000-0000-0000-0000-00000000000a', 'Thank you' from public.bookings;
