@@ -2,8 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { z } from "zod";
 import { setBookingStatus } from "@/lib/dal/admin";
+import { emailBookingDecision } from "@/lib/email/notify";
 
 const bookingStatusSchema = z.enum(["pending", "approved", "rejected"]);
 
@@ -21,6 +23,7 @@ export async function decideBooking(formData: FormData): Promise<void> {
 
   const { bookingId, decision, returnTo } = parsed.data;
   const updated = await setBookingStatus(bookingId, decision);
+  if (updated) after(() => emailBookingDecision(updated, decision));
   revalidatePath("/admin", "layout");
   revalidatePath("/account/bookings");
   const notice = updated ? `booking-${decision}` : "decision-failed";

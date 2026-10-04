@@ -2,9 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { bookingCopy } from "@/content/bookings";
 import { getCourse } from "@/content/courses";
 import { createMyBooking } from "@/lib/dal/bookings";
+import { getMyProfile } from "@/lib/dal/profiles";
+import { emailNewBooking } from "@/lib/email/notify";
 import { fieldErrorsOf, formValues, type FormState } from "@/lib/forms";
 import { bookingSchema } from "@/lib/validation/bookings";
 
@@ -20,6 +23,10 @@ export async function createBooking(previous: FormState, formData: FormData): Pr
   const result = await createMyBooking(courseSlug, note);
   if (!result.ok) return { status: "error", message: bookingCopy.failures[result.reason], values, attempt };
 
+  after(async () => {
+    const profile = await getMyProfile();
+    await emailNewBooking(result.bookingId, profile?.full_name ?? "طالب", courseSlug);
+  });
   revalidatePath("/account/bookings");
   redirect("/account/bookings?notice=booking-created");
 }
