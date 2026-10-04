@@ -10,6 +10,7 @@ const notices = {
   "link-invalid": { tone: "error", text: "الرابط غير صالح أو انتهت صلاحيته. اطلب رابطًا جديدًا." },
   "email-confirmed": { tone: "success", text: "تم تأكيد بريدك الإلكتروني. أهلًا بك في الأكاديمية!" },
   "password-updated": { tone: "success", text: "تم تغيير كلمة المرور بنجاح." },
+  "account-deleted": { tone: "success", text: "تم حذف حسابك وجميع بياناتك نهائيًا." },
   "booking-created": { tone: "success", text: "تم إرسال طلب الحجز! سيراجعه الدكتور ويصلك إشعار بالرد." },
   "booking-approved": { tone: "success", text: "تمت الموافقة على الطلب، وسيصل للطالب إشعار بذلك." },
   "booking-rejected": { tone: "success", text: "تم رفض الطلب، وسيصل للطالب إشعار بذلك." },

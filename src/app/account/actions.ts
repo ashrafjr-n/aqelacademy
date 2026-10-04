@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { updateMyProfile } from "@/lib/dal/profiles";
+import { deleteMyAccount, updateMyProfile } from "@/lib/dal/profiles";
 import { fieldErrorsOf, formValues, type FormState } from "@/lib/forms";
 import { createClient } from "@/lib/supabase/server";
 import { profileSchema } from "@/lib/validation/auth";
@@ -22,4 +22,9 @@ export async function signOut(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect("/");
+}
+
+export async function deleteAccount(): Promise<void> {
+  await deleteMyAccount();
+  redirect("/login?notice=account-deleted");
 }
