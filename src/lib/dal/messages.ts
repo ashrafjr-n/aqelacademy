@@ -160,3 +160,41 @@ export async function getAdminInbox(): Promise<InboxEntry[]> {
   }
   return [...entries.values()];
 }
+
+export interface MessageEmailContext {
+  courseSlug: string;
+  student: StudentContact | null;
+  /** True when the sender is the student who owns the booking (so the doctor should hear about it). */
+  senderIsStudent: boolean;
+  /** The sender's messages in this booking that the other side hasn't read yet, including the new one. */
+  senderUnreadCount: number;
+}
+
+/** What the "new message" email needs, read with the sender's own permissions. */
+export async function getMessageEmailContext(bookingId: string): Promise<MessageEmailContext | null> {
+  const user = await requireUser("/account");
+  const supabase = await createClient();
+  const [booking, unread] = await Promise.all([
+    supabase
+      .from("bookings")
+      .select("user_id, course_slug, student:profiles!bookings_user_id_fkey(full_name, email, phone, country)")
+      .eq("id", bookingId)
+      .maybeSingle(),
+    supabase
+      .from("messages")
+      .select("id", { count: "exact", head: true })
+      .eq("booking_id", bookingId)
+      .eq("sender_id", user.id)
+      .is("read_at", null),
+  ]);
+  if (booking.error) throw booking.error;
+  if (unread.error) throw unread.error;
+  if (!booking.data) return null;
+
+  return {
+    courseSlug: booking.data.course_slug,
+    student: booking.data.student,
+    senderIsStudent: booking.data.user_id === user.id,
+    senderUnreadCount: unread.count ?? 0,
+  };
+}

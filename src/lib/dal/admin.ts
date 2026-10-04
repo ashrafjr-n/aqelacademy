@@ -78,13 +78,24 @@ export async function getAdminBookings(status: BookingStatus, limit = LIST_LIMIT
   return data;
 }
 
-/** Returns false when no row changed (e.g. the booking no longer exists). The DB stamps who decided and notifies the student. */
-export async function setBookingStatus(bookingId: string, status: BookingStatus): Promise<boolean> {
+export interface DecidedBooking {
+  id: string;
+  courseSlug: string;
+  student: Pick<ProfileRow, "full_name" | "email"> | null;
+}
+
+/** Returns null when no row changed (e.g. the booking no longer exists). The DB stamps who decided and notifies the student in-app. */
+export async function setBookingStatus(bookingId: string, status: BookingStatus): Promise<DecidedBooking | null> {
   await requireAdmin();
   const supabase = await createClient();
-  const { data, error } = await supabase.from("bookings").update({ status }).eq("id", bookingId).select("id");
+  const { data, error } = await supabase
+    .from("bookings")
+    .update({ status })
+    .eq("id", bookingId)
+    .select("id, course_slug, student:profiles!bookings_user_id_fkey(full_name, email)")
+    .maybeSingle();
   if (error) throw error;
-  return data.length === 1;
+  return data ? { id: data.id, courseSlug: data.course_slug, student: data.student } : null;
 }
 
 /** Keeps letters, digits and email characters only, so the term can't break the PostgREST filter syntax. */

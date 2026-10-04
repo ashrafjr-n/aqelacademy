@@ -38,15 +38,19 @@ export async function getMyOpenBooking(courseSlug: string): Promise<MyBooking | 
   return data;
 }
 
-export type CreateBookingResult = { ok: true } | { ok: false; reason: BookingFailure };
+export type CreateBookingResult = { ok: true; bookingId: string } | { ok: false; reason: BookingFailure };
 
 /** New bookings always start as pending; the database enforces that and the per-user limits. */
 export async function createMyBooking(courseSlug: string, note: string | null): Promise<CreateBookingResult> {
   const user = await requireUser(`/courses/${courseSlug}/book`);
   const supabase = await createClient();
-  const { error } = await supabase.from("bookings").insert({ user_id: user.id, course_slug: courseSlug, user_note: note });
+  const { data, error } = await supabase
+    .from("bookings")
+    .insert({ user_id: user.id, course_slug: courseSlug, user_note: note })
+    .select("id")
+    .single();
 
-  if (!error) return { ok: true };
+  if (!error) return { ok: true, bookingId: data.id };
   if (error.code === "23505") return { ok: false, reason: "duplicate" };
   if (error.code === "P0001") return { ok: false, reason: "rate_limited" };
   if (error.code === "42501" || error.code === "23503") return { ok: false, reason: "unavailable" };
