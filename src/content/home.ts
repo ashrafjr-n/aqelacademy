@@ -5,12 +5,15 @@ import qabaTrainingProgram from "@/assets/images/qaba-training-program.jpg";
 import type { ContentImage, NavLink } from "@/types/content";
 
 export const homeHero = {
+  eyebrow: "برامج تدريبية معتمدة من QABA",
   title: "أكاديمية الدكتور موفق عقل لتحليل السلوك التطبيقي والتأهيل",
   text: "نقدّم برامج تدريب احترافية في مجالات تحليل السلوك التطبيقي (ABA)، التربية الخاصة، والتأهيل النفسي والسلوكي، بإشراف مباشر من الدكتور موفق عقل – الحاصل على البورد الأمريكي في تحليل السلوك التطبيقي.",
   image: { src: hero, alt: "" } satisfies ContentImage,
   primaryAction: { href: "/courses", label: "استعرض الدورات" } satisfies NavLink,
   secondaryAction: { href: "/contact-us", label: "تواصل معنا" } satisfies NavLink,
 };
+
+export const accreditationsTitle = "معتمدون من";
 
 export const accreditations: ContentImage[] = [
   { src: qabaTrainingProgram, alt: "QABA Approved Training Program" },
@@ -40,4 +43,11 @@ export const journeySection = {
   image: { src: drTeaching, alt: "الدكتور موفق عقل خلال إحدى الدورات التدريبية" } satisfies ContentImage,
   primaryAction: { href: "/courses", label: "سجّل الآن" } satisfies NavLink,
   secondaryAction: { href: "/contact-us", label: "اتصل بنا" } satisfies NavLink,
+};
+
+export const homeCta = {
+  title: "جاهز تبدأ رحلتك التدريبية؟",
+  text: "أنشئ حسابك واحجز مقعدك في الدورة، وسيتواصل معك الدكتور لترتيب التفاصيل.",
+  primaryAction: { href: "/register", label: "أنشئ حسابك" } satisfies NavLink,
+  secondaryAction: { href: "/courses", label: "استعرض الدورات" } satisfies NavLink,
 };
