@@ -167,3 +167,19 @@ reset role;
 update auth.users set email = 'a-new@test.local' where id = '00000000-0000-0000-0000-00000000000a';
 select tests.check((select email from public.profiles where id = '00000000-0000-0000-0000-00000000000a') = 'a-new@test.local', 'profile email follows auth email');
 
+
+-- ---------------------------------------------------------------- account deletion (keep last: it removes B)
+set role anon;
+select tests.expect_error('select public.delete_my_account()', '42501');
+reset role;
+
+set role authenticated;
+select tests.login('00000000-0000-0000-0000-00000000000d');
+select tests.expect_error('select public.delete_my_account()', 'P0001');
+select tests.login('00000000-0000-0000-0000-00000000000b');
+select public.delete_my_account();
+reset role;
+select tests.check(not exists (select 1 from auth.users where id = '00000000-0000-0000-0000-00000000000b'), 'B''s account is deleted');
+select tests.check(not exists (select 1 from public.profiles where id = '00000000-0000-0000-0000-00000000000b'), 'B''s profile is deleted');
+select tests.check(not exists (select 1 from public.bookings where user_id = '00000000-0000-0000-0000-00000000000b'), 'B''s bookings are deleted');
+select tests.check(exists (select 1 from auth.users where id = '00000000-0000-0000-0000-00000000000a'), 'other accounts are untouched');
