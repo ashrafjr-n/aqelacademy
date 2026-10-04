@@ -8,7 +8,7 @@ export function SiteFooter() {
 
   return (
     <footer className="bg-ink text-sm text-white/75">
-      <div className="container-site grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.2fr]">
+      <div className="container-site grid gap-8 py-10 sm:grid-cols-2 sm:gap-10 sm:py-12 lg:grid-cols-[1.5fr_1fr_1.2fr]">
         <div className="sm:col-span-2 lg:col-span-1">
           <Link href="/" className="inline-flex items-center gap-3">
             <span className="flex size-12 items-center justify-center rounded-full bg-white p-1">
@@ -21,7 +21,7 @@ export function SiteFooter() {
 
         <nav aria-label="روابط سريعة">
           <h2 className="font-bold text-white">روابط سريعة</h2>
-          <ul className="mt-4 space-y-2.5">
+          <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 sm:block sm:space-y-2.5">
             {footerLinks.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="transition-colors hover:text-white">
@@ -34,7 +34,7 @@ export function SiteFooter() {
 
         <div>
           <h2 className="font-bold text-white">تواصل معنا</h2>
-          <ul className="mt-4 space-y-3">
+          <ul className="mt-4 space-y-2.5">
             <li className="flex items-center gap-3">
               <MapPin aria-hidden="true" className="size-4 shrink-0 text-brand-light" />
               {site.contact.location}
