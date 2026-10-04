@@ -22,6 +22,10 @@
 	// Runtime variables (SITE_URL, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, TURNSTILE_SITE_KEY)
 	// are set in the Cloudflare dashboard; keep them across deploys.
 	"keep_vars": true,
+	// Public, non-secret values (they end up in the page HTML anyway).
+	"vars": {
+		"GOOGLE_CLIENT_ID": "806920309922-r6jt1lnblh8l48o11ua2ovsihqncipcu.apps.googleusercontent.com"
+	},
 	"observability": {
 		"enabled": true
 	},
