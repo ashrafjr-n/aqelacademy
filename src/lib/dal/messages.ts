@@ -1,5 +1,6 @@
 import "server-only";
 import { notFound } from "next/navigation";
+import { getCourse } from "@/content/courses";
 import type { MessageFailure } from "@/content/messages";
 import { requireAdmin, type StudentContact } from "@/lib/dal/admin";
 import { requireUser, type SessionUser } from "@/lib/dal/session";
@@ -34,6 +35,18 @@ export interface InboxEntry {
   lastMessage: string;
   lastMessageAt: string;
   unreadFromStudent: number;
+}
+
+/** A student's conversation with the doctor: one per booking that has messages or is approved. */
+export interface MyConversation {
+  bookingId: string;
+  courseTitle: string;
+  /** null until the first message. */
+  lastMessage: string | null;
+  lastFromMe: boolean;
+  /** The last message's time, or when the booking was decided. */
+  lastActivityAt: string;
+  unread: number;
 }
 
 // ponytail: threads and the inbox read the latest 500 messages; paginate if conversations get long.
@@ -131,6 +144,38 @@ export async function getMyUnreadMessageCounts(): Promise<Record<string, number>
   const counts: Record<string, number> = {};
   for (const { booking_id: bookingId } of data) counts[bookingId] = (counts[bookingId] ?? 0) + 1;
   return counts;
+}
+
+/** The signed-in student's conversations, newest activity first. */
+export async function getMyConversations(): Promise<MyConversation[]> {
+  const user = await requireUser("/account/messages");
+  const supabase = await createClient();
+  const [bookings, messages] = await Promise.all([
+    supabase.from("bookings").select("id, course_slug, status, created_at, decided_at").eq("user_id", user.id),
+    supabase
+      .from("messages")
+      .select("booking_id, sender_id, body, read_at, created_at")
+      .order("created_at", { ascending: false })
+      .limit(MESSAGE_LIMIT),
+  ]);
+  if (bookings.error) throw bookings.error;
+  if (messages.error) throw messages.error;
+
+  const conversations: MyConversation[] = [];
+  for (const booking of bookings.data) {
+    const thread = messages.data.filter((message) => message.booking_id === booking.id);
+    if (thread.length === 0 && booking.status !== "approved") continue;
+    const last = thread[0];
+    conversations.push({
+      bookingId: booking.id,
+      courseTitle: getCourse(booking.course_slug)?.title ?? booking.course_slug,
+      lastMessage: last?.body ?? null,
+      lastFromMe: last?.sender_id === user.id,
+      lastActivityAt: last?.created_at ?? booking.decided_at ?? booking.created_at,
+      unread: thread.filter((message) => message.sender_id !== user.id && message.read_at === null).length,
+    });
+  }
+  return conversations.sort((a, b) => b.lastActivityAt.localeCompare(a.lastActivityAt));
 }
 
 /** One entry per conversation, newest activity first, for the doctor's inbox. */
