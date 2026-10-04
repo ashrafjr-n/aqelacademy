@@ -12,5 +12,10 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ tone, label }: StatusBadgeProps) {
-  return <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold ${toneClasses[tone]}`}>{label}</span>;
+  return (
+    <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold ${toneClasses[tone]}`}>
+      <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
+      {label}
+    </span>
+  );
 }
