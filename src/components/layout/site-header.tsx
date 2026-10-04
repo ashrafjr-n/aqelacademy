@@ -2,6 +2,7 @@ import { UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 import { accountLink, mainNav, site } from "@/content/site";
 
 export function SiteHeader() {
@@ -29,6 +30,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <NotificationBell />
           <Link
             href={accountLink.href}
             aria-label={accountLink.label}
