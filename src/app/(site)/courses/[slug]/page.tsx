@@ -28,7 +28,7 @@ export default async function CoursePage({ params }: PageProps<"/courses/[slug]"
     <>
       <PageHeader title={course.title} parents={[{ href: "/courses", label: "الدورات التدريبية" }]} />
       <div className="container-site grid gap-10 py-16 lg:grid-cols-[1fr_22rem]">
-        <aside className="lg:sticky lg:top-28 lg:order-2 lg:self-start">
+        <aside className="lg:sticky lg:top-24 lg:order-2 lg:self-start">
           <CourseSummaryCard course={course} />
         </aside>
         <div>

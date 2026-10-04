@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { cardClassName } from "@/components/ui/card";
 import type { Instructor } from "@/types/content";
 
 interface InstructorCardProps {
@@ -7,8 +8,8 @@ interface InstructorCardProps {
 
 export function InstructorCard({ instructor }: InstructorCardProps) {
   return (
-    <div className="flex items-center gap-5 rounded-2xl bg-surface p-5">
-      <div className="relative size-24 shrink-0 overflow-hidden rounded-full">
+    <div className={`${cardClassName} flex items-center gap-5 p-5`}>
+      <div className="relative size-20 shrink-0 overflow-hidden rounded-full bg-surface ring-4 ring-brand-soft sm:size-24">
         <Image src={instructor.image.src} alt={instructor.image.alt} fill sizes="96px" className="object-cover object-top" />
       </div>
       <div>
