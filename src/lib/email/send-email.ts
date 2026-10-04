@@ -24,7 +24,8 @@ export async function sendEmail({ to, subject, html, text }: SendEmailInput): Pr
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: `${site.name} <no-reply@aqelacademy.com>`, to: [to], subject, html, text }),
+      // A real, monitored Reply-To (instead of only "no-reply") helps inbox placement.
+      body: JSON.stringify({ from: `${site.name} <no-reply@aqelacademy.com>`, reply_to: site.contact.email, to: [to], subject, html, text }),
       signal: AbortSignal.timeout(10_000),
     });
     if (!response.ok) console.error("Notification email failed", { status: response.status, subject });
