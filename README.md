@@ -46,8 +46,10 @@ Open [http://localhost:4646](http://localhost:4646).
 | `SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key                        |
 | `TURNSTILE_SITE_KEY`       | Cloudflare Turnstile site key (captcha)         |
 | `GOOGLE_CLIENT_ID`         | Google OAuth client ID ("Continue with Google"), optional |
+| `RESEND_API_KEY`           | Resend key for notification emails (Worker secret), optional |
+| `NOTIFY_EMAIL`             | Inbox for "new booking" / student message emails (the doctor's), optional |
 
-Locally they live in `.env.local`. In production they are Worker variables (set in the Cloudflare dashboard, or in `wrangler.jsonc` for public values). They are read at runtime on the server only.
+Locally they live in `.env.local`. In production they are Worker variables (set in the Cloudflare dashboard, or in `wrangler.jsonc` for public values such as `GOOGLE_CLIENT_ID`). They are read at runtime on the server only. Without `RESEND_API_KEY`, notification emails are skipped (in-app notifications still work).
 
 ## Authentication
 
