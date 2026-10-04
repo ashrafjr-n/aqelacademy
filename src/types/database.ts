@@ -228,7 +228,6 @@ export type Database = {
     }
     Functions: {
       current_user_admin_status: { Args: never; Returns: string }
-      current_user_is_admin: { Args: never; Returns: boolean }
       delete_my_account: { Args: never; Returns: undefined }
       health_check: { Args: never; Returns: boolean }
     }
