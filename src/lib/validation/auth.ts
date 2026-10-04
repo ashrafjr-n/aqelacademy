@@ -3,19 +3,19 @@ import { countries, dialCodeOf } from "@/content/countries";
 
 const countryCodes = countries.map((country) => country.code);
 
-export const fullNameSchema = z
+const fullNameSchema = z
   .string()
   .trim()
   .min(2, { error: "الاسم قصير جدًا." })
   .max(100, { error: "الاسم طويل جدًا." });
 
-export const emailSchema = z.preprocess(
+const emailSchema = z.preprocess(
   (value) => (typeof value === "string" ? value.trim().toLowerCase() : value),
   z.email({ error: "أدخل بريدًا إلكترونيًا صحيحًا." }).max(254, { error: "البريد الإلكتروني طويل جدًا." }),
 );
 
 /** Matches the Supabase project policy: 10+ chars, at least one letter and one digit. */
-export const newPasswordSchema = z
+const newPasswordSchema = z
   .string()
   .min(10, { error: "كلمة المرور يجب أن تكون 10 أحرف على الأقل." })
   .max(72, { error: "كلمة المرور طويلة جدًا (72 حرفًا كحد أقصى)." })
@@ -28,7 +28,7 @@ const phoneInputSchema = z
   .transform((value) => value.replace(/[\s\-().]/g, ""))
   .refine((value) => value === "" || /^(\+|00)?[0-9]{6,15}$/.test(value), { error: "رقم الهاتف غير صحيح." });
 
-export const countrySchema = z
+const countrySchema = z
   .string()
   .refine((value) => value === "" || countryCodes.includes(value), { error: "اختر دولة من القائمة." })
   .transform((value) => value || null);
