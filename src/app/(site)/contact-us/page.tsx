@@ -1,5 +1,6 @@
 import { type LucideIcon, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import type { Metadata } from "next";
+import { cardClassName } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { contactIntro } from "@/content/contact";
@@ -32,7 +33,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader title="اتصل بنا" />
-      <section className="container-site py-16">
+      <section className="container-site pt-16 pb-20">
         <div className="max-w-2xl">
           <SectionHeading title={contactIntro.title} />
           <div className="space-y-4 text-lg leading-relaxed">
@@ -44,8 +45,8 @@ export default function ContactPage() {
 
         <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {channels.map(({ id, icon: Icon, label, value, href, ltr, external }) => (
-            <li key={id} className="rounded-2xl border border-line p-6">
-              <span className="flex size-12 items-center justify-center rounded-full bg-brand-soft text-brand">
+            <li key={id} className={`${cardClassName} p-6`}>
+              <span className={`flex size-12 items-center justify-center rounded-xl ${id === "whatsapp" ? "bg-whatsapp-dark text-white" : "bg-brand-soft text-brand"}`}>
                 <Icon aria-hidden="true" className="size-6" />
               </span>
               <h2 className="mt-4 font-bold text-ink">{label}</h2>
