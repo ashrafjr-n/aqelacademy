@@ -1,0 +1,110 @@
+import "server-only";
+import { notFound } from "next/navigation";
+import { cache } from "react";
+import type { BookingStatus } from "@/content/bookings";
+import { requireUser, type SessionUser } from "@/lib/dal/session";
+import { createClient } from "@/lib/supabase/server";
+import type { Database } from "@/types/database";
+
+type BookingRow = Database["public"]["Tables"]["bookings"]["Row"];
+type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
+
+export type StudentContact = Pick<ProfileRow, "full_name" | "email" | "phone" | "country">;
+
+export type AdminBooking = Pick<BookingRow, "id" | "course_slug" | "status" | "user_note" | "created_at" | "decided_at"> & {
+  student: StudentContact | null;
+};
+
+export interface AdminStudent extends StudentContact {
+  id: string;
+  created_at: string;
+  bookingsCount: number;
+}
+
+export interface AdminCounts {
+  pending: number;
+  approved: number;
+  students: number;
+}
+
+// ponytail: lists are capped instead of paginated; add pagination if the academy outgrows it.
+const LIST_LIMIT = 200;
+
+/** Whether the signed-in user is an admin (asked of the database, never trusted from the client). */
+export const isCurrentUserAdmin = cache(async (): Promise<boolean> => {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("current_user_is_admin");
+  if (error) throw error;
+  return data === true;
+});
+
+/** Admin pages and actions call this first. Non-admins get a 404, so the area isn't revealed. */
+export async function requireAdmin(): Promise<SessionUser> {
+  const user = await requireUser("/admin");
+  if (!(await isCurrentUserAdmin())) notFound();
+  return user;
+}
+
+async function countBookings(status: BookingStatus): Promise<number> {
+  const supabase = await createClient();
+  const { count, error } = await supabase.from("bookings").select("id", { count: "exact", head: true }).eq("status", status);
+  if (error) throw error;
+  return count ?? 0;
+}
+
+export async function getAdminCounts(): Promise<AdminCounts> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const [pending, approved, students] = await Promise.all([
+    countBookings("pending"),
+    countBookings("approved"),
+    supabase.from("profiles").select("id", { count: "exact", head: true }),
+  ]);
+  if (students.error) throw students.error;
+  return { pending, approved, students: students.count ?? 0 };
+}
+
+/** Pending requests oldest first (a queue); decided ones newest first. */
+export async function getAdminBookings(status: BookingStatus, limit = LIST_LIMIT): Promise<AdminBooking[]> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("id, course_slug, status, user_note, created_at, decided_at, student:profiles!bookings_user_id_fkey(full_name, email, phone, country)")
+    .eq("status", status)
+    .order("created_at", { ascending: status === "pending" })
+    .limit(limit);
+  if (error) throw error;
+  return data;
+}
+
+/** Returns false when no row changed (e.g. the booking no longer exists). The DB stamps who decided and notifies the student. */
+export async function setBookingStatus(bookingId: string, status: BookingStatus): Promise<boolean> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("bookings").update({ status }).eq("id", bookingId).select("id");
+  if (error) throw error;
+  return data.length === 1;
+}
+
+/** Keeps letters, digits and email characters only, so the term can't break the PostgREST filter syntax. */
+function sanitizeSearch(term: string): string {
+  return term.replace(/[^\p{L}\p{N}@.+_\- ]/gu, "").trim().slice(0, 60);
+}
+
+export async function getStudents(search: string): Promise<AdminStudent[]> {
+  await requireAdmin();
+  const supabase = await createClient();
+  let query = supabase
+    .from("profiles")
+    .select("id, full_name, email, phone, country, created_at, bookings(count)")
+    .order("created_at", { ascending: false })
+    .limit(LIST_LIMIT);
+
+  const term = sanitizeSearch(search);
+  if (term) query = query.or(`full_name.ilike."%${term}%",email.ilike."%${term}%"`);
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return data.map(({ bookings, ...student }) => ({ ...student, bookingsCount: bookings[0]?.count ?? 0 }));
+}
