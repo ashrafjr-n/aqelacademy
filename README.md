@@ -94,7 +94,7 @@ The database runs on [Supabase](https://supabase.com) (Postgres). The schema liv
 
 - **Tables:** profiles, courses, bookings, messages, notifications, audit log.
 - **Access rules:** every table has Row Level Security. Grants are explicit and column-level wherever a client can write. Anonymous visitors get no access.
-- **Admins:** listed in `private.admins`, which is not exposed through the API. The app asks `public.current_user_is_admin()`. Non-admins get a 404 on `/admin`.
+- **Admins:** listed in `private.admins`, which is not exposed through the API. **Admin rights require a Google sign-in:** `private.is_admin()` checks the JWT `amr` for `oauth`. The app asks `public.current_user_admin_status()`: non-admins get a 404 on `/admin`, and admin accounts signed in another way are sent to `/admin-sign-in`.
 - **Server-side logic:** booking decisions, notifications, the audit log, and rate limits are written by database triggers, never by clients.
 
 Apply migrations to the linked project:
@@ -106,6 +106,10 @@ npx supabase db push
 ```
 
 `npm run test:db` replays the migrations on a temporary local Postgres and checks the access rules. It needs `initdb`, `pg_ctl`, and `psql` on `PATH`. Docker is not required.
+
+## Keep-alive
+
+The free Supabase project pauses after 7 days without database activity. `.github/workflows/keep-alive.yml` calls `https://aqelacademy.com/api/health` once a day, which runs `public.health_check()`. It needs no secrets.
 
 ## Backups
 
@@ -152,6 +156,8 @@ PGOPTIONS='-c session_replication_role=replica' psql "$SUPABASE_DB_URL" -f backu
 | `/admin/bookings`  | Booking requests: approve, reject, reopen |
 | `/admin/bookings/[id]` | One request: decision buttons, student contact, conversation |
 | `/admin/messages`  | Conversations inbox, newest first, with unread counts |
+| `/admin-sign-in`   | "Continue with Google" for admin accounts that signed in with a password |
+| `/api/health`      | Tiny database query used by the daily keep-alive (returns `{ ok }`) |
 | `/robots.txt`, `/sitemap.xml` | Search engine rules (private areas disallowed) and public pages |
 | `/admin/students`  | Registered students with search and contact buttons |
 
