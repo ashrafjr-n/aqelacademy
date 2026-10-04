@@ -45,6 +45,13 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // The root needs its own rule: OpenNext leaves ":path*" unfilled when it matches nothing.
+        source: "/",
+        has: [{ type: "host", value: `www.${canonicalHost}` }],
+        destination: `https://${canonicalHost}/`,
+        permanent: true,
+      },
+      {
         // www.aqelacademy.com/* → aqelacademy.com/*
         source: "/:path*",
         has: [{ type: "host", value: `www.${canonicalHost}` }],
