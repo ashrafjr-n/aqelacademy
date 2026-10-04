@@ -3,17 +3,19 @@ import type { Course } from "@/types/content";
 
 interface CourseGridProps {
   courses: Course[];
+  /** The grid opens the page, so its first image is the main one: load it eagerly. */
+  preloadFirst?: boolean;
 }
 
-export function CourseGrid({ courses }: CourseGridProps) {
+export function CourseGrid({ courses, preloadFirst = false }: CourseGridProps) {
   if (courses.length === 0) {
     return <p className="rounded-2xl bg-surface p-8 text-center">لا توجد دورات متاحة حاليًا.</p>;
   }
 
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {courses.map((course) => (
-        <CourseCard key={course.slug} course={course} />
+      {courses.map((course, index) => (
+        <CourseCard key={course.slug} course={course} preload={preloadFirst && index === 0} />
       ))}
     </div>
   );

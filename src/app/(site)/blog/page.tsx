@@ -12,7 +12,7 @@ export default function BlogPage() {
     <>
       <PageHeader title="المقالات" />
       <section className="container-site py-16">
-        <ArticleGrid articles={articles} />
+        <ArticleGrid articles={articles} preloadFirst />
       </section>
     </>
   );

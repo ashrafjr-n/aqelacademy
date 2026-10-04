@@ -12,7 +12,7 @@ export default function CoursesPage() {
     <>
       <PageHeader title="الدورات التدريبية" />
       <section className="container-site py-16">
-        <CourseGrid courses={courses} />
+        <CourseGrid courses={courses} preloadFirst />
       </section>
     </>
   );
