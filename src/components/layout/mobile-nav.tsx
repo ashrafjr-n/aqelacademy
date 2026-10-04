@@ -1,44 +1,56 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import type { MouseEvent } from "react";
+import { isActiveLink } from "@/components/header/main-nav";
 import type { NavLink } from "@/types/content";
 
 interface MobileNavProps {
   links: NavLink[];
 }
 
+/** The main menu below `lg`, as a native popover under the header. */
 export function MobileNav({ links }: MobileNavProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const close = () => setIsOpen(false);
+  const pathname = usePathname();
+
+  function closeOnLink(event: MouseEvent<HTMLElement>) {
+    if (event.target instanceof Element && event.target.closest("a")) event.currentTarget.hidePopover();
+  }
 
   return (
     <div className="lg:hidden">
       <button
         type="button"
-        onClick={() => setIsOpen((open) => !open)}
-        aria-expanded={isOpen}
-        aria-controls="mobile-nav"
-        aria-label={isOpen ? "إغلاق القائمة" : "فتح القائمة"}
-        className="rounded-lg p-2 text-ink hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand"
+        popoverTarget="mobile-nav"
+        aria-label="القائمة"
+        className="flex size-10 items-center justify-center rounded-full text-ink hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand"
       >
-        {isOpen ? <X aria-hidden="true" className="size-6" /> : <Menu aria-hidden="true" className="size-6" />}
+        <Menu aria-hidden="true" className="size-6" />
       </button>
 
-      {isOpen && (
-        <nav id="mobile-nav" aria-label="القائمة الرئيسية" className="absolute inset-x-0 top-full border-b border-line bg-white shadow-lg">
-          <ul className="container-site py-4">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} onClick={close} className="block rounded-lg px-3 py-3 font-semibold text-ink hover:bg-surface hover:text-brand">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+      <nav
+        id="mobile-nav"
+        popover="auto"
+        aria-label="القائمة الرئيسية"
+        onClick={closeOnLink}
+        className="fixed inset-auto inset-x-4 top-[4.5rem] m-0 w-auto rounded-2xl border border-line bg-white p-2 shadow-pop opacity-0 transition-[opacity,translate,overlay,display] transition-discrete duration-150 -translate-y-1 open:translate-y-0 open:opacity-100 starting:open:-translate-y-1 starting:open:opacity-0"
+      >
+        <ul>
+          {links.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                aria-current={isActiveLink(pathname, link.href) ? "page" : undefined}
+                className="block rounded-xl px-4 py-3 font-bold text-ink hover:bg-surface aria-[current=page]:bg-brand-soft aria-[current=page]:text-brand-dark"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 }
