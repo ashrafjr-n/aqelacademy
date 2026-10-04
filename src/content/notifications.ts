@@ -3,12 +3,16 @@ import type { Database } from "@/types/database";
 
 export type NotificationType = Database["public"]["Enums"]["notification_type"];
 
-/** Where a notification leads when opened. */
-export const notificationTargets: Record<NotificationType, string> = {
-  booking_created: "/admin/bookings",
-  booking_status_changed: "/account/bookings",
-  message_received: "/account/bookings",
-};
+/**
+ * Where a notification leads when opened: the booking's page for the person who received it.
+ * Admin-side for the doctor, account-side for the student who owns the booking.
+ */
+export function notificationTarget(type: NotificationType, bookingId: string | null, recipientOwnsBooking: boolean): string {
+  if (!bookingId) return "/account/notifications";
+  if (type === "booking_created") return `/admin/bookings/${bookingId}`;
+  if (type === "booking_status_changed") return `/account/bookings/${bookingId}`;
+  return recipientOwnsBooking ? `/account/bookings/${bookingId}` : `/admin/bookings/${bookingId}`;
+}
 
 export interface NotificationTextInput {
   type: NotificationType;

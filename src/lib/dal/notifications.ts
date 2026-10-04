@@ -1,6 +1,6 @@
 import "server-only";
 import { getCourse } from "@/content/courses";
-import { notificationTargets, notificationText, type NotificationType } from "@/content/notifications";
+import { notificationTarget, notificationText, type NotificationType } from "@/content/notifications";
 import { getCurrentUser, requireUser } from "@/lib/dal/session";
 import { createClient } from "@/lib/supabase/server";
 
@@ -60,10 +60,11 @@ export async function openMyNotification(notificationId: string): Promise<string
     .update({ read_at: new Date().toISOString() })
     .eq("id", notificationId)
     .eq("user_id", user.id)
-    .select("type")
+    .select("type, booking_id, booking:bookings(user_id)")
     .maybeSingle();
   if (error) throw error;
-  return data ? notificationTargets[data.type] : "/account/notifications";
+  if (!data) return "/account/notifications";
+  return notificationTarget(data.type, data.booking_id, data.booking?.user_id === user.id);
 }
 
 export async function markAllMyNotificationsRead(): Promise<void> {
