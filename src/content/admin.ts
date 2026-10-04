@@ -31,3 +31,7 @@ export const adminCopy = {
 export function adminWhatsAppMessage(studentName: string, courseTitle: string): string {
   return `مرحبًا ${studentName}، معك الدكتور موفق عقل بخصوص طلبك لـ ${courseTitle}.`;
 }
+
+export function adminStudentWhatsAppMessage(studentName: string): string {
+  return `مرحبًا ${studentName}، معك الدكتور موفق عقل من الأكاديمية.`;
+}
