@@ -330,8 +330,8 @@ max_frequency = "5s"
 # "Continue with Google" via Google Identity Services ID tokens (signInWithIdToken).
 # Only the public client ID is needed; no client secret (we don't use the redirect flow).
 [auth.external.google]
-enabled = false
-client_id = ""
+enabled = true
+client_id = "806920309922-r6jt1lnblh8l48o11ua2ovsihqncipcu.apps.googleusercontent.com"
 secret = ""
 skip_nonce_check = false
 
