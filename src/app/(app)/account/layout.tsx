@@ -1,18 +1,24 @@
+import { Bell, MessageCircle, Ticket, UserRound } from "lucide-react";
 import type { ReactNode } from "react";
-import { PageHeader } from "@/components/ui/page-header";
-import { TabNav } from "@/components/ui/tab-nav";
-import { accountTabs } from "@/content/account";
+import { SideNav, type SideNavItem } from "@/components/ui/side-nav";
+import { accountCopy, accountSections } from "@/content/account";
+
+const accountNav: SideNavItem[] = [
+  { ...accountSections.bookings, icon: <Ticket aria-hidden="true" className="size-5" /> },
+  { ...accountSections.messages, icon: <MessageCircle aria-hidden="true" className="size-5" /> },
+  { ...accountSections.notifications, icon: <Bell aria-hidden="true" className="size-5" /> },
+  { ...accountSections.profile, icon: <UserRound aria-hidden="true" className="size-5" /> },
+];
 
 export default function AccountLayout({ children }: { children: ReactNode }) {
   return (
-    <>
-      <PageHeader title="حسابي" />
-      <div className="container-site py-10">
-        <div className="mx-auto max-w-2xl space-y-8">
-          <TabNav tabs={accountTabs} label="أقسام الحساب" />
-          {children}
-        </div>
+    <div className="container-site py-8 sm:py-12">
+      <div className="grid gap-6 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-10">
+        <aside className="lg:sticky lg:top-24 lg:self-start">
+          <SideNav items={accountNav} label={accountCopy.navLabel} />
+        </aside>
+        <div className="min-w-0 space-y-6">{children}</div>
       </div>
-    </>
+    </div>
   );
 }
