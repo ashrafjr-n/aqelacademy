@@ -5,7 +5,7 @@ import { signOut } from "@/app/account/actions";
 import { ProfileForm } from "@/app/account/profile-form";
 import { FormAlert } from "@/components/forms/form-alert";
 import { buttonClassName } from "@/components/ui/button-styles";
-import { getNotice } from "@/content/auth";
+import { getNotice } from "@/content/notices";
 import { getMyProfile } from "@/lib/dal/profiles";
 
 export const metadata: Metadata = {

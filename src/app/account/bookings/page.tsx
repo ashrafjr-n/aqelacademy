@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { FormAlert } from "@/components/forms/form-alert";
 import { ButtonLink } from "@/components/ui/button-link";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { getNotice } from "@/content/auth";
+import { getNotice } from "@/content/notices";
 import { bookingCopy, bookingStatuses } from "@/content/bookings";
 import { getCourse } from "@/content/courses";
 import { getMyBookings } from "@/lib/dal/bookings";

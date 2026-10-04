@@ -4,7 +4,8 @@ import { AuthHeading } from "@/components/auth/auth-heading";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { ButtonLink } from "@/components/ui/button-link";
-import { authCopy, getNotice } from "@/content/auth";
+import { authCopy } from "@/content/auth";
+import { getNotice } from "@/content/notices";
 import { isEmailLinkType } from "@/lib/auth/email-link";
 
 export const metadata: Metadata = {
