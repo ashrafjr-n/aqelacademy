@@ -228,6 +228,7 @@ export type Database = {
     }
     Functions: {
       current_user_is_admin: { Args: never; Returns: boolean }
+      delete_my_account: { Args: never; Returns: undefined }
     }
     Enums: {
       booking_status: "pending" | "approved" | "rejected"
