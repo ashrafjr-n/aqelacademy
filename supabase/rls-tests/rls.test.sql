@@ -24,8 +24,13 @@ begin
   if succeeded then raise exception 'FAILED: expected % but it succeeded: %', expected_sqlstate, stmt; end if;
 end $$;
 
-create function tests.login(uid uuid) returns void language sql as $$
-  select set_config('request.jwt.claims', json_build_object('sub', uid, 'role', 'authenticated')::text, false);
+-- Signs in as `uid`; `method` is the JWT amr sign-in method ("oauth" = Google, "password").
+create function tests.login(uid uuid, method text default 'oauth') returns void language sql as $$
+  select set_config(
+    'request.jwt.claims',
+    json_build_object('sub', uid, 'role', 'authenticated', 'amr', json_build_array(json_build_object('method', method, 'timestamp', 0)))::text,
+    false
+  );
 $$;
 
 create function tests.affected(stmt text) returns bigint language plpgsql as $$
@@ -167,6 +172,24 @@ reset role;
 update auth.users set email = 'a-new@test.local' where id = '00000000-0000-0000-0000-00000000000a';
 select tests.check((select email from public.profiles where id = '00000000-0000-0000-0000-00000000000a') = 'a-new@test.local', 'profile email follows auth email');
 
+
+-- ---------------------------------------------------------------- admin powers require a Google sign-in
+set role authenticated;
+select tests.login('00000000-0000-0000-0000-00000000000d', 'password');
+select tests.check(not private.is_admin(), 'admin with a password session has no admin rights');
+select tests.check(public.current_user_admin_status() = 'needs_google', 'password admin is told to use Google');
+select tests.check((select count(*) from public.bookings) = 0, 'password admin sees no one else''s bookings');
+select tests.check(tests.affected($$update public.bookings set status = 'rejected'$$) = 0, 'password admin cannot decide bookings');
+select tests.login('00000000-0000-0000-0000-00000000000d');
+select tests.check(public.current_user_admin_status() = 'admin', 'google admin is an admin');
+select tests.login('00000000-0000-0000-0000-00000000000a');
+select tests.check(public.current_user_admin_status() = 'none', 'regular user is not an admin');
+reset role;
+
+set role anon;
+select tests.check(public.health_check(), 'health check works without signing in');
+select tests.expect_error('select public.current_user_admin_status()', '42501');
+reset role;
 
 -- ---------------------------------------------------------------- account deletion (keep last: it removes B)
 set role anon;

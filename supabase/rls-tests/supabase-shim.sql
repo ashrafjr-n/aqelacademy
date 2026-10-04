@@ -27,3 +27,11 @@ create function auth.uid() returns uuid language sql stable as $$
     (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub')
   )::uuid
 $$;
+
+-- Same definition Supabase uses.
+create function auth.jwt() returns jsonb language sql stable as $$
+  select coalesce(
+    nullif(current_setting('request.jwt.claim', true), ''),
+    nullif(current_setting('request.jwt.claims', true), '')
+  )::jsonb
+$$;
