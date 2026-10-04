@@ -58,7 +58,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="container-site pt-20">
+      <section className="container-site py-20">
         <SectionHeading title={latestArticlesSection.title} action={latestArticlesSection.action} />
         <ArticleGrid articles={latestArticles} />
       </section>

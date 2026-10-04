@@ -5,6 +5,8 @@
   --color-brand: #c2410c;
   --color-brand-dark: #9a3412;
   --color-brand-soft: #fff3eb;
+  /* Orange for icons and accents on the navy background. */
+  --color-brand-light: #fb923c;
   --color-ink: #162648;
   --color-ink-dark: #0e1a33;
   --color-body: #4d5566;
