@@ -21,6 +21,9 @@ export const bookingStatuses: Record<BookingStatus, { label: string; tone: Statu
   },
 };
 
+/** The student's view of a booking's journey, in order. */
+export const bookingSteps = ["أُرسل الطلب", "مراجعة الدكتور", "التواصل والترتيب"] as const;
+
 export type BookingFailure = "duplicate" | "rate_limited" | "unavailable";
 
 export const bookingCopy = {
@@ -31,6 +34,12 @@ export const bookingCopy = {
   alreadyBooked: "لديك طلب قائم لهذه الدورة.",
   listTitle: "حجوزاتي",
   empty: "لم تحجز أي دورة بعد.",
+  emptyText: "اختر دورة واحجز مقعدك، وسيراجع الدكتور طلبك ويتواصل معك.",
+  requestedOn: "طُلب في",
+  yourNote: "ملاحظتك",
+  openChat: "فتح المحادثة",
+  openDetails: "تفاصيل الطلب",
+  courseDetails: "صفحة الدورة",
   failures: {
     duplicate: "لديك طلب قائم لهذه الدورة بالفعل.",
     rate_limited: "وصلت إلى الحد اليومي لطلبات الحجز. حاول مرة أخرى غدًا.",
