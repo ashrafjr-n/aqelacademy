@@ -37,7 +37,7 @@ export function ProfileForm({ fullName, phone, country }: ProfileFormProps) {
         countryError={state.fieldErrors?.country}
         phoneError={state.fieldErrors?.phone}
       />
-      <SubmitButton label="حفظ التغييرات" pendingLabel="جارٍ الحفظ…" />
+      <SubmitButton label="حفظ التغييرات" pendingLabel="جارٍ الحفظ…" fullWidth={false} />
     </form>
   );
 }
