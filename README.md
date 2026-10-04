@@ -53,7 +53,7 @@ Locally they live in `.env.local`. In production they are Worker variables (set 
 
 ## Authentication
 
-Accounts use Supabase Auth with email and password, or "Continue with Google": Google Identity Services gives the browser an ID token, and Supabase verifies it with a per-attempt nonce. The flow lives in `src/app/(auth)` and `src/app/account`:
+Accounts use Supabase Auth with email and password, or "Continue with Google": Google Identity Services gives the browser an ID token, and Supabase verifies it with a per-attempt nonce. The flow lives in `src/app/(app)/(auth)` and `src/app/(app)/account`:
 
 - **Sign-up:** email confirmation is required. Sign-up, login and password reset are protected by Turnstile, which Supabase Auth verifies.
 - **Email links:** they open `/auth/confirm`, which verifies the token only after a click, so link scanners can't use it up.
@@ -146,13 +146,14 @@ PGOPTIONS='-c session_replication_role=replica' psql "$SUPABASE_DB_URL" -f backu
 | `/forgot-password` | Request a password reset     |
 | `/reset-password`  | Set a new password           |
 | `/auth/confirm`    | Confirm an email link        |
-| `/account`         | Profile and sign out         |
+| `/account`         | Profile, password and account deletion |
 | `/account/bookings` | My bookings and their status |
 | `/account/bookings/[id]` | Booking details and the conversation with the doctor |
+| `/account/messages` | All conversations with the doctor |
 | `/account/notifications` | Notifications (open one to mark it read) |
-| `/api/notifications/summary` | Unread count for the header bell (JSON, private) |
+| `/api/account/summary` | Header state: guest, doctor, or a student's latest notifications and conversations (JSON, private) |
 | `/courses/[slug]/book` | Confirm a course booking (signed in) |
-| `/admin`           | Doctor dashboard: overview (admins only) |
+| `/admin`           | Doctor dashboard: counts, oldest pending requests, latest messages (admins only) |
 | `/admin/bookings`  | Booking requests: approve, reject, reopen |
 | `/admin/bookings/[id]` | One request: decision buttons, student contact, conversation |
 | `/admin/messages`  | Conversations inbox, newest first, with unread counts |
@@ -165,8 +166,10 @@ PGOPTIONS='-c session_replication_role=replica' psql "$SUPABASE_DB_URL" -f backu
 
 ```
 src/
-  app/          Routes (App Router)
-  components/   UI components (layout, ui, home, courses, blog)
+  app/          Routes (App Router), grouped by layout:
+                (site) public pages, (app) sign-in/account/booking, admin dashboard
+  components/   UI components (layout, header, ui, forms, home, courses, blog,
+                bookings, messages, notifications, admin)
   content/      Site content: courses, articles, pages, contact details
   lib/          Helpers, validation, Supabase clients, data access layer (dal/)
   types/        Shared content types
