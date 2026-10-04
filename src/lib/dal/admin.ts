@@ -1,5 +1,5 @@
 import "server-only";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import type { BookingStatus } from "@/content/bookings";
 import { requireUser, type SessionUser } from "@/lib/dal/session";
@@ -30,18 +30,29 @@ export interface AdminCounts {
 // ponytail: lists are capped instead of paginated; add pagination if the academy outgrows it.
 const LIST_LIMIT = 200;
 
-/** Whether the signed-in user is an admin (asked of the database, never trusted from the client). */
-export const isCurrentUserAdmin = cache(async (): Promise<boolean> => {
+/**
+ * The signed-in user's admin standing, decided by the database:
+ * "admin" (admin account signed in with Google), "needs_google" (admin account, other sign-in), or "none".
+ */
+export type AdminStatus = "admin" | "needs_google" | "none";
+
+export const getAdminStatus = cache(async (): Promise<AdminStatus> => {
   const supabase = await createClient();
-  const { data, error } = await supabase.rpc("current_user_is_admin");
+  const { data, error } = await supabase.rpc("current_user_admin_status");
   if (error) throw error;
-  return data === true;
+  return data === "admin" || data === "needs_google" ? data : "none";
 });
 
-/** Admin pages and actions call this first. Non-admins get a 404, so the area isn't revealed. */
+/**
+ * Admin pages and actions call this first. Non-admins get a 404, so the area isn't revealed.
+ * An admin account signed in without Google is sent to sign in with Google (the database
+ * grants admin rights only to Google sessions anyway).
+ */
 export async function requireAdmin(): Promise<SessionUser> {
   const user = await requireUser("/admin");
-  if (!(await isCurrentUserAdmin())) notFound();
+  const status = await getAdminStatus();
+  if (status === "none") notFound();
+  if (status === "needs_google") redirect("/admin-sign-in");
   return user;
 }
 

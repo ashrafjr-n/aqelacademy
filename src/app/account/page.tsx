@@ -8,7 +8,7 @@ import { FormAlert } from "@/components/forms/form-alert";
 import { buttonClassName } from "@/components/ui/button-styles";
 import { adminCopy } from "@/content/admin";
 import { getNotice } from "@/content/notices";
-import { isCurrentUserAdmin } from "@/lib/dal/admin";
+import { getAdminStatus } from "@/lib/dal/admin";
 import { getMyProfile } from "@/lib/dal/profiles";
 
 export const metadata: Metadata = {
@@ -20,7 +20,8 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
   const { notice } = await searchParams;
   const noticeMessage = getNotice(notice);
   const profile = await getMyProfile();
-  const isAdmin = await isCurrentUserAdmin();
+  // Any admin account (whatever the sign-in method) sees the dashboard link and can't self-delete.
+  const isAdmin = (await getAdminStatus()) !== "none";
 
   return (
     <>
