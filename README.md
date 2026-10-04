@@ -107,6 +107,23 @@ npx supabase db push
 
 `npm run test:db` replays the migrations on a temporary local Postgres and checks the access rules. It needs `initdb`, `pg_ctl`, and `psql` on `PATH`. Docker is not required.
 
+## Backups
+
+`.github/workflows/backup.yml` runs `scripts/backup-db.sh` every day at 02:17 UTC.
+
+- **What it does:** a data-only `pg_dump` (our tables plus `auth.users`/`auth.identities`; the schema lives in the migrations) → gzip → AES-256 (`openssl`, PBKDF2) → Cloudflare R2. The R2 bucket deletes objects after 30 days.
+- **Side effect:** the daily run also keeps the free Supabase project from pausing.
+- **Secrets it needs:** `SUPABASE_DB_URL` (session pooler URI), `BACKUP_PASSPHRASE`, `R2_ACCOUNT_ID`, `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`. Until they're set, the workflow skips.
+
+To restore into a project that already has the migrations applied:
+
+```bash
+openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -in aqelacademy-<date>.sql.gz.enc | gunzip > backup.sql
+PGOPTIONS='-c session_replication_role=replica' psql "$SUPABASE_DB_URL" -f backup.sql
+```
+
+`session_replication_role=replica` stops the sign-up trigger from creating duplicate profiles during the restore.
+
 ## Pages
 
 | Route              | Page                         |
