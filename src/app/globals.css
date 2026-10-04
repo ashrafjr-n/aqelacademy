@@ -1,21 +1,28 @@
 @import "tailwindcss";
 
-/* Palette from the old WordPress theme (EduPress); brand orange darkened to pass WCAG AA (4.5:1) with white text. */
+/* Navy + orange from the old WordPress theme (EduPress); brand orange darkened to pass WCAG AA (4.5:1) with white text. */
 @theme {
   --color-brand: #c2410c;
   --color-brand-dark: #9a3412;
   --color-brand-soft: #fff3eb;
   --color-ink: #162648;
-  --color-body: #555555;
-  --color-surface: #f5f5f5;
-  --color-line: #eaeaea;
+  --color-ink-dark: #0e1a33;
+  --color-body: #4d5566;
+  --color-canvas: #f5f6fa;
+  --color-surface: #f1f3f7;
+  --color-line: #e3e6ee;
   --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #128c4b;
   --color-danger: #b42318;
   --color-danger-soft: #fef3f2;
   --color-success: #067647;
   --color-success-soft: #ecfdf3;
   --color-warning: #b54708;
   --color-warning-soft: #fffaeb;
+
+  --shadow-card: 0 1px 2px rgb(22 38 72 / 0.04), 0 2px 8px -2px rgb(22 38 72 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(22 38 72 / 0.04), 0 12px 28px -8px rgb(22 38 72 / 0.14);
+  --shadow-pop: 0 4px 8px rgb(22 38 72 / 0.06), 0 24px 48px -12px rgb(22 38 72 / 0.24);
 }
 
 @theme inline {
@@ -32,4 +39,9 @@
 body {
   background: #ffffff;
   color: var(--color-body);
+}
+
+::selection {
+  background: var(--color-brand-soft);
+  color: var(--color-ink);
 }
