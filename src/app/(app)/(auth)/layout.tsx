@@ -8,9 +8,9 @@ import { site } from "@/content/site";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <section className="bg-surface py-10 sm:py-16">
+    <section className="py-10 sm:py-16">
       <div className="container-site">
-        <div className="mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-line bg-white shadow-sm lg:grid-cols-[1.1fr_1fr]">
+        <div className="mx-auto grid max-w-5xl overflow-hidden rounded-2xl border border-line bg-white shadow-lift lg:grid-cols-[1.1fr_1fr]">
           <div className="p-6 sm:p-10">
             <Link href="/" className="mb-8 flex justify-center lg:hidden">
               <Image src={site.logo.src} alt={site.logo.alt} sizes="64px" className="size-16" />
@@ -18,7 +18,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             {children}
           </div>
 
-          <aside className="hidden flex-col justify-between gap-10 bg-ink p-10 text-white lg:flex">
+          <aside className="hidden flex-col justify-between gap-10 bg-linear-to-b from-ink to-ink-dark p-10 text-white lg:flex">
             <div>
               <div className="flex size-20 items-center justify-center rounded-full bg-white p-1.5">
                 <Image src={site.logo.src} alt={site.logo.alt} sizes="80px" className="size-full" />
@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
             <p className="flex items-center gap-2 text-sm text-white/70">
-              <ShieldCheck aria-hidden="true" className="size-5 text-brand" />
+              <ShieldCheck aria-hidden="true" className="size-5 text-brand-light" />
               {authPanel.security}
             </p>
           </aside>
