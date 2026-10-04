@@ -24,7 +24,9 @@ export function MessagesMenu({ feed, onRefresh }: MessagesMenuProps) {
     >
       <PanelHeader title={messagesCopy.inboxTitle} />
       {feed.items.length === 0 ? (
-        <p className="px-4 py-10 text-center text-sm leading-relaxed">{messagesCopy.noConversations}</p>
+        <p className="px-4 py-10 text-center text-sm leading-relaxed">
+          {messagesCopy.noConversations} {messagesCopy.noConversationsText}
+        </p>
       ) : (
         <ul className="divide-y divide-line">
           {feed.items.map((conversation) => (
