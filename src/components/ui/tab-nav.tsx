@@ -9,14 +9,19 @@ interface TabNavProps {
   label: string;
 }
 
-/** Pill-style section tabs; the tab matching the current path is marked as the current page. */
+/** Pill-style section tabs; the tab owning the current path is marked as the current page. */
 export function TabNav({ tabs, label }: TabNavProps) {
   const pathname = usePathname();
+  // The longest tab path that contains the current page wins (/account/bookings/123 → "حجوزاتي").
+  const activeHref = tabs
+    .map((tab) => tab.href)
+    .filter((href) => pathname === href || pathname.startsWith(`${href}/`))
+    .sort((a, b) => b.length - a.length)[0];
 
   return (
     <nav aria-label={label} className="flex gap-2 rounded-full bg-surface p-1.5">
       {tabs.map((tab) => {
-        const isActive = pathname === tab.href;
+        const isActive = tab.href === activeHref;
         return (
           <Link
             key={tab.href}
