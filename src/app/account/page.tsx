@@ -1,8 +1,9 @@
-import { LayoutDashboard, LogOut } from "lucide-react";
+import { LayoutDashboard, LogOut, Trash2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { signOut } from "@/app/account/actions";
+import { deleteAccount, signOut } from "@/app/account/actions";
 import { ProfileForm } from "@/app/account/profile-form";
+import { ConfirmSubmitButton } from "@/components/forms/confirm-submit-button";
 import { FormAlert } from "@/components/forms/form-alert";
 import { buttonClassName } from "@/components/ui/button-styles";
 import { adminCopy } from "@/content/admin";
@@ -60,6 +61,16 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
           </button>
         </form>
       </section>
+
+      {!isAdmin && (
+        <section className="space-y-4 rounded-3xl border border-danger/30 bg-white p-6 sm:p-8">
+          <h2 className="text-lg font-bold text-danger">حذف الحساب</h2>
+          <p className="leading-relaxed">يحذف حسابك وبياناتك وحجوزاتك ورسائلك نهائيًا، ولا يمكن التراجع عن ذلك.</p>
+          <form action={deleteAccount}>
+            <ConfirmSubmitButton label="حذف حسابي نهائيًا" question="متأكد؟ لا يمكن التراجع." icon={Trash2} />
+          </form>
+        </section>
+      )}
     </>
   );
 }
