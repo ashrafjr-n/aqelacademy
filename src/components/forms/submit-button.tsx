@@ -23,7 +23,7 @@ export function SubmitButton({ label, pendingLabel, variant = "primary", icon, f
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className={`${buttonClassName(variant)} py-3.5 text-base ${fullWidth ? "w-full" : ""}`}
+      className={`${buttonClassName(variant)} py-3 text-base ${fullWidth ? "w-full" : ""}`}
     >
       {pending ? <LoaderCircle aria-hidden="true" className="size-5 animate-spin" /> : icon}
       {pending ? pendingLabel : label}

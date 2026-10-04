@@ -27,7 +27,7 @@ export function ConfirmSubmitButton({ label, question, icon, variant = "danger" 
   }
 
   return (
-    <div role="group" aria-label={question} className="flex flex-wrap items-center gap-2 rounded-full bg-surface p-1.5 ps-4">
+    <div role="group" aria-label={question} className="flex flex-wrap items-center gap-2 rounded-xl bg-surface p-1.5 ps-4">
       <span className="font-bold text-ink">{question}</span>
       <button type="submit" disabled={pending} className={`${buttonClassName(variant)} py-3 text-base`}>
         نعم، {label}
