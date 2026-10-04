@@ -40,7 +40,6 @@ export const adminCopy = {
   studentsCard: "الطلاب المسجّلون",
   approvedCard: "طلبات تمت الموافقة عليها",
   latestPending: "أقدم الطلبات المنتظرة",
-  allPending: "عرض كل الطلبات",
   noteLabel: "ملاحظة الطالب",
   noPhone: "لم يضف رقم هاتف",
   studentsSearch: "ابحث بالاسم أو البريد الإلكتروني",
