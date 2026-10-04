@@ -21,6 +21,13 @@ export const bookingStatuses: Record<BookingStatus, { label: string; tone: Statu
   },
 };
 
+/** What happens after booking, shown on the booking page. */
+export const bookingFlow = [
+  { title: "أرسل طلبك", text: "أكّد الحجز من هذه الصفحة، مع ملاحظة للدكتور إن أردت." },
+  { title: "يراجعه الدكتور", text: "يصلك إشعار هنا وعلى بريدك عند الرد على طلبك." },
+  { title: "التواصل والترتيب", text: "بعد الموافقة يتواصل معك الدكتور لترتيب التفاصيل." },
+];
+
 /** The student's view of a booking's journey, in order. */
 export const bookingSteps = ["أُرسل الطلب", "مراجعة الدكتور", "التواصل والترتيب"] as const;
 
@@ -29,8 +36,10 @@ export type BookingFailure = "duplicate" | "rate_limited" | "unavailable";
 export const bookingCopy = {
   bookTitle: "تأكيد الحجز",
   bookIntro: "راجع تفاصيل الدورة ثم أكّد طلبك. سيصل الطلب إلى الدكتور ليراجعه ويتواصل معك.",
+  flowTitle: "كيف يتم الحجز؟",
+  formTitle: "تأكيد الطلب",
   noteHint: "مثل الوقت المناسب للتواصل. لا تكتب معلومات صحية أو شخصية حساسة.",
-  phoneTip: "أضف رقم هاتفك في صفحة بياناتك ليتمكن الدكتور من التواصل معك أسرع.",
+  phoneTip: "أضف رقم هاتفك ليتواصل معك الدكتور أسرع، من صفحة",
   alreadyBooked: "لديك طلب قائم لهذه الدورة.",
   listTitle: "حجوزاتي",
   empty: "لم تحجز أي دورة بعد.",

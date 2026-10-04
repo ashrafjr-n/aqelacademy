@@ -1,18 +1,20 @@
-import { CalendarCheck, Clock, Phone } from "lucide-react";
+import { CalendarCheck, Phone } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BookingForm } from "@/app/(app)/courses/[slug]/book/booking-form";
+import { CourseSummaryCard } from "@/components/courses/course-summary-card";
+import { BackLink } from "@/components/ui/back-link";
 import { ButtonLink } from "@/components/ui/button-link";
-import { PageHeader } from "@/components/ui/page-header";
+import { Card } from "@/components/ui/card";
+import { PageTitle } from "@/components/ui/page-title";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { bookingCopy, bookingStatuses } from "@/content/bookings";
+import { accountSections } from "@/content/account";
+import { bookingCopy, bookingFlow, bookingStatuses } from "@/content/bookings";
 import { getCourse } from "@/content/courses";
 import { getMyOpenBooking } from "@/lib/dal/bookings";
 import { getMyProfile } from "@/lib/dal/profiles";
 import { requireUser } from "@/lib/dal/session";
-import { formatPrice } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: bookingCopy.bookTitle,
@@ -29,34 +31,16 @@ export default async function BookCoursePage({ params }: PageProps<"/courses/[sl
   const openStatus = openBooking ? bookingStatuses[openBooking.status] : null;
 
   return (
-    <>
-      <PageHeader
-        title={bookingCopy.bookTitle}
-        parents={[
-          { href: "/courses", label: "الدورات التدريبية" },
-          { href: `/courses/${course.slug}`, label: course.title },
-        ]}
-      />
-      <div className="container-site py-12">
-        <div className="mx-auto max-w-2xl space-y-6 rounded-3xl border border-line bg-white p-6 sm:p-8">
-          <div className="flex items-center gap-4">
-            <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl bg-surface">
-              <Image src={course.image.src} alt="" fill sizes="80px" className="object-cover" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold leading-snug text-ink">{course.title}</h2>
-              <p className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-                <span className="font-bold text-ink">{formatPrice(course.priceUsd)}</span>
-                <span className="flex items-center gap-1.5">
-                  <Clock aria-hidden="true" className="size-4 text-brand" />
-                  {course.durationWeeks} أسابيع
-                </span>
-              </p>
-            </div>
-          </div>
+    <div className="container-site py-8 sm:py-12">
+      <BackLink href={`/courses/${course.slug}`} label={course.title} />
+      <div className="mt-4">
+        <PageTitle title={bookingCopy.bookTitle} description={bookingCopy.bookIntro} />
+      </div>
 
+      <div className="mt-8 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div className="space-y-6">
           {openBooking && openStatus ? (
-            <div className="space-y-4 rounded-2xl bg-surface p-5">
+            <Card>
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="flex items-center gap-2 font-bold text-ink">
                   <CalendarCheck aria-hidden="true" className="size-5 text-brand" />
@@ -64,30 +48,51 @@ export default async function BookCoursePage({ params }: PageProps<"/courses/[sl
                 </p>
                 <StatusBadge tone={openStatus.tone} label={openStatus.label} />
               </div>
-              <p className="text-sm leading-relaxed">{openStatus.description}</p>
-              <ButtonLink href="/account/bookings" variant="outline">
-                عرض حجوزاتي
-              </ButtonLink>
-            </div>
+              <p className="mt-3 leading-relaxed">{openStatus.description}</p>
+              <div className="mt-5">
+                <ButtonLink href={accountSections.bookings.href} variant="outline">
+                  عرض حجوزاتي
+                </ButtonLink>
+              </div>
+            </Card>
           ) : (
             <>
-              <p className="leading-relaxed">{bookingCopy.bookIntro}</p>
-              {!profile?.phone && (
-                <p className="flex items-start gap-2 rounded-2xl bg-brand-soft p-4 text-sm leading-relaxed text-ink">
-                  <Phone aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-brand" />
-                  <span>
-                    {bookingCopy.phoneTip}{" "}
-                    <Link href="/account" className="font-bold text-brand underline hover:text-brand-dark">
-                      بياناتي
-                    </Link>
-                  </span>
-                </p>
-              )}
-              <BookingForm courseSlug={course.slug} />
+              <Card title={bookingCopy.flowTitle}>
+                <ol className="grid gap-5 sm:grid-cols-3">
+                  {bookingFlow.map((step, index) => (
+                    <li key={step.title} className="flex gap-3 sm:flex-col">
+                      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-soft text-sm font-extrabold text-brand-dark">{index + 1}</span>
+                      <span>
+                        <span className="block font-bold text-ink">{step.title}</span>
+                        <span className="mt-1 block text-sm leading-relaxed">{step.text}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </Card>
+
+              <Card title={bookingCopy.formTitle}>
+                {!profile?.phone && (
+                  <p className="mb-5 flex items-start gap-2 rounded-xl bg-brand-soft p-4 text-sm leading-relaxed text-ink">
+                    <Phone aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-brand" />
+                    <span>
+                      {bookingCopy.phoneTip}{" "}
+                      <Link href={accountSections.profile.href} className="font-bold text-brand underline hover:text-brand-dark">
+                        {accountSections.profile.label}
+                      </Link>
+                    </span>
+                  </p>
+                )}
+                <BookingForm courseSlug={course.slug} />
+              </Card>
             </>
           )}
         </div>
+
+        <aside className="lg:sticky lg:top-24">
+          <CourseSummaryCard course={course} bookable={false} />
+        </aside>
       </div>
-    </>
+    </div>
   );
 }
