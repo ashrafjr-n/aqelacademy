@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-/* Palette copied from the old WordPress theme (EduPress). */
+/* Palette from the old WordPress theme (EduPress); brand orange darkened to pass WCAG AA (4.5:1) with white text. */
 @theme {
-  --color-brand: #ff782d;
-  --color-brand-dark: #e8621a;
+  --color-brand: #c2410c;
+  --color-brand-dark: #9a3412;
   --color-brand-soft: #fff3eb;
   --color-ink: #162648;
   --color-body: #555555;
