@@ -14,16 +14,18 @@ export function StatCard({ href, label, value, icon: Icon, highlight = false }: 
   return (
     <Link
       href={href}
-      className={`flex items-center gap-4 rounded-3xl border p-6 transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-brand ${highlight ? "border-brand bg-brand-soft" : "border-line bg-white"}`}
+      className={`group flex flex-col gap-4 rounded-2xl border p-5 shadow-card transition-shadow hover:shadow-lift focus-visible:outline-2 focus-visible:outline-brand ${highlight ? "border-brand/30 bg-brand-soft" : "border-line bg-white"}`}
     >
-      <span className={`flex size-14 shrink-0 items-center justify-center rounded-2xl ${highlight ? "bg-brand text-white" : "bg-surface text-brand"}`}>
-        <Icon aria-hidden="true" className="size-7" />
+      <span className="flex items-center justify-between">
+        <span className={`flex size-11 items-center justify-center rounded-xl ${highlight ? "bg-brand text-white" : "bg-surface text-ink/70"}`}>
+          <Icon aria-hidden="true" className="size-6" />
+        </span>
+        <ChevronLeft aria-hidden="true" className="size-5 text-body/40 transition-colors group-hover:text-body" />
       </span>
-      <span className="flex-1">
-        <span className="block text-4xl font-extrabold text-ink">{value}</span>
-        <span className="mt-1 block font-bold">{label}</span>
+      <span>
+        <span className="block text-4xl font-extrabold tabular-nums text-ink">{value}</span>
+        <span className="mt-1 block text-base font-bold">{label}</span>
       </span>
-      <ChevronLeft aria-hidden="true" className="size-6 text-body" />
     </Link>
   );
 }
