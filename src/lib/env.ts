@@ -11,6 +11,16 @@ const envSchema = z.object({
     .string()
     .optional()
     .transform((value) => value || undefined),
+  /** Resend API key (Worker secret). Without it, notification emails are skipped. */
+  RESEND_API_KEY: z
+    .string()
+    .optional()
+    .transform((value) => value || undefined),
+  /** Inbox that receives "new booking" and student message emails (the doctor's). */
+  NOTIFY_EMAIL: z
+    .union([z.email(), z.literal("")])
+    .optional()
+    .transform((value) => value || undefined),
 });
 
 export type ServerEnv = z.infer<typeof envSchema>;
