@@ -115,6 +115,8 @@ npx supabase db push
 | `/auth/confirm`    | Confirm an email link        |
 | `/account`         | Profile and sign out         |
 | `/account/bookings` | My bookings and their status |
+| `/account/notifications` | Notifications (open one to mark it read) |
+| `/api/notifications/summary` | Unread count for the header bell (JSON, private) |
 | `/courses/[slug]/book` | Confirm a course booking (signed in) |
 | `/admin`           | Doctor dashboard: overview (admins only) |
 | `/admin/bookings`  | Booking requests: approve, reject, reopen |
