@@ -65,6 +65,16 @@ npx supabase config diff
 npx supabase config push
 ```
 
+## Security
+
+- **Headers:** set in `next.config.ts` for every route.
+  - A Content-Security-Policy that allows only our origin, Cloudflare Turnstile and Google Identity Services.
+  - Also HSTS, `X-Frame-Options: DENY`, `nosniff`, a strict `Referrer-Policy` and `Permissions-Policy`, and COOP `same-origin-allow-popups` for the Google popup.
+  - Static assets get basic headers from `public/_headers`.
+- **CSP trade-off:** it has no nonces, so public pages stay statically prerendered. That's why `'unsafe-inline'` scripts are allowed.
+- **Account deletion:** users can delete their account themselves (`public.delete_my_account()`). It cascades to profile, bookings, messages and notifications.
+- **CI:** GitHub Actions run typecheck, lint and the database security tests on every push. Dependabot keeps npm packages and actions up to date.
+
 ## Deployment
 
 The site runs on Cloudflare Workers (worker name `aqelacademy`, configured in `wrangler.jsonc`) and is served on `aqelacademy.com`. `www.aqelacademy.com` redirects to the apex domain.
@@ -123,6 +133,7 @@ npx supabase db push
 | `/admin/bookings`  | Booking requests: approve, reject, reopen |
 | `/admin/bookings/[id]` | One request: decision buttons, student contact, conversation |
 | `/admin/messages`  | Conversations inbox, newest first, with unread counts |
+| `/robots.txt`, `/sitemap.xml` | Search engine rules (private areas disallowed) and public pages |
 | `/admin/students`  | Registered students with search and contact buttons |
 
 ## Project structure
