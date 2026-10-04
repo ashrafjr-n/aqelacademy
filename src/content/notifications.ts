@@ -38,5 +38,6 @@ export const notificationsCopy = {
   title: "الإشعارات",
   empty: "لا توجد إشعارات بعد.",
   markAllRead: "تحديد الكل كمقروء",
+  seeAll: "عرض كل الإشعارات",
   unread: "جديد",
 };

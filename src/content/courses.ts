@@ -2,7 +2,7 @@ import abatImage from "@/assets/images/courses/abat.jpg";
 import drPortrait from "@/assets/images/dr-muaffaq-portrait.jpg";
 import type { Course, Instructor } from "@/types/content";
 
-const drMuaffaq: Instructor = {
+export const drMuaffaq: Instructor = {
   name: "د. موفق عقل",
   title: "حاصل على البورد الأمريكي في تحليل السلوك التطبيقي (ABA)",
   image: { src: drPortrait, alt: "الدكتور موفق عقل" },
