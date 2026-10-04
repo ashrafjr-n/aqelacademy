@@ -1,4 +1,4 @@
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, MessageCircle } from "lucide-react";
 import type { Metadata } from "next";
 import { FormAlert } from "@/components/forms/form-alert";
 import { ButtonLink } from "@/components/ui/button-link";
@@ -6,7 +6,9 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { getNotice } from "@/content/notices";
 import { bookingCopy, bookingStatuses } from "@/content/bookings";
 import { getCourse } from "@/content/courses";
+import { messagesCopy } from "@/content/messages";
 import { getMyBookings } from "@/lib/dal/bookings";
+import { getMyUnreadMessageCounts } from "@/lib/dal/messages";
 import { formatDate } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -17,11 +19,12 @@ export const metadata: Metadata = {
 export default async function MyBookingsPage({ searchParams }: PageProps<"/account/bookings">) {
   const { notice } = await searchParams;
   const noticeMessage = getNotice(notice);
-  const bookings = await getMyBookings();
+  const [bookings, unreadCounts] = await Promise.all([getMyBookings(), getMyUnreadMessageCounts()]);
   const items = bookings.map((booking) => ({
     ...booking,
     courseTitle: getCourse(booking.course_slug)?.title ?? booking.course_slug,
     statusInfo: bookingStatuses[booking.status],
+    unreadMessages: unreadCounts[booking.id] ?? 0,
   }));
 
   return (
@@ -54,6 +57,17 @@ export default async function MyBookingsPage({ searchParams }: PageProps<"/accou
                   {booking.user_note}
                 </p>
               )}
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <ButtonLink href={`/account/bookings/${booking.id}`} variant="outline">
+                  <MessageCircle aria-hidden="true" className="size-5" />
+                  التفاصيل والمحادثة
+                </ButtonLink>
+                {booking.unreadMessages > 0 && (
+                  <span className="rounded-full bg-brand px-3 py-1 text-sm font-bold text-white">
+                    {messagesCopy.newMessages(booking.unreadMessages)}
+                  </span>
+                )}
+              </div>
             </li>
           ))}
         </ul>
