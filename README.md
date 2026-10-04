@@ -82,7 +82,7 @@ The database runs on [Supabase](https://supabase.com) (Postgres). The schema liv
 
 - **Tables:** profiles, courses, bookings, messages, notifications, audit log.
 - **Access rules:** every table has Row Level Security. Grants are explicit and column-level wherever a client can write. Anonymous visitors get no access.
-- **Admins:** listed in `private.admins`, which is not exposed through the API.
+- **Admins:** listed in `private.admins`, which is not exposed through the API. The app asks `public.current_user_is_admin()`. Non-admins get a 404 on `/admin`.
 - **Server-side logic:** booking decisions, notifications, the audit log, and rate limits are written by database triggers, never by clients.
 
 Apply migrations to the linked project:
@@ -116,6 +116,9 @@ npx supabase db push
 | `/account`         | Profile and sign out         |
 | `/account/bookings` | My bookings and their status |
 | `/courses/[slug]/book` | Confirm a course booking (signed in) |
+| `/admin`           | Doctor dashboard: overview (admins only) |
+| `/admin/bookings`  | Booking requests: approve, reject, reopen |
+| `/admin/students`  | Registered students with search and contact buttons |
 
 ## Project structure
 
