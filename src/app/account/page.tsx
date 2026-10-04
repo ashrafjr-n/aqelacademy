@@ -1,11 +1,13 @@
-import { LogOut } from "lucide-react";
+import { LayoutDashboard, LogOut } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { signOut } from "@/app/account/actions";
 import { ProfileForm } from "@/app/account/profile-form";
 import { FormAlert } from "@/components/forms/form-alert";
 import { buttonClassName } from "@/components/ui/button-styles";
+import { adminCopy } from "@/content/admin";
 import { getNotice } from "@/content/notices";
+import { isCurrentUserAdmin } from "@/lib/dal/admin";
 import { getMyProfile } from "@/lib/dal/profiles";
 
 export const metadata: Metadata = {
@@ -17,10 +19,21 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
   const { notice } = await searchParams;
   const noticeMessage = getNotice(notice);
   const profile = await getMyProfile();
+  const isAdmin = await isCurrentUserAdmin();
 
   return (
     <>
       {noticeMessage && <FormAlert tone={noticeMessage.tone} message={noticeMessage.text} />}
+
+      {isAdmin && (
+        <Link
+          href="/admin"
+          className="flex items-center gap-4 rounded-3xl border border-brand bg-brand-soft p-6 font-bold text-ink transition-shadow hover:shadow-md"
+        >
+          <LayoutDashboard aria-hidden="true" className="size-7 text-brand" />
+          <span className="text-lg">{adminCopy.title}</span>
+        </Link>
+      )}
 
       {profile ? (
         <section className="rounded-3xl border border-line bg-white p-6 sm:p-8">
