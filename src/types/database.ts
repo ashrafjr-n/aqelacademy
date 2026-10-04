@@ -154,6 +154,7 @@ export type Database = {
       notifications: {
         Row: {
           booking_id: string | null
+          booking_status: Database["public"]["Enums"]["booking_status"] | null
           created_at: string
           id: string
           read_at: string | null
@@ -162,6 +163,7 @@ export type Database = {
         }
         Insert: {
           booking_id?: string | null
+          booking_status?: Database["public"]["Enums"]["booking_status"] | null
           created_at?: string
           id?: string
           read_at?: string | null
@@ -170,6 +172,7 @@ export type Database = {
         }
         Update: {
           booking_id?: string | null
+          booking_status?: Database["public"]["Enums"]["booking_status"] | null
           created_at?: string
           id?: string
           read_at?: string | null
