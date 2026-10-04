@@ -7,7 +7,10 @@ const envSchema = z.object({
   SUPABASE_PUBLISHABLE_KEY: z.string().min(1),
   TURNSTILE_SITE_KEY: z.string().min(1),
   /** Public Google OAuth client ID. Without it the "Continue with Google" button is hidden. */
-  GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+  GOOGLE_CLIENT_ID: z
+    .string()
+    .optional()
+    .transform((value) => value || undefined),
 });
 
 export type ServerEnv = z.infer<typeof envSchema>;
