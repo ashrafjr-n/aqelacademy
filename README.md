@@ -56,7 +56,8 @@ Locally they live in `.env.local`. In production they are Worker variables (set 
 Accounts use Supabase Auth with email and password, or "Continue with Google": Google Identity Services gives the browser an ID token, and Supabase verifies it with a per-attempt nonce. The flow lives in `src/app/(app)/(auth)` and `src/app/(app)/account`:
 
 - **Sign-up:** email confirmation is required. The confirmation email carries a 6-digit code that the student types on the sign-up page (or on the login page, for an account that is not confirmed yet); the email also keeps a fallback link. Sign-up, login and password reset are protected by Turnstile, which Supabase Auth verifies.
-- **Email links** (password reset, email change, and the sign-up fallback link): they open `/auth/confirm`, which verifies the token only after a click, so link scanners can't use it up.
+- **Password reset:** the reset email also carries a 6-digit code, typed on the "forgot password" page, which then leads to setting a new password.
+- **Email links** (email change, and the fallback links in the sign-up and reset emails): they open `/auth/confirm`, which verifies the token only after a click, so link scanners can't use it up.
 - **Session cookies:** they are `httpOnly`. `src/middleware.ts` refreshes the session before protected pages render and redirects signed-out visitors to `/login`.
 - **Server checks:** every page and action re-checks the user through the data access layer in `src/lib/dal`.
 
