@@ -2,7 +2,7 @@ import type { AuthError } from "@supabase/supabase-js";
 
 const messages: Record<string, string> = {
   invalid_credentials: "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
-  email_not_confirmed: "حسابك غير مفعّل بعد. افتح رابط التأكيد الذي أرسلناه إلى بريدك، أو اطلب رابطًا جديدًا بالأسفل.",
+  email_not_confirmed: "حسابك غير مفعّل بعد. أدخل رمز التأكيد الذي أرسلناه إلى بريدك في الأسفل، أو اطلب رمزًا جديدًا.",
   captcha_failed: "تعذّر التحقق من أنك لست روبوتًا. حاول مرة أخرى.",
   over_request_rate_limit: "محاولات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.",
   over_email_send_rate_limit: "أرسلنا رسائل كثيرة مؤخرًا. انتظر قليلًا ثم حاول مرة أخرى.",
@@ -11,7 +11,7 @@ const messages: Record<string, string> = {
   email_address_invalid: "أدخل بريدًا إلكترونيًا صحيحًا.",
   signup_disabled: "التسجيل متوقف حاليًا.",
   reauthentication_needed: "يرجى تسجيل الدخول من جديد ثم المحاولة.",
-  otp_expired: "انتهت صلاحية الرابط. اطلب رابطًا جديدًا.",
+  otp_expired: "الرمز غير صحيح أو انتهت صلاحيته. تحقّق منه أو اطلب رمزًا جديدًا.",
 };
 
 const fallback = "حدث خطأ غير متوقع. حاول مرة أخرى.";

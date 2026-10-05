@@ -3,7 +3,7 @@
 import { Mail } from "lucide-react";
 import { useActionState } from "react";
 import { signIn } from "@/app/(app)/(auth)/actions";
-import { ResendConfirmation } from "@/app/(app)/(auth)/login/resend-confirmation";
+import { EmailCodeForm } from "@/components/auth/email-code-form";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
 import { PasswordField } from "@/components/forms/password-field";
@@ -44,7 +44,7 @@ export function LoginForm({ siteKey, nextPath }: LoginFormProps) {
         </div>
         <SubmitButton label="تسجيل الدخول" pendingLabel="جارٍ تسجيل الدخول…" />
       </form>
-      {needsConfirmation && <ResendConfirmation email={state.values?.email ?? ""} siteKey={siteKey} />}
+      {needsConfirmation && <EmailCodeForm email={state.values?.email ?? ""} nextPath={nextPath} siteKey={siteKey} />}
     </div>
   );
 }

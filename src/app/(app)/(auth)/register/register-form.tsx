@@ -4,6 +4,7 @@ import { Mail, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useActionState } from "react";
 import { signUp } from "@/app/(app)/(auth)/actions";
+import { EmailCodeForm } from "@/components/auth/email-code-form";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
 import { PasswordField } from "@/components/forms/password-field";
@@ -21,7 +22,12 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
   const [state, formAction] = useActionState(signUp, initialFormState);
 
   if (state.status === "success" && state.message) {
-    return <FormAlert tone="success" message={state.message} />;
+    return (
+      <div className="space-y-5">
+        <FormAlert tone="success" message={state.message} />
+        <EmailCodeForm email={state.values?.email ?? ""} nextPath="/account?notice=email-confirmed" siteKey={siteKey} />
+      </div>
+    );
   }
 
   return (

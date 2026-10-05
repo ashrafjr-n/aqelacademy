@@ -30,7 +30,7 @@ export function ResendConfirmation({ email, siteKey }: ResendConfirmationProps) 
         <TurnstileWidget key={state.attempt} siteKey={siteKey} />
         <FieldMessage id="field-resend-captcha" error={state.fieldErrors?.captchaToken ?? state.fieldErrors?.email} />
       </div>
-      <SubmitButton label="أعد إرسال رابط التأكيد" pendingLabel="جارٍ الإرسال…" variant="outline" />
+      <SubmitButton label={authCopy.resendConfirmation.submit} pendingLabel="جارٍ الإرسال…" variant="outline" />
     </form>
   );
 }
