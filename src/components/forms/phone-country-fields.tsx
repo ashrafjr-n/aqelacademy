@@ -1,6 +1,6 @@
 "use client";
 
-import { Globe, Phone } from "lucide-react";
+import { ChevronDown, Globe, Phone } from "lucide-react";
 import { useState } from "react";
 import { describedByOf, FieldShell, fieldIconClassName, fieldIdOf, inputClassName } from "@/components/forms/field";
 import { countries, dialCodeOf } from "@/content/countries";
@@ -42,15 +42,19 @@ export function PhoneCountryFields({ defaultCountry = "", defaultPhone = "", cou
             onChange={(event) => setCountry(event.target.value)}
             aria-invalid={countryError ? true : undefined}
             aria-describedby={describedByOf(countryId, countryError)}
-            className={`${inputClassName} pl-4 pr-11`}
+            className={`${inputClassName} appearance-none pl-10 pr-11`}
           >
             <option value="">— اختر الدولة —</option>
             {countries.map((option) => (
               <option key={option.code} value={option.code}>
-                {option.name}
+                {/* Isolated left-to-right so "+962" doesn't flip to "962+" in the RTL list. */}
+                {`${option.name} \u2066+${option.dialCode}\u2069`}
               </option>
             ))}
           </select>
+          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-body/60">
+            <ChevronDown aria-hidden="true" className="size-5" />
+          </span>
         </div>
       </FieldShell>
 
