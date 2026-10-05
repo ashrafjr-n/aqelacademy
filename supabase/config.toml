@@ -229,10 +229,11 @@ enable_confirmations = true
 secure_password_change = true
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
 max_frequency = "60s"
-# Number of characters used in the email OTP (the sign-up confirmation code students type).
-otp_length = 6
+# Number of characters used in the email OTP (the sign-up and password reset code students type).
+# 8 digits + a 15-minute life keep guessing out of reach; EMAIL_CODE_LENGTH in src/content/auth.ts must match.
+otp_length = 8
 # Number of seconds before the email OTP expires (defaults to 1 hour).
-otp_expiry = 3600
+otp_expiry = 900
 
 # Resend SMTP. The API key comes from supabase/.env (gitignored) when running `supabase config push`.
 [auth.email.smtp]
