@@ -3,7 +3,7 @@
 # The remote is named "backup" (today the academy's Google Drive; R2 or any other rclone storage
 # works by changing only the rclone config). Copies older than 30 days are deleted for good, as the
 # privacy policy promises. The schema lives in supabase/migrations, so only data is dumped.
-# Restore: see "Backups" in README.md.
+# Restore: see "Backups" in docs/operations.md.
 #
 # Env: SUPABASE_DB_URL, BACKUP_PASSPHRASE, and for the upload RCLONE_CONFIG (path to an rclone config
 # with a "backup" remote). BACKUP_DRY_RUN=1 skips the upload.

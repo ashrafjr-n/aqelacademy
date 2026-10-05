@@ -16,7 +16,7 @@ jobs:
     env:
       SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
       BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
-      # The text of an rclone config holding a remote named "backup" (see README → Backups).
+      # The text of an rclone config holding a remote named "backup" (see docs/operations.md → Backups).
       RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
     steps:
       - name: Check configuration

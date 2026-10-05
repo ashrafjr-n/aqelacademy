@@ -2,7 +2,7 @@ name: Keep database awake
 
 # The free Supabase project pauses after 7 days without database activity.
 # One request a day to the site's health endpoint runs a tiny query.
-# UptimeRobot pings the same endpoint every few minutes (see README → Keep-alive); this is the backup.
+# UptimeRobot pings the same endpoint every few minutes (see docs/operations.md → Keep-alive); this is the backup.
 on:
   schedule:
     - cron: "41 6 * * *"
