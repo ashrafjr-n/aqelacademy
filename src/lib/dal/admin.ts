@@ -103,18 +103,26 @@ export interface DecidedBooking {
   student: Pick<ProfileRow, "full_name" | "email"> | null;
 }
 
-/** Returns null when no row changed (e.g. the booking no longer exists). The DB stamps who decided and notifies the student in-app. */
-export async function setBookingStatus(bookingId: string, status: BookingStatus): Promise<DecidedBooking | null> {
+/** "unchanged": the booking already had that status (e.g. a second click from an old tab). */
+export type DecisionResult = { outcome: "changed"; booking: DecidedBooking } | { outcome: "unchanged" | "missing" };
+
+/** Only a real change counts, so the student hears about each decision once. The DB stamps who decided and notifies the student in-app. */
+export async function setBookingStatus(bookingId: string, status: BookingStatus): Promise<DecisionResult> {
   await requireAdmin();
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("bookings")
     .update({ status })
     .eq("id", bookingId)
+    .neq("status", status)
     .select("id, course_slug, student:profiles!bookings_user_id_fkey(full_name, email)")
     .maybeSingle();
   if (error) throw error;
-  return data ? { id: data.id, courseSlug: data.course_slug, student: data.student } : null;
+  if (data) return { outcome: "changed", booking: { id: data.id, courseSlug: data.course_slug, student: data.student } };
+
+  const { data: existing, error: readError } = await supabase.from("bookings").select("id").eq("id", bookingId).maybeSingle();
+  if (readError) throw readError;
+  return { outcome: existing ? "unchanged" : "missing" };
 }
 
 /** Keeps letters, digits and email characters only, so the term can't break the PostgREST filter syntax. */

@@ -22,10 +22,10 @@ export async function decideBooking(formData: FormData): Promise<void> {
   if (!parsed.success) redirect("/admin/bookings?notice=decision-failed");
 
   const { bookingId, decision, returnTo } = parsed.data;
-  const updated = await setBookingStatus(bookingId, decision);
-  if (updated) after(() => emailBookingDecision(updated, decision));
+  const result = await setBookingStatus(bookingId, decision);
+  if (result.outcome === "changed") after(() => emailBookingDecision(result.booking, decision));
   revalidatePath("/admin", "layout");
   revalidatePath("/account/bookings");
-  const notice = updated ? `booking-${decision}` : "decision-failed";
+  const notice = result.outcome === "missing" ? "decision-failed" : `booking-${decision}`;
   redirect(returnTo === "detail" ? `/admin/bookings/${bookingId}?notice=${notice}` : `/admin/bookings?status=${returnTo}&notice=${notice}`);
 }
