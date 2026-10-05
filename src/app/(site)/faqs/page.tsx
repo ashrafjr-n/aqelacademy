@@ -17,7 +17,7 @@ export default function FaqsPage() {
         <div className="mx-auto max-w-3xl space-y-4">
           {faqs.map((faq) => (
             <details key={faq.id} className={`${cardClassName} group open:shadow-lift`}>
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-lg font-bold text-ink [&::-webkit-details-marker]:hidden">
+              <summary className="flex list-none items-center justify-between gap-4 p-5 text-lg font-bold text-ink [&::-webkit-details-marker]:hidden">
                 {faq.question}
                 <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-surface transition-colors group-open:bg-brand-soft">
                   <ChevronDown aria-hidden="true" className="size-5 text-brand transition-transform group-open:rotate-180" />
