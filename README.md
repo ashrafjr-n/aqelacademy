@@ -163,6 +163,8 @@ PGOPTIONS='-c session_replication_role=replica' psql "$SUPABASE_DB_URL" -f backu
 | `/robots.txt`, `/sitemap.xml` | Search engine rules (private areas disallowed) and public pages |
 | `/admin/students`  | Registered students with search and contact buttons |
 
+Every page carries Open Graph tags, so shared links (WhatsApp, Facebook) show a title, a description and an image: the academy's share card (`src/assets/images/share.jpg`), or the article's own image.
+
 ## Project structure
 
 ```
