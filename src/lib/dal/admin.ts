@@ -74,7 +74,8 @@ export const getAdminCounts = cache(async (): Promise<AdminCounts> => {
     countBookings("pending"),
     countBookings("approved"),
     countBookings("rejected"),
-    supabase.from("profiles").select("id", { count: "exact", head: true }),
+    // ponytail: "everyone but me" equals "students" while there's a single admin (private.admins isn't readable).
+    supabase.from("profiles").select("id", { count: "exact", head: true }).neq("id", user.id),
     // ponytail: "not sent by me" equals "from a student" while there's a single admin; compare with booking owners if more join.
     supabase.from("messages").select("id", { count: "exact", head: true }).neq("sender_id", user.id).is("read_at", null),
   ]);
@@ -135,12 +136,14 @@ function sanitizeSearch(term: string): string {
   return term.replace(/[^\p{L}\p{N}@.+_\- ]/gu, "").trim().slice(0, 60);
 }
 
+/** Everyone who signed up, except the doctor's own account. */
 export async function getStudents(search: string): Promise<AdminStudent[]> {
-  await requireAdmin();
+  const user = await requireAdmin();
   const supabase = await createClient();
   let query = supabase
     .from("profiles")
     .select("id, full_name, email, phone, country, created_at, bookings(count)")
+    .neq("id", user.id)
     .order("created_at", { ascending: false })
     .limit(LIST_LIMIT);
 
