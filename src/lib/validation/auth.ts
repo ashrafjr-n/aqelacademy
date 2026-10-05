@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { EMAIL_CODE_LENGTH } from "@/content/auth";
 import { countries, dialCodeOf } from "@/content/countries";
 
 const countryCodes = countries.map((country) => country.code);
@@ -42,11 +43,11 @@ function toLatinDigits(value: string): string {
     .replace(/[\u06f0-\u06f9]/g, (digit) => String(digit.charCodeAt(0) - 0x06f0));
 }
 
-/** The 6-digit code from a sign-up or password reset email (`otp_length` in supabase/config.toml). */
+/** The code from a sign-up or password reset email. */
 const emailCodeInputSchema = z
   .string()
   .transform((value) => toLatinDigits(value).replace(/\s/g, ""))
-  .pipe(z.string().regex(/^[0-9]{6}$/, { error: "أدخل الرمز المكوّن من 6 أرقام." }));
+  .pipe(z.string().regex(new RegExp(`^[0-9]{${EMAIL_CODE_LENGTH}}$`), { error: `أدخل الرمز المكوّن من ${EMAIL_CODE_LENGTH} أرقام.` }));
 
 interface ContactInput {
   phone: string;

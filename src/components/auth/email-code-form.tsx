@@ -21,7 +21,7 @@ interface EmailCodeFormProps {
   siteKey: string;
 }
 
-/** The 6-digit code from a sign-up or password reset email, plus a way to get a new one. */
+/** The code from a sign-up or password reset email, plus a way to get a new one. */
 export function EmailCodeForm({ type, email, nextPath, siteKey }: EmailCodeFormProps) {
   const [state, formAction] = useActionState(verifyEmailCode, initialFormState);
   const id = fieldIdOf("code");

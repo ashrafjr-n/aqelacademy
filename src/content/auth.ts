@@ -1,3 +1,6 @@
+/** Digits in the code from a sign-up or password reset email; must match `otp_length` in supabase/config.toml. */
+export const EMAIL_CODE_LENGTH = 8;
+
 export const authCopy = {
   login: {
     title: "تسجيل الدخول",
@@ -7,7 +10,7 @@ export const authCopy = {
     title: "إنشاء حساب",
     subtitle: "سجّل لتتمكن من حجز الدورات ومتابعة طلباتك والتواصل مع الدكتور.",
     success:
-      "تم إنشاء حسابك! أرسلنا رمز تأكيد من 6 أرقام إلى بريدك الإلكتروني. أدخله في الأسفل لتفعيل حسابك (تفقّد مجلد الرسائل غير المرغوب فيها إن لم تجده).",
+      `تم إنشاء حسابك! أرسلنا رمز تأكيد من ${EMAIL_CODE_LENGTH} أرقام إلى بريدك الإلكتروني. أدخله في الأسفل لتفعيل حسابك (تفقّد مجلد الرسائل غير المرغوب فيها إن لم تجده).`,
   },
   emailCode: {
     label: "رمز التأكيد",
