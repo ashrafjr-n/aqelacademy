@@ -24,10 +24,11 @@ export async function getAccountSummary(): Promise<AccountSummary> {
   const user = await getCurrentUser();
   if (!user) return { kind: "guest" };
 
-  const [profile, adminStatus] = await Promise.all([getMyProfile(), getAdminStatus()]);
-  if (adminStatus !== "none") return { kind: "admin" };
+  // The doctor's header needs nothing else, so his minute-by-minute refresh stays one query.
+  if ((await getAdminStatus()) !== "none") return { kind: "admin" };
 
-  const [notifications, unreadNotifications, conversations] = await Promise.all([
+  const [profile, notifications, unreadNotifications, conversations] = await Promise.all([
+    getMyProfile(),
     getMyNotifications(PANEL_SIZE + 1),
     getMyUnreadCount(),
     getMyConversations(),
