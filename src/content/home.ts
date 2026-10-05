@@ -46,7 +46,7 @@ export const journeySection = {
 };
 
 export const homeCta = {
-  title: "جاهز تبدأ رحلتك التدريبية؟",
+  title: "هل أنت مستعد لبدء رحلتك التدريبية؟",
   text: "أنشئ حسابك واحجز مقعدك في الدورة، وسيتواصل معك الدكتور لترتيب التفاصيل.",
   primaryAction: { href: "/register", label: "أنشئ حسابك" } satisfies NavLink,
   secondaryAction: { href: "/courses", label: "استعرض الدورات" } satisfies NavLink,

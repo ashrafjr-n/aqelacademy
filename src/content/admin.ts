@@ -10,7 +10,7 @@ export const adminSections = {
 
 /** Booking list filters, in the order the doctor sees them. */
 export const adminBookingFilters: { status: BookingStatus; label: string; empty: string }[] = [
-  { status: "pending", label: "بانتظار ردّك", empty: "لا توجد طلبات جديدة. كل شيء تمام!" },
+  { status: "pending", label: "بانتظار ردّك", empty: "لا توجد طلبات جديدة حاليًا." },
   { status: "approved", label: "تمت الموافقة", empty: "لا توجد طلبات موافق عليها بعد." },
   { status: "rejected", label: "غير موافق عليها", empty: "لا توجد طلبات مرفوضة." },
 ];
@@ -22,13 +22,13 @@ export const adminCopy = {
   backToSite: "العودة إلى الموقع",
   backToSiteShort: "الموقع",
   signOut: "تسجيل الخروج",
-  greeting: "أهلًا بك دكتور",
+  greeting: "أهلًا بك يا دكتور",
   overview: "هذا ملخص طلبات الأكاديمية ورسائلها اليوم.",
   unreadCard: "رسائل لم تقرأها",
   rejectedFilter: "غير موافق عليها",
   latestMessages: "آخر الرسائل",
   seeAll: "عرض الكل",
-  noPending: "لا توجد طلبات جديدة. كل شيء تمام!",
+  noPending: "لا توجد طلبات جديدة حاليًا.",
   noPendingText: "ستظهر هنا الطلبات الجديدة فور وصولها.",
   bookingsDescription: "راجع الطلبات ووافق عليها أو ارفضها، وتواصل مع الطلاب.",
   messagesDescription: "محادثاتك مع الطلاب، الأحدث أولًا.",
@@ -49,9 +49,9 @@ export const adminCopy = {
 };
 
 export function adminWhatsAppMessage(studentName: string, courseTitle: string): string {
-  return `مرحبًا ${studentName}، معك الدكتور موفق عقل بخصوص طلبك لـ ${courseTitle}.`;
+  return `مرحبًا ${studentName}، أنا الدكتور موفق عقل، أتواصل معك بخصوص طلبك لـ ${courseTitle}.`;
 }
 
 export function adminStudentWhatsAppMessage(studentName: string): string {
-  return `مرحبًا ${studentName}، معك الدكتور موفق عقل من الأكاديمية.`;
+  return `مرحبًا ${studentName}، أنا الدكتور موفق عقل من الأكاديمية.`;
 }
