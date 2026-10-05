@@ -2,6 +2,7 @@ import { Clock, GraduationCap, MessageCircle, Signal, UserRound } from "lucide-r
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button-link";
 import { cardClassName } from "@/components/ui/card";
+import { courseDurationLabel, courseHoursLabel } from "@/content/courses";
 import { formatCourseLevel, formatPrice } from "@/lib/format";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Course } from "@/types/content";
@@ -15,8 +16,8 @@ interface CourseSummaryCardProps {
 export function CourseSummaryCard({ course, bookable = true }: CourseSummaryCardProps) {
   const questionUrl = whatsappUrl(`مرحبًا، لدي استفسار عن ${course.title}`);
   const details = [
-    { id: "duration", icon: Clock, label: "المدة", value: `${course.durationWeeks} أسابيع` },
-    { id: "hours", icon: GraduationCap, label: "عدد الساعات", value: `${course.trainingHours} ساعة تدريبية` },
+    { id: "duration", icon: Clock, label: "المدة", value: courseDurationLabel(course.durationWeeks) },
+    { id: "hours", icon: GraduationCap, label: "عدد الساعات", value: courseHoursLabel(course.trainingHours) },
     { id: "level", icon: Signal, label: "المستوى", value: formatCourseLevel(course.level) },
     { id: "instructor", icon: UserRound, label: "المدرب", value: course.instructor.name },
   ];

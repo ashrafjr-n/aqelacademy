@@ -1,5 +1,6 @@
 import abatImage from "@/assets/images/courses/abat.jpg";
 import drPortrait from "@/assets/images/dr-muaffaq-portrait.jpg";
+import { formatCount } from "@/lib/format";
 import type { Course, Instructor } from "@/types/content";
 
 export const drMuaffaq: Instructor = {
@@ -72,6 +73,20 @@ export const courses: Course[] = [
     ],
   },
 ];
+
+export function courseDurationLabel(weeks: number): string {
+  return formatCount(weeks, { one: "أسبوع واحد", two: "أسبوعان", few: "# أسابيع", many: "# أسبوعًا", other: "# أسبوع" });
+}
+
+export function courseHoursLabel(hours: number): string {
+  return formatCount(hours, {
+    one: "ساعة تدريبية واحدة",
+    two: "ساعتان تدريبيتان",
+    few: "# ساعات تدريبية",
+    many: "# ساعة تدريبية",
+    other: "# ساعة تدريبية",
+  });
+}
 
 export function getCourse(slug: string): Course | undefined {
   return courses.find((course) => course.slug === slug);

@@ -1,3 +1,5 @@
+import { formatCount } from "@/lib/format";
+
 export type MessageFailure = "not_allowed" | "rate_limited" | "invalid";
 
 export const MESSAGE_MAX_LENGTH = 1000;
@@ -22,7 +24,8 @@ export const messagesCopy = {
   seeAll: "عرض كل الرسائل",
   inboxEmpty: "لا توجد محادثات بعد. تبدأ المحادثة من صفحة أي طلب.",
   openConversation: "فتح المحادثة",
-  newMessages: (count: number) => (count === 1 ? "رسالة جديدة" : `${count} رسائل جديدة`),
+  newMessages: (count: number) =>
+    formatCount(count, { one: "رسالة جديدة", two: "رسالتان جديدتان", few: "# رسائل جديدة", many: "# رسالة جديدة", other: "# رسالة جديدة" }),
   failures: {
     not_allowed: "لا يمكن إرسال رسائل في هذا الطلب حاليًا.",
     rate_limited: "أرسلت رسائل كثيرة بسرعة. انتظر دقيقة ثم حاول مرة أخرى.",

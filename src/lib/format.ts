@@ -33,6 +33,18 @@ export function formatCourseLevel(level: CourseLevel): string {
   return courseLevelLabels[level];
 }
 
+const pluralRules = new Intl.PluralRules("ar");
+
+/** A counted noun in each Arabic number form; `#` stands for the number. `zero` falls back to `other`. */
+export type CountForms = Record<Exclude<Intl.LDMLPluralRule, "zero">, string> & { zero?: string };
+
+/** "طلب واحد", "طلبان", "3 طلبات", "11 طلبًا", "100 طلب": the browser's Arabic plural rules pick the form. */
+export function formatCount(count: number, forms: CountForms): string {
+  const category = pluralRules.select(count);
+  const form = category === "zero" ? (forms.zero ?? forms.other) : forms[category];
+  return form.replace("#", String(count));
+}
+
 const relativeFormatter = new Intl.RelativeTimeFormat("ar-u-nu-latn", { numeric: "auto" });
 
 const relativeSteps: [Intl.RelativeTimeFormatUnit, number][] = [

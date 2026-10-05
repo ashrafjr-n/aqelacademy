@@ -1,4 +1,5 @@
 import type { BookingStatus } from "@/content/bookings";
+import { formatCount } from "@/lib/format";
 import type { NavLink } from "@/types/content";
 
 export const adminSections = {
@@ -37,7 +38,8 @@ export const adminCopy = {
   decisions: "القرار",
   contact: "التواصل مع الطالب",
   joinedOn: "انضم في",
-  bookingsCount: (count: number) => (count === 1 ? "طلب واحد" : `${count} طلبات`),
+  bookingsCount: (count: number) =>
+    formatCount(count, { zero: "لا توجد طلبات", one: "طلب واحد", two: "طلبان", few: "# طلبات", many: "# طلبًا", other: "# طلب" }),
   pendingCard: "طلبات بانتظار ردّك",
   studentsCard: "الطلاب المسجّلون",
   approvedCard: "طلبات تمت الموافقة عليها",

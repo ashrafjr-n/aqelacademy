@@ -2,6 +2,7 @@ import { ArrowLeft, Clock, GraduationCap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { cardClassName } from "@/components/ui/card";
+import { courseDurationLabel, courseHoursLabel } from "@/content/courses";
 import { formatPrice } from "@/lib/format";
 import type { Course } from "@/types/content";
 
@@ -38,11 +39,11 @@ export function CourseCard({ course, preload = false }: CourseCardProps) {
         <ul className="mt-4 mb-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
           <li className="flex items-center gap-1.5">
             <Clock aria-hidden="true" className="size-4 text-body/60" />
-            {course.durationWeeks} أسابيع
+            {courseDurationLabel(course.durationWeeks)}
           </li>
           <li className="flex items-center gap-1.5">
             <GraduationCap aria-hidden="true" className="size-4 text-body/60" />
-            {course.trainingHours} ساعة تدريبية
+            {courseHoursLabel(course.trainingHours)}
           </li>
         </ul>
         <div className="mt-auto border-t border-line pt-4">
