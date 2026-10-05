@@ -28,9 +28,6 @@ export const bookingFlow = [
   { title: "التواصل والترتيب", text: "بعد الموافقة يتواصل معك الدكتور لترتيب التفاصيل." },
 ];
 
-/** The student's view of a booking's journey, in order. */
-export const bookingSteps = ["أُرسل الطلب", "مراجعة الدكتور", "التواصل والترتيب"] as const;
-
 export type BookingFailure = "duplicate" | "rate_limited" | "unavailable";
 
 export const bookingCopy = {

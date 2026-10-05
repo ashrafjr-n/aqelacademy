@@ -1,6 +1,5 @@
 import { CalendarDays } from "lucide-react";
 import Image from "next/image";
-import { BookingProgress } from "@/components/bookings/booking-progress";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { bookingCopy, bookingStatuses } from "@/content/bookings";
 import { getCourse } from "@/content/courses";
@@ -13,7 +12,7 @@ interface BookingSummaryProps {
   headingLevel?: "h1" | "h2";
 }
 
-/** A student's booking: the course, its status, the progress tracker and their note. Sits inside a card. */
+/** A student's booking: the course, its status and their note. Sits inside a card. */
 export function BookingSummary({ booking, headingLevel = "h2" }: BookingSummaryProps) {
   const course = getCourse(booking.course_slug);
   const statusInfo = bookingStatuses[booking.status];
@@ -40,7 +39,6 @@ export function BookingSummary({ booking, headingLevel = "h2" }: BookingSummaryP
       </div>
 
       <div className="space-y-4 border-t border-line bg-canvas/60 p-5 sm:p-6">
-        <BookingProgress status={booking.status} />
         <p className="text-sm leading-relaxed">{statusInfo.description}</p>
         {booking.user_note && (
           <p className="rounded-xl bg-white p-3.5 text-sm leading-relaxed">
