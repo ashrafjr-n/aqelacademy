@@ -25,6 +25,7 @@ export function ConversationPanel({ conversation, counterpart, emptyText }: Conv
   const threadId = `thread-${booking.id}`;
   const lastMessageId = messages.at(-1)?.id ?? null;
   const hasUnread = messages.some((message) => !message.isMine && !message.isRead);
+  const closedText = booking.status === "rejected" ? messagesCopy.closedRejected : messagesCopy.waitForApproval;
 
   return (
     <section aria-labelledby={`${threadId}-title`} className={`${cardClassName} overflow-hidden`}>
@@ -42,7 +43,7 @@ export function ConversationPanel({ conversation, counterpart, emptyText }: Conv
         {canSend ? (
           <MessageComposer bookingId={booking.id} />
         ) : (
-          <p className="rounded-xl bg-brand-soft p-3.5 text-center text-sm font-semibold text-ink">{messagesCopy.waitForApproval}</p>
+          <p className="rounded-xl bg-brand-soft p-3.5 text-center text-sm font-semibold text-ink">{closedText}</p>
         )}
       </div>
       <ConversationSync bookingId={booking.id} threadId={threadId} lastMessageId={lastMessageId} hasUnread={hasUnread} />

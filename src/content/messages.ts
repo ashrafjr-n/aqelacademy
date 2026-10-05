@@ -12,6 +12,7 @@ export const messagesCopy = {
   empty: "لا توجد رسائل بعد.",
   emptyAdmin: "لا توجد رسائل بعد. اكتب أول رسالة للطالب.",
   waitForApproval: "تستطيع مراسلة الدكتور بعد الموافقة على طلبك.",
+  closedRejected: "لا تتوفر المراسلة في طلب لم تتم الموافقة عليه. إن كان لديك استفسار، تواصل معنا عبر واتساب.",
   composerLabel: "رسالتك",
   composerPlaceholder: "اكتب رسالتك…",
   composerHint: "لا تكتب معلومات صحية أو بيانات حساسة.",
