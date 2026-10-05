@@ -128,7 +128,7 @@ One-time setup:
 1. `brew install rclone`, then `rclone config create backup drive scope=drive.file` and sign in with the academy's Google account. `drive.file` lets rclone see only the files it creates.
 2. Save `rclone config show backup` as the `RCLONE_CONF` secret.
 3. Generate a passphrase (`openssl rand -base64 32`), keep it in the academy's password manager, and save it as `BACKUP_PASSPHRASE`. Without it the backups can't be opened.
-4. Supabase → Connect → Session pooler: save the URI (with the database password) as `SUPABASE_DB_URL`.
+4. Supabase → Connect → Session pooler: save the URI (with the database password) as `SUPABASE_DB_URL`. Use a letters-and-digits password (Supabase's "Generate a password"), or percent-encode special characters (`@` → `%40`); the script refuses a malformed URL so the password never reaches the public log.
 5. GitHub → Actions → Database backup → Run workflow, then check the Drive folder.
 
 To restore into a project that already has the migrations applied (download the file from Drive first, e.g. `rclone copy backup:aqelacademy-backups/<file> .`):
