@@ -35,6 +35,19 @@ const countrySchema = z
 
 const captchaTokenSchema = z.string().min(1, { error: "يرجى الانتظار حتى يكتمل التحقق الأمني." });
 
+/** Phone keyboards may type Arabic-Indic digits (٠-٩ or ۰-۹); codes are checked as Latin digits. */
+function toLatinDigits(value: string): string {
+  return value
+    .replace(/[\u0660-\u0669]/g, (digit) => String(digit.charCodeAt(0) - 0x0660))
+    .replace(/[\u06f0-\u06f9]/g, (digit) => String(digit.charCodeAt(0) - 0x06f0));
+}
+
+/** The 6-digit code from the sign-up confirmation email (`otp_length` in supabase/config.toml). */
+const emailCodeInputSchema = z
+  .string()
+  .transform((value) => toLatinDigits(value).replace(/\s/g, ""))
+  .pipe(z.string().regex(/^[0-9]{6}$/, { error: "أدخل الرمز المكوّن من 6 أرقام." }));
+
 interface ContactInput {
   phone: string;
   country: string | null;
@@ -80,10 +93,15 @@ export const loginSchema = z.object({
   captchaToken: captchaTokenSchema,
 });
 
-/** Password reset request and "resend confirmation link". */
+/** Password reset request and "resend confirmation code". */
 export const emailWithCaptchaSchema = z.object({
   email: emailSchema,
   captchaToken: captchaTokenSchema,
+});
+
+export const emailCodeSchema = z.object({
+  email: emailSchema,
+  code: emailCodeInputSchema,
 });
 
 export const resetPasswordSchema = z

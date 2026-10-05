@@ -10,7 +10,7 @@ import { requireUser } from "@/lib/dal/session";
 import { getEnv } from "@/lib/env";
 import { fieldErrorsOf, formValues, type FormState } from "@/lib/forms";
 import { createClient } from "@/lib/supabase/server";
-import { emailWithCaptchaSchema, loginSchema, registerSchema, resetPasswordSchema } from "@/lib/validation/auth";
+import { emailCodeSchema, emailWithCaptchaSchema, loginSchema, registerSchema, resetPasswordSchema } from "@/lib/validation/auth";
 
 /** Where auth emails send people back to; the route picks the next page by link type. */
 function emailLinkTarget(): string {
@@ -52,7 +52,22 @@ export async function signUp(previous: FormState, formData: FormData): Promise<F
   if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
 
   // Same answer whether or not the email was already registered (no account enumeration).
-  return { status: "success", message: authCopy.register.success, attempt };
+  // The email is echoed back for the code step.
+  return { status: "success", message: authCopy.register.success, values: { email }, attempt };
+}
+
+/** Activates an email sign-up with the code from the confirmation email; Supabase signs the user in. */
+export async function verifyEmailCode(previous: FormState, formData: FormData): Promise<FormState> {
+  const attempt = previous.attempt + 1;
+  const values = formValues(formData, ["code"]);
+  const parsed = emailCodeSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.verifyOtp({ email: parsed.data.email, token: parsed.data.code, type: "email" });
+  if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
+
+  redirect(safeNextPath(formData.get("next")));
 }
 
 export async function requestPasswordReset(previous: FormState, formData: FormData): Promise<FormState> {
