@@ -23,8 +23,8 @@ export function renderNotificationEmail({ title, body, actionLabel, actionUrl }:
       <p style="margin:0 0 24px;font-size:14px;color:#555555;">${escapeHtml(site.name)}</p>
       <h1 style="margin:0 0 16px;font-size:22px;">${escapeHtml(title)}</h1>
       <p style="margin:0 0 24px;font-size:16px;line-height:1.8;color:#555555;">${escapeHtml(body)}</p>
-      <p style="margin:0 0 24px;"><a href="${escapeHtml(actionUrl)}" style="display:inline-block;background:#ff782d;color:#ffffff;text-decoration:none;font-weight:bold;padding:12px 28px;border-radius:999px;">${escapeHtml(actionLabel)}</a></p>
-      <p style="margin:0;font-size:13px;line-height:1.8;color:#888888;">وصلتك هذه الرسالة لأن لديك حسابًا في المنصّة. لا تردّ على هذا البريد؛ استخدم الرسائل داخل المنصّة.</p>
+      <p style="margin:0 0 24px;"><a href="${escapeHtml(actionUrl)}" style="display:inline-block;background:#c2410c;color:#ffffff;text-decoration:none;font-weight:bold;padding:12px 28px;border-radius:999px;">${escapeHtml(actionLabel)}</a></p>
+      <p style="margin:0;font-size:13px;line-height:1.8;color:#888888;">وصلتك هذه الرسالة لأن لديك حسابًا في المنصّة. للتواصل بخصوص طلبك، استخدم الرسائل داخل المنصّة.</p>
     </div>
   </body>
 </html>`;
