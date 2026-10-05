@@ -110,17 +110,28 @@ npx supabase db push
 
 ## Keep-alive
 
-The free Supabase project pauses after 7 days without database activity. `.github/workflows/keep-alive.yml` calls `https://aqelacademy.com/api/health` once a day, which runs `public.health_check()`. It needs no secrets.
+The free Supabase project pauses after 7 days without database activity. Two things call `https://aqelacademy.com/api/health`, which runs `public.health_check()`:
+
+- **UptimeRobot** (free, on the academy's Google account): every 5 minutes. It also emails an alert when the site is down.
+- **`.github/workflows/keep-alive.yml`**: once a day, as a backup. It also re-enables itself and the backup workflow, because GitHub turns off schedules in a public repo after 60 days without commits.
 
 ## Backups
 
 `.github/workflows/backup.yml` runs `scripts/backup-db.sh` every day at 02:17 UTC.
 
-- **What it does:** a data-only `pg_dump` (our tables plus `auth.users`/`auth.identities`; the schema lives in the migrations) → gzip → AES-256 (`openssl`, PBKDF2) → Cloudflare R2. The R2 bucket deletes objects after 30 days.
-- **Side effect:** the daily run also keeps the free Supabase project from pausing.
-- **Secrets it needs:** `SUPABASE_DB_URL` (session pooler URI), `BACKUP_PASSPHRASE`, `R2_ACCOUNT_ID`, `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`. Until they're set, the workflow skips.
+- **What it does:** a data-only `pg_dump` (our tables plus `auth.users`/`auth.identities`; the schema lives in the migrations) → gzip → AES-256 (`openssl`, PBKDF2) → the academy's Google Drive, folder `aqelacademy-backups`, through [rclone](https://rclone.org). Copies older than 30 days are deleted for good.
+- **Secrets it needs:** `SUPABASE_DB_URL` (session pooler URI), `BACKUP_PASSPHRASE`, and `RCLONE_CONF` (an rclone config with a remote named `backup`). Until they're set, the workflow skips.
+- **Moving to Cloudflare R2 later:** create an R2 remote named `backup` in rclone and replace `RCLONE_CONF`. Nothing else changes.
 
-To restore into a project that already has the migrations applied:
+One-time setup:
+
+1. `brew install rclone`, then `rclone config create backup drive scope=drive.file` and sign in with the academy's Google account. `drive.file` lets rclone see only the files it creates.
+2. Save `rclone config show backup` as the `RCLONE_CONF` secret.
+3. Generate a passphrase (`openssl rand -base64 32`), keep it in the academy's password manager, and save it as `BACKUP_PASSPHRASE`. Without it the backups can't be opened.
+4. Supabase → Connect → Session pooler: save the URI (with the database password) as `SUPABASE_DB_URL`.
+5. GitHub → Actions → Database backup → Run workflow, then check the Drive folder.
+
+To restore into a project that already has the migrations applied (download the file from Drive first, e.g. `rclone copy backup:aqelacademy-backups/<file> .`):
 
 ```bash
 openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -in aqelacademy-<date>.sql.gz.enc | gunzip > backup.sql
