@@ -20,7 +20,7 @@ export const accountCopy = {
   deleteButton: "حذف حسابي نهائيًا",
   deleteQuestion: "هل أنت متأكد؟ لا يمكن التراجع عن ذلك.",
   loadFailed: "تعذّر تحميل بيانات حسابك. حاول تحديث الصفحة.",
-  adminCard: "افتح لوحة الدكتور لإدارة الطلبات والرسائل.",
+  adminCard: "افتح لوحة التحكم لإدارة الطلبات والرسائل.",
   bookingsDescription: "تابع حالة طلباتك وتواصل مع الدكتور.",
   bookCourse: "احجز دورة",
   messagesDescription: "محادثاتك مع الدكتور، محادثة لكل حجز.",

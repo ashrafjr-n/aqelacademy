@@ -97,7 +97,7 @@ export function HeaderAccount() {
     return (
       <Link href={adminSections.home.href} className={accountTriggerClassName}>
         <DoctorAvatar size="sm" />
-        <span className="sr-only text-sm font-bold sm:not-sr-only">{adminCopy.headerLink}</span>
+        <span className="sr-only text-sm font-bold sm:not-sr-only">{adminCopy.title}</span>
       </Link>
     );
   }
