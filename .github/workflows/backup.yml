@@ -1,7 +1,7 @@
 name: Database backup
 
-# Daily encrypted data backup to Cloudflare R2. It also keeps the free Supabase project
-# from pausing after 7 days without database activity.
+# Daily encrypted data backup to the academy's Google Drive (any rclone remote named "backup").
+# It also keeps the free Supabase project from pausing after 7 days without database activity.
 on:
   schedule:
     - cron: "17 2 * * *"
@@ -16,15 +16,13 @@ jobs:
     env:
       SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
       BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
-      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-      R2_BUCKET: ${{ secrets.R2_BUCKET }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      # The text of an rclone config holding a remote named "backup" (see README → Backups).
+      RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
     steps:
       - name: Check configuration
         id: config
         run: |
-          if [ -z "$SUPABASE_DB_URL" ] || [ -z "$BACKUP_PASSPHRASE" ] || [ -z "$R2_BUCKET" ]; then
+          if [ -z "$SUPABASE_DB_URL" ] || [ -z "$BACKUP_PASSPHRASE" ] || [ -z "$RCLONE_CONF" ]; then
             echo "::notice::Backup secrets are not set yet; skipping."
             echo "ready=false" >> "$GITHUB_OUTPUT"
           else
@@ -35,7 +33,7 @@ jobs:
         if: steps.config.outputs.ready == 'true'
 
       # pg_dump must be at least the server's major version (Supabase runs Postgres 17).
-      - name: Install pg_dump 17
+      - name: Install pg_dump 17 and rclone
         if: steps.config.outputs.ready == 'true'
         run: |
           sudo apt-get update -qq
@@ -43,7 +41,12 @@ jobs:
           sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
           sudo apt-get install -y -qq postgresql-client-17
           echo "/usr/lib/postgresql/17/bin" >> "$GITHUB_PATH"
+          # Ubuntu's packaged rclone is years old; use the current release, like the one that made the config.
+          curl -fsSL -o "$RUNNER_TEMP/rclone.deb" https://downloads.rclone.org/rclone-current-linux-amd64.deb
+          sudo dpkg -i "$RUNNER_TEMP/rclone.deb" >/dev/null
 
       - name: Back up and upload
         if: steps.config.outputs.ready == 'true'
-        run: ./scripts/backup-db.sh
+        run: |
+          printf '%s\n' "$RCLONE_CONF" > "$RUNNER_TEMP/rclone.conf"
+          RCLONE_CONFIG="$RUNNER_TEMP/rclone.conf" ./scripts/backup-db.sh
