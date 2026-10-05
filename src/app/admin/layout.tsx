@@ -1,4 +1,4 @@
-import { ExternalLink, LayoutDashboard, LogOut, MessageCircle, Ticket, Users } from "lucide-react";
+import { House, LayoutDashboard, LogOut, MessageCircle, Ticket, Users } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { signOut } from "@/app/(app)/account/actions";
 import { AdminSidebarNav, AdminTabBar } from "@/components/admin/admin-nav";
 import { AppFooter } from "@/components/layout/app-footer";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";
+import { buttonClassName } from "@/components/ui/button-styles";
 import type { SideNavItem } from "@/components/ui/side-nav";
 import { adminCopy, adminSections } from "@/content/admin";
 import { site } from "@/content/site";
@@ -24,7 +25,7 @@ const iconButtonClassName =
 const footerItemClassName =
   "flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-start text-sm font-bold transition-colors focus-visible:outline-2 focus-visible:outline-brand";
 
-/** The doctor's own app shell: sidebar on large screens, top bar and bottom tabs on phones. Larger text throughout. */
+/** The doctor's own app shell: a top bar with the way back to the site, plus a sidebar on large screens or bottom tabs on phones. Larger text throughout. */
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   await requireAdmin();
   const [counts, profile] = await Promise.all([getAdminCounts(), getMyProfile()]);
@@ -59,10 +60,6 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <DoctorAvatar size="sm" />
             <p className="truncate text-sm font-bold text-ink">{name}</p>
           </div>
-          <Link href="/" className={`${footerItemClassName} text-ink hover:bg-surface`}>
-            <ExternalLink aria-hidden="true" className="size-5 text-body/60" />
-            {adminCopy.viewSite}
-          </Link>
           <form action={signOut}>
             <button type="submit" className={`${footerItemClassName} text-danger hover:bg-danger-soft`}>
               <LogOut aria-hidden="true" className="size-5" />
@@ -73,16 +70,19 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line bg-white/90 px-4 backdrop-blur-md lg:hidden">
-          <Link href={adminSections.home.href} className="flex items-center gap-2.5">
+        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line bg-white/90 px-4 backdrop-blur-md sm:px-8">
+          <Link href={adminSections.home.href} className="flex items-center gap-2.5 lg:hidden">
             <Image src={site.logo.src} alt="" className="size-10" sizes="40px" />
             <span className="text-lg font-extrabold text-ink">{adminCopy.title}</span>
           </Link>
           <div className="ms-auto flex items-center gap-1">
-            <Link href="/" aria-label={adminCopy.viewSite} className={`${iconButtonClassName} text-ink`}>
-              <ExternalLink aria-hidden="true" className="size-5" />
+            <Link href="/" className={`${buttonClassName("outline")} h-10 px-3 sm:px-4`}>
+              <House aria-hidden="true" className="size-4" />
+              <span className="sm:hidden">{adminCopy.backToSiteShort}</span>
+              <span className="hidden sm:inline">{adminCopy.backToSite}</span>
             </Link>
-            <form action={signOut}>
+            {/* The sidebar has its own sign-out button on large screens. */}
+            <form action={signOut} className="lg:hidden">
               <button type="submit" aria-label={adminCopy.signOut} className={`${iconButtonClassName} text-danger`}>
                 <LogOut aria-hidden="true" className="size-5" />
               </button>
