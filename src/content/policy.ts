@@ -3,7 +3,7 @@ import type { RichBlock } from "@/types/content";
 
 export const policy: { title: string; updatedAt: string; body: RichBlock[] } = {
   title: "سياسة الخصوصية",
-  updatedAt: "2026-10-04",
+  updatedAt: "2026-10-05",
   body: [
     {
       type: "paragraph",
@@ -58,7 +58,7 @@ export const policy: { title: string; updatedAt: string; body: RichBlock[] } = {
         "**Supabase:** قاعدة البيانات وتسجيل الدخول، على خوادم في فرانكفورت، ألمانيا.",
         "**Cloudflare:** استضافة الموقع وحمايته، والتحقق من أنك لست برنامجًا آليًا.",
         "**Resend:** إرسال رسائل البريد الإلكتروني، مثل تأكيد الحساب واستعادة كلمة المرور.",
-        "**Google:** فقط إذا اخترت تسجيل الدخول بحساب Google.",
+        "**Google:** تسجيل الدخول بحساب Google إن اخترته، وحفظ النسخ الاحتياطية المشفّرة على Google Drive.",
       ],
     },
     {
@@ -68,7 +68,7 @@ export const policy: { title: string; updatedAt: string; body: RichBlock[] } = {
     { type: "heading", level: 2, text: "5) نقل البيانات خارج بلدك" },
     {
       type: "paragraph",
-      text: "تُخزَّن بياناتك في الاتحاد الأوروبي (ألمانيا) لدى مزوّدين يطبّقون معايير حماية عالية. بموافقتك على هذه السياسة فإنك توافق على هذا النقل.",
+      text: "تُخزَّن بياناتك في الاتحاد الأوروبي (ألمانيا) لدى مزوّدين يطبّقون معايير حماية عالية، وتُحفظ نسخها الاحتياطية مشفّرةً على Google Drive. بموافقتك على هذه السياسة فإنك توافق على هذا النقل.",
     },
     { type: "heading", level: 2, text: "6) ملفات تعريف الارتباط (Cookies)" },
     {
