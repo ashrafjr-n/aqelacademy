@@ -53,7 +53,7 @@ export function AdminTabBar({ items, label }: AdminNavProps) {
             <Link
               href={item.href}
               aria-current={item.href === activeHref ? "page" : undefined}
-              className="relative flex flex-col items-center gap-1 px-1 pt-2.5 pb-2 text-xs font-bold text-body aria-[current=page]:text-brand-dark [&>svg]:size-6 [&>svg]:text-body/60 aria-[current=page]:[&>svg]:text-brand"
+              className="relative flex flex-col items-center gap-1 px-1 pt-2.5 pb-2 text-sm font-bold text-body aria-[current=page]:text-brand-dark [&>svg]:size-6 [&>svg]:text-body/60 aria-[current=page]:[&>svg]:text-brand"
             >
               {item.icon}
               {item.label}
