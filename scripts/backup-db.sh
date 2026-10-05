@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Daily encrypted data backup: pg_dump (data only) → gzip → AES-256 (openssl) → Cloudflare R2.
-# The schema lives in supabase/migrations, so only data is dumped: our tables plus accounts.
+# Daily encrypted data backup: pg_dump (data only) → gzip → AES-256 (openssl) → an rclone remote.
+# The remote is named "backup" (today the academy's Google Drive; R2 or any other rclone storage
+# works by changing only the rclone config). Copies older than 30 days are deleted for good, as the
+# privacy policy promises. The schema lives in supabase/migrations, so only data is dumped.
 # Restore: see "Backups" in README.md.
 #
-# Env: SUPABASE_DB_URL, BACKUP_PASSPHRASE, and for the upload R2_ACCOUNT_ID, R2_BUCKET,
-# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (R2 S3 credentials). BACKUP_DRY_RUN=1 skips the upload.
+# Env: SUPABASE_DB_URL, BACKUP_PASSPHRASE, and for the upload RCLONE_CONFIG (path to an rclone config
+# with a "backup" remote). BACKUP_DRY_RUN=1 skips the upload.
 set -euo pipefail
 : "${SUPABASE_DB_URL:?}" "${BACKUP_PASSPHRASE:?}"
 
@@ -20,7 +22,9 @@ if [ "${BACKUP_DRY_RUN:-}" = "1" ]; then
   exit 0
 fi
 
-: "${R2_ACCOUNT_ID:?}" "${R2_BUCKET:?}" "${AWS_ACCESS_KEY_ID:?}" "${AWS_SECRET_ACCESS_KEY:?}"
-AWS_DEFAULT_REGION=auto aws s3 cp "$file" "s3://$R2_BUCKET/$file" \
-  --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com" --only-show-errors
+: "${RCLONE_CONFIG:?}"
+folder="backup:aqelacademy-backups"
+rclone copyto "$file" "$folder/$file"
+# --drive-use-trash=false: on Google Drive, delete for good instead of keeping 30 more days in the trash.
+rclone delete "$folder" --min-age 30d --drive-use-trash=false
 echo "Uploaded $file"
