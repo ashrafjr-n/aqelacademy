@@ -103,8 +103,11 @@ export interface DecidedBooking {
   student: Pick<ProfileRow, "full_name" | "email"> | null;
 }
 
-/** "unchanged": the booking already had that status (e.g. a second click from an old tab). */
-export type DecisionResult = { outcome: "changed"; booking: DecidedBooking } | { outcome: "unchanged" | "missing" };
+/**
+ * "unchanged": the booking already had that status (e.g. a second click from an old tab).
+ * "conflict": reopening an old booking while the student has a newer open one for the same course.
+ */
+export type DecisionResult = { outcome: "changed"; booking: DecidedBooking } | { outcome: "unchanged" | "missing" | "conflict" };
 
 /** Only a real change counts, so the student hears about each decision once. The DB stamps who decided and notifies the student in-app. */
 export async function setBookingStatus(bookingId: string, status: BookingStatus): Promise<DecisionResult> {
@@ -117,6 +120,8 @@ export async function setBookingStatus(bookingId: string, status: BookingStatus)
     .neq("status", status)
     .select("id, course_slug, student:profiles!bookings_user_id_fkey(full_name, email)")
     .maybeSingle();
+  // One open (pending/approved) booking per student and course: bookings_one_open_per_course_idx.
+  if (error?.code === "23505") return { outcome: "conflict" };
   if (error) throw error;
   if (data) return { outcome: "changed", booking: { id: data.id, courseSlug: data.course_slug, student: data.student } };
 

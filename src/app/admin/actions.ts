@@ -26,6 +26,6 @@ export async function decideBooking(formData: FormData): Promise<void> {
   if (result.outcome === "changed") after(() => emailBookingDecision(result.booking, decision));
   revalidatePath("/admin", "layout");
   revalidatePath("/account/bookings");
-  const notice = result.outcome === "missing" ? "decision-failed" : `booking-${decision}`;
+  const notice = result.outcome === "missing" ? "decision-failed" : result.outcome === "conflict" ? "decision-conflict" : `booking-${decision}`;
   redirect(returnTo === "detail" ? `/admin/bookings/${bookingId}?notice=${notice}` : `/admin/bookings?status=${returnTo}&notice=${notice}`);
 }

@@ -16,6 +16,10 @@ const notices = {
   "booking-rejected": { tone: "success", text: "تم رفض الطلب، وسيصل للطالب إشعار بذلك." },
   "booking-pending": { tone: "success", text: "أُعيد الطلب إلى قائمة الانتظار." },
   "decision-failed": { tone: "error", text: "لم يتم حفظ القرار. حدّث الصفحة وحاول مرة أخرى." },
+  "decision-conflict": {
+    tone: "error",
+    text: "لم يتم حفظ القرار: لدى الطالب طلب أحدث مفتوح لنفس الدورة. اتخذ قرارك في الطلب الأحدث.",
+  },
 } satisfies Record<string, Notice>;
 
 export function getNotice(code: unknown): Notice | undefined {
