@@ -42,7 +42,7 @@ function toLatinDigits(value: string): string {
     .replace(/[\u06f0-\u06f9]/g, (digit) => String(digit.charCodeAt(0) - 0x06f0));
 }
 
-/** The 6-digit code from the sign-up confirmation email (`otp_length` in supabase/config.toml). */
+/** The 6-digit code from a sign-up or password reset email (`otp_length` in supabase/config.toml). */
 const emailCodeInputSchema = z
   .string()
   .transform((value) => toLatinDigits(value).replace(/\s/g, ""))
@@ -99,9 +99,14 @@ export const emailWithCaptchaSchema = z.object({
   captchaToken: captchaTokenSchema,
 });
 
+/** "email" activates a sign-up; "recovery" starts a password reset. */
+export const emailCodeTypes = ["email", "recovery"] as const;
+export type EmailCodeType = (typeof emailCodeTypes)[number];
+
 export const emailCodeSchema = z.object({
   email: emailSchema,
   code: emailCodeInputSchema,
+  type: z.enum(emailCodeTypes),
 });
 
 export const resetPasswordSchema = z

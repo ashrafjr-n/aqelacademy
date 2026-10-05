@@ -3,6 +3,7 @@
 import { Mail } from "lucide-react";
 import { useActionState } from "react";
 import { requestPasswordReset } from "@/app/(app)/(auth)/actions";
+import { EmailCodeForm } from "@/components/auth/email-code-form";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";
@@ -18,7 +19,12 @@ export function ForgotPasswordForm({ siteKey }: ForgotPasswordFormProps) {
   const [state, formAction] = useActionState(requestPasswordReset, initialFormState);
 
   if (state.status === "success" && state.message) {
-    return <FormAlert tone="success" message={state.message} />;
+    return (
+      <div className="space-y-5">
+        <FormAlert tone="success" message={state.message} />
+        <EmailCodeForm type="recovery" email={state.values?.email ?? ""} nextPath="/reset-password" siteKey={siteKey} />
+      </div>
+    );
   }
 
   return (
@@ -39,7 +45,7 @@ export function ForgotPasswordForm({ siteKey }: ForgotPasswordFormProps) {
         <TurnstileWidget key={state.attempt} siteKey={siteKey} />
         <FieldMessage id="field-captcha" error={state.fieldErrors?.captchaToken} />
       </div>
-      <SubmitButton label="أرسل الرابط" pendingLabel="جارٍ الإرسال…" />
+      <SubmitButton label="أرسل الرمز" pendingLabel="جارٍ الإرسال…" />
     </form>
   );
 }

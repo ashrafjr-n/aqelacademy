@@ -1,21 +1,23 @@
 "use client";
 
 import { useActionState } from "react";
-import { resendConfirmation } from "@/app/(app)/(auth)/actions";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { authCopy } from "@/content/auth";
-import { initialFormState } from "@/lib/forms";
+import { initialFormState, type FormState } from "@/lib/forms";
 
-interface ResendConfirmationProps {
+interface ResendCodeFormProps {
   email: string;
   siteKey: string;
+  /** The server action that emails a new code (it reads `email` and `captchaToken`). */
+  action: (previous: FormState, formData: FormData) => Promise<FormState>;
 }
 
-export function ResendConfirmation({ email, siteKey }: ResendConfirmationProps) {
-  const [state, formAction] = useActionState(resendConfirmation, initialFormState);
+/** "Didn't get the code?": sends the email again, behind the captcha. */
+export function ResendCodeForm({ email, siteKey, action }: ResendCodeFormProps) {
+  const [state, formAction] = useActionState(action, initialFormState);
 
   if (state.status === "success" && state.message) {
     return <FormAlert tone="success" message={state.message} />;
@@ -23,14 +25,14 @@ export function ResendConfirmation({ email, siteKey }: ResendConfirmationProps) 
 
   return (
     <form action={formAction} className="space-y-3 rounded-2xl border border-line bg-surface p-4">
-      <p className="text-sm font-bold text-ink">{authCopy.resendConfirmation.prompt}</p>
+      <p className="text-sm font-bold text-ink">{authCopy.resendCode.prompt}</p>
       {state.message && <FormAlert tone="error" message={state.message} />}
       <input type="hidden" name="email" value={email} />
       <div>
         <TurnstileWidget key={state.attempt} siteKey={siteKey} />
         <FieldMessage id="field-resend-captcha" error={state.fieldErrors?.captchaToken ?? state.fieldErrors?.email} />
       </div>
-      <SubmitButton label={authCopy.resendConfirmation.submit} pendingLabel="جارٍ الإرسال…" variant="outline" />
+      <SubmitButton label={authCopy.resendCode.submit} pendingLabel="جارٍ الإرسال…" variant="outline" />
     </form>
   );
 }

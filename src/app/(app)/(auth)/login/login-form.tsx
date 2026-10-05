@@ -44,7 +44,7 @@ export function LoginForm({ siteKey, nextPath }: LoginFormProps) {
         </div>
         <SubmitButton label="تسجيل الدخول" pendingLabel="جارٍ تسجيل الدخول…" />
       </form>
-      {needsConfirmation && <EmailCodeForm email={state.values?.email ?? ""} nextPath={nextPath} siteKey={siteKey} />}
+      {needsConfirmation && <EmailCodeForm type="email" email={state.values?.email ?? ""} nextPath={nextPath} siteKey={siteKey} />}
     </div>
   );
 }

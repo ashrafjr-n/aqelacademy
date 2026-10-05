@@ -56,7 +56,7 @@ export async function signUp(previous: FormState, formData: FormData): Promise<F
   return { status: "success", message: authCopy.register.success, values: { email }, attempt };
 }
 
-/** Activates an email sign-up with the code from the confirmation email; Supabase signs the user in. */
+/** Checks the code from a sign-up or password reset email; Supabase signs the user in, then we go to `next`. */
 export async function verifyEmailCode(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
   const values = formValues(formData, ["code"]);
@@ -64,7 +64,8 @@ export async function verifyEmailCode(previous: FormState, formData: FormData): 
   if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.verifyOtp({ email: parsed.data.email, token: parsed.data.code, type: "email" });
+  const { email, code, type } = parsed.data;
+  const { error } = await supabase.auth.verifyOtp({ email, token: code, type });
   if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
 
   redirect(safeNextPath(formData.get("next")));
@@ -81,7 +82,7 @@ export async function requestPasswordReset(previous: FormState, formData: FormDa
   const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: emailLinkTarget(), captchaToken });
   if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
 
-  return { status: "success", message: authCopy.forgotPassword.success, attempt };
+  return { status: "success", message: authCopy.forgotPassword.success, values: { email }, attempt };
 }
 
 export async function resendConfirmation(previous: FormState, formData: FormData): Promise<FormState> {

@@ -25,7 +25,7 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
     return (
       <div className="space-y-5">
         <FormAlert tone="success" message={state.message} />
-        <EmailCodeForm email={state.values?.email ?? ""} nextPath="/account?notice=email-confirmed" siteKey={siteKey} />
+        <EmailCodeForm type="email" email={state.values?.email ?? ""} nextPath="/account?notice=email-confirmed" siteKey={siteKey} />
       </div>
     );
   }
