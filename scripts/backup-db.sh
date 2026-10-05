@@ -10,6 +10,13 @@
 set -euo pipefail
 : "${SUPABASE_DB_URL:?}" "${BACKUP_PASSPHRASE:?}"
 
+# A raw "@", "/", "?" or "#" in the password breaks the URL, and pg_dump's error would then print part
+# of the password into the public Actions log. Stop first, without echoing anything.
+if ! [[ "$SUPABASE_DB_URL" =~ ^postgres(ql)?://[^@/?#]+@[^@]+$ ]]; then
+  echo "SUPABASE_DB_URL is malformed: percent-encode special characters in the password (@ → %40)." >&2
+  exit 1
+fi
+
 file="aqelacademy-$(date -u +%Y-%m-%dT%H%M%SZ).sql.gz.enc"
 
 pg_dump "$SUPABASE_DB_URL" --data-only --no-owner --no-privileges \
