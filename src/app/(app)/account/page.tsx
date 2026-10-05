@@ -5,6 +5,7 @@ import { deleteAccount, signOut } from "@/app/(app)/account/actions";
 import { ProfileForm } from "@/app/(app)/account/profile-form";
 import { ConfirmSubmitButton } from "@/components/forms/confirm-submit-button";
 import { FormAlert } from "@/components/forms/form-alert";
+import { DoctorAvatar } from "@/components/messages/doctor-avatar";
 import { Avatar } from "@/components/ui/avatar";
 import { ButtonLink } from "@/components/ui/button-link";
 import { buttonClassName } from "@/components/ui/button-styles";
@@ -49,7 +50,7 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
       {profile ? (
         <Card title={accountCopy.personalInfo}>
           <div className="mb-6 flex items-center gap-4 rounded-xl bg-canvas p-4">
-            <Avatar name={profile.full_name} size="lg" />
+            {isAdmin ? <DoctorAvatar size="lg" /> : <Avatar name={profile.full_name} size="lg" />}
             <div className="min-w-0">
               <p className="truncate font-bold text-ink">{profile.full_name}</p>
               <p dir="ltr" className="truncate text-end text-sm">

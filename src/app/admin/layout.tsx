@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 import { signOut } from "@/app/(app)/account/actions";
 import { AdminSidebarNav, AdminTabBar } from "@/components/admin/admin-nav";
 import { AppFooter } from "@/components/layout/app-footer";
-import { Avatar } from "@/components/ui/avatar";
+import { DoctorAvatar } from "@/components/messages/doctor-avatar";
 import type { SideNavItem } from "@/components/ui/side-nav";
 import { adminCopy, adminSections } from "@/content/admin";
 import { site } from "@/content/site";
@@ -56,7 +56,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         </div>
         <div className="space-y-1 border-t border-line p-4">
           <div className="mb-2 flex items-center gap-3 px-4">
-            <Avatar name={name} size="sm" />
+            <DoctorAvatar size="sm" />
             <p className="truncate text-sm font-bold text-ink">{name}</p>
           </div>
           <Link href="/" className={`${footerItemClassName} text-ink hover:bg-surface`}>
