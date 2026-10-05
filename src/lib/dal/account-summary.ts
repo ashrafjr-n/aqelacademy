@@ -17,7 +17,7 @@ export interface PanelFeed<T> {
 /** Everything the header shows about the visitor: nothing for guests, a dashboard link for the doctor, panels for students. */
 export type AccountSummary =
   | { kind: "guest" }
-  | { kind: "admin"; name: string; email: string }
+  | { kind: "admin" }
   | { kind: "student"; name: string; email: string; notifications: PanelFeed<MyNotification>; messages: PanelFeed<MyConversation> };
 
 export async function getAccountSummary(): Promise<AccountSummary> {
@@ -25,8 +25,7 @@ export async function getAccountSummary(): Promise<AccountSummary> {
   if (!user) return { kind: "guest" };
 
   const [profile, adminStatus] = await Promise.all([getMyProfile(), getAdminStatus()]);
-  const name = profile?.full_name ?? user.email;
-  if (adminStatus !== "none") return { kind: "admin", name, email: user.email };
+  if (adminStatus !== "none") return { kind: "admin" };
 
   const [notifications, unreadNotifications, conversations] = await Promise.all([
     getMyNotifications(PANEL_SIZE + 1),
@@ -36,7 +35,7 @@ export async function getAccountSummary(): Promise<AccountSummary> {
 
   return {
     kind: "student",
-    name,
+    name: profile?.full_name ?? user.email,
     email: user.email,
     notifications: {
       unread: unreadNotifications ?? 0,

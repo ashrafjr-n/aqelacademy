@@ -1,15 +1,16 @@
 "use client";
 
-import { LayoutDashboard, LogIn } from "lucide-react";
+import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { signOut } from "@/app/(app)/account/actions";
-import { AccountMenu } from "@/components/header/account-menu";
+import { AccountMenu, accountTriggerClassName } from "@/components/header/account-menu";
 import { MessagesMenu } from "@/components/header/messages-menu";
 import { NotificationsMenu } from "@/components/header/notifications-menu";
+import { DoctorAvatar } from "@/components/messages/doctor-avatar";
 import { buttonClassName } from "@/components/ui/button-styles";
-import { adminCopy } from "@/content/admin";
+import { adminCopy, adminSections } from "@/content/admin";
 import type { AccountSummary } from "@/lib/dal/account-summary";
 
 const POLL_INTERVAL_MS = 60_000;
@@ -91,31 +92,26 @@ export function HeaderAccount() {
     );
   }
 
+  // The doctor gets a straight link to his dashboard where students have "حسابي"; he signs out from there.
+  if (summary.kind === "admin") {
+    return (
+      <Link href={adminSections.home.href} className={accountTriggerClassName}>
+        <DoctorAvatar size="sm" />
+        <span className="sr-only text-sm font-bold sm:not-sr-only">{adminCopy.headerLink}</span>
+      </Link>
+    );
+  }
+
   function handleSignOut() {
     apply({ kind: "guest" });
     return signOut();
-  }
-
-  const accountMenu = <AccountMenu name={summary.name} email={summary.email} onSignOut={handleSignOut} />;
-
-  if (summary.kind === "admin") {
-    return (
-      <>
-        <Link href="/admin" className={`${buttonClassName("primary")} h-10 px-3 sm:px-4`}>
-          <LayoutDashboard aria-hidden="true" className="size-4" />
-          <span className="hidden sm:inline">{adminCopy.title}</span>
-          <span className="sr-only sm:hidden">{adminCopy.title}</span>
-        </Link>
-        {accountMenu}
-      </>
-    );
   }
 
   return (
     <>
       <NotificationsMenu feed={summary.notifications} onRefresh={refresh} />
       <MessagesMenu feed={summary.messages} onRefresh={refresh} />
-      {accountMenu}
+      <AccountMenu name={summary.name} email={summary.email} onSignOut={handleSignOut} />
     </>
   );
 }

@@ -6,6 +6,10 @@ import { HeaderPopover } from "@/components/header/header-popover";
 import { Avatar } from "@/components/ui/avatar";
 import { accountLink } from "@/content/site";
 
+/** The round pill in the header's corner: the student's account menu, or the doctor's dashboard link. */
+export const accountTriggerClassName =
+  "flex h-10 items-center gap-2 rounded-full border border-line bg-white ps-1 pe-1 text-ink transition-colors hover:border-ink/25 sm:pe-3 focus-visible:outline-2 focus-visible:outline-brand";
+
 const itemClassName =
   "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-brand";
 
@@ -20,7 +24,7 @@ export function AccountMenu({ name, email, onSignOut }: AccountMenuProps) {
     <HeaderPopover
       id="account-menu"
       label={accountLink.label}
-      triggerClass="flex h-10 items-center gap-2 rounded-full border border-line bg-white ps-1 pe-1 text-ink transition-colors hover:border-ink/25 sm:pe-3 focus-visible:outline-2 focus-visible:outline-brand"
+      triggerClass={accountTriggerClassName}
       trigger={
         <>
           <Avatar name={name} size="sm" />

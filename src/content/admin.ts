@@ -17,6 +17,7 @@ export const adminBookingFilters: { status: BookingStatus; label: string; empty:
 
 export const adminCopy = {
   title: "لوحة الدكتور",
+  headerLink: "لوحة التحكم",
   navLabel: "أقسام لوحة الدكتور",
   viewSite: "عرض الموقع",
   signOut: "تسجيل الخروج",
