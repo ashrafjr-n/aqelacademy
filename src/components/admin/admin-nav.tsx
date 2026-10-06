@@ -1,10 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { type SideNavItem, useActiveHref } from "@/components/ui/side-nav";
+import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
+
+export interface AdminNavItem {
+  href: string;
+  label: string;
+  /** A rendered icon element. */
+  icon: ReactNode;
+  /** Count shown at the end of the item; hidden at 0. */
+  badge?: number;
+}
+
+/** The item owning the current page: the longest href that contains it (/admin/bookings/123 → /admin/bookings). */
+function useActiveHref(hrefs: string[]): string | undefined {
+  const pathname = usePathname();
+  return hrefs.filter((href) => pathname === href || pathname.startsWith(`${href}/`)).sort((a, b) => b.length - a.length)[0];
+}
 
 interface AdminNavProps {
-  items: SideNavItem[];
+  items: AdminNavItem[];
   label: string;
 }
 

@@ -4,11 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { signOut } from "@/app/(app)/account/actions";
-import { AdminSidebarNav, AdminTabBar } from "@/components/admin/admin-nav";
+import { type AdminNavItem, AdminSidebarNav, AdminTabBar } from "@/components/admin/admin-nav";
 import { AppFooter } from "@/components/layout/app-footer";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";
 import { buttonClassName } from "@/components/ui/button-styles";
-import type { SideNavItem } from "@/components/ui/side-nav";
 import { adminCopy, adminSections } from "@/content/admin";
 import { site } from "@/content/site";
 import { getAdminCounts, requireAdmin } from "@/lib/dal/admin";
@@ -31,7 +30,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   const [counts, profile] = await Promise.all([getAdminCounts(), getMyProfile()]);
   const name = profile?.full_name ?? adminCopy.title;
 
-  const nav: SideNavItem[] = [
+  const nav: AdminNavItem[] = [
     { ...adminSections.home, icon: <LayoutDashboard aria-hidden="true" className="size-5" /> },
     { ...adminSections.bookings, icon: <Ticket aria-hidden="true" className="size-5" />, badge: counts.pending },
     { ...adminSections.messages, icon: <MessageCircle aria-hidden="true" className="size-5" />, badge: counts.unreadMessages },
