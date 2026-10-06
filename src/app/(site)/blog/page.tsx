@@ -11,7 +11,7 @@ export default function BlogPage() {
   return (
     <>
       <PageHeader title="المقالات" />
-      <section className="container-site py-16">
+      <section className="container-site py-20">
         <ArticleGrid articles={articles} preloadFirst />
       </section>
     </>

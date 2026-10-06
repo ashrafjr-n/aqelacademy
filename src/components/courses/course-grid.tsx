@@ -9,7 +9,7 @@ interface CourseGridProps {
 
 export function CourseGrid({ courses, preloadFirst = false }: CourseGridProps) {
   if (courses.length === 0) {
-    return <p className="rounded-2xl bg-surface p-8 text-center">لا توجد دورات متاحة حاليًا.</p>;
+    return <p className="rounded-xl border border-line bg-canvas p-8 text-center">لا توجد دورات متاحة حاليًا.</p>;
   }
 
   return (

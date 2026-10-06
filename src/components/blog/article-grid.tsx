@@ -9,7 +9,7 @@ interface ArticleGridProps {
 
 export function ArticleGrid({ articles, preloadFirst = false }: ArticleGridProps) {
   if (articles.length === 0) {
-    return <p className="rounded-2xl bg-surface p-8 text-center">لا توجد مقالات منشورة حاليًا.</p>;
+    return <p className="rounded-xl border border-line bg-canvas p-8 text-center">لا توجد مقالات منشورة حاليًا.</p>;
   }
 
   return (

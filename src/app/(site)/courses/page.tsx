@@ -11,7 +11,7 @@ export default function CoursesPage() {
   return (
     <>
       <PageHeader title="الدورات التدريبية" />
-      <section className="container-site py-16">
+      <section className="container-site py-20">
         <CourseGrid courses={courses} preloadFirst />
       </section>
     </>

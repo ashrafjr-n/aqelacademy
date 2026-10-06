@@ -12,7 +12,7 @@ export default function PolicyPage() {
   return (
     <>
       <PageHeader title={policy.title} />
-      <div className="container-site py-16">
+      <div className="container-site py-20">
         <article className="mx-auto max-w-3xl">
           <p className="mb-8 text-sm">
             آخر تحديث: <time dateTime={policy.updatedAt}>{formatDate(policy.updatedAt)}</time>
