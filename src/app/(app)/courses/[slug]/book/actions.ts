@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
 import { bookingCopy } from "@/content/bookings";
@@ -27,6 +26,6 @@ export async function createBooking(previous: FormState, formData: FormData): Pr
     const profile = await getMyProfile();
     await emailNewBooking(result.bookingId, profile?.full_name ?? "طالب", courseSlug);
   });
-  revalidatePath("/account/bookings");
-  redirect("/account/bookings?notice=booking-created");
+  // The course page then shows the booking as sent, and the student gets a "booking sent" notification.
+  redirect(`/courses/${courseSlug}`);
 }
