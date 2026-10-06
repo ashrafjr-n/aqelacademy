@@ -2,16 +2,21 @@ import { ChevronDown } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/ui/page-header";
-import { faqs } from "@/content/faqs";
+import { faqContent } from "@/content/faqs";
+import { localePath } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: "أسئلة شائعة",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: faqContent[await getLocale()].title };
+}
 
-export default function FaqsPage() {
+export default async function FaqsPage() {
+  const locale = await getLocale();
+  const { title, items: faqs } = faqContent[locale];
+
   return (
     <>
-      <PageHeader title="أسئلة شائعة" />
+      <PageHeader title={title} />
       <section className="container-site py-20">
         <div className="mx-auto max-w-3xl divide-y divide-line border-y border-line">
           {faqs.map((faq) => (
@@ -25,7 +30,7 @@ export default function FaqsPage() {
                 {faq.link && (
                   <>
                     {" "}
-                    <Link href={faq.link.href} className="font-bold text-ink underline decoration-gold underline-offset-4 hover:text-gold-dark">
+                    <Link href={localePath(locale, faq.link.href)} className="font-bold text-ink underline decoration-gold underline-offset-4 hover:text-gold-dark">
                       {faq.link.label}
                     </Link>
                   </>

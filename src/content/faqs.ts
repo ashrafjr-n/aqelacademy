@@ -1,6 +1,7 @@
+import type { Locale } from "@/lib/i18n";
 import type { Faq } from "@/types/content";
 
-export const faqs: Faq[] = [
+const faqsAr: Faq[] = [
   {
     id: "what-is-academy",
     question: "ما هي أكاديمية الدكتور موفق عقل؟",
@@ -38,3 +39,47 @@ export const faqs: Faq[] = [
     link: { href: "/contact-us", label: "معلومات التواصل" },
   },
 ];
+
+const faqsEn: Faq[] = [
+  {
+    id: "what-is-academy",
+    question: "What is Dr Muaffaq Aqel Academy?",
+    answer:
+      "It is a specialist training platform for Applied Behaviour Analysis (ABA), special education and rehabilitation. It is run by Dr Muaffaq Aqel, who holds US board certification in Applied Behaviour Analysis, and it trains professionals and specialists to the latest international standards.",
+  },
+  {
+    id: "online-or-onsite",
+    question: "Are the courses online or in person?",
+    answer:
+      "All our courses are delivered online through interactive learning. Trainees attend lectures, take part in activities and receive their certificates without needing to attend in person.",
+  },
+  {
+    id: "certificate",
+    question: "Do trainees receive a certificate at the end of the course?",
+    answer:
+      "Yes. Trainees receive an accredited certificate of completion from Dr Muaffaq Aqel Academy once they have successfully met the course requirements.",
+  },
+  {
+    id: "countries",
+    question: "Which countries can I register from?",
+    answer: "The academy is open to trainees across the Arab world, and you can join our courses from anywhere in the world.",
+  },
+  {
+    id: "prerequisites",
+    question: "Do the courses need previous experience or a specialist background?",
+    answer:
+      "Some courses, such as Registered Behavior Technician (RBT) training, need a basic understanding of the field. Others are suitable for beginners, parents and anyone interested in special education.",
+  },
+  {
+    id: "contact",
+    question: "How can I contact the academy?",
+    answer: "You can contact us at any time by email or WhatsApp.",
+    link: { href: "/contact-us", label: "Contact details" },
+  },
+];
+
+/** Links are locale-free; the page adds the /en prefix. */
+export const faqContent: Record<Locale, { title: string; items: Faq[] }> = {
+  ar: { title: "أسئلة شائعة", items: faqsAr },
+  en: { title: "Frequently asked questions", items: faqsEn },
+};
