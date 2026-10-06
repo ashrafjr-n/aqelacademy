@@ -1,6 +1,7 @@
 import "server-only";
 import { redirect } from "next/navigation";
 import { cache } from "react";
+import { localeOfPath, localePath } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/server";
 
 export interface SessionUser {
@@ -17,8 +18,9 @@ export const getCurrentUser = cache(async (): Promise<SessionUser | null> => {
   return { id: claims.sub, email: claims.email };
 });
 
+/** Signed-out visitors go to the login page in the language of the page they wanted (`nextPath`). */
 export async function requireUser(nextPath: string): Promise<SessionUser> {
   const user = await getCurrentUser();
-  if (!user) redirect(`/login?next=${encodeURIComponent(nextPath)}`);
+  if (!user) redirect(`${localePath(localeOfPath(nextPath), "/login")}?next=${encodeURIComponent(nextPath)}`);
   return user;
 }

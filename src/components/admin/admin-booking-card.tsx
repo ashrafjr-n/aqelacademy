@@ -10,7 +10,7 @@ import { cardClassName } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { adminCopy, adminWhatsAppMessage } from "@/content/admin";
 import { messagesCopy } from "@/content/messages";
-import { bookingStatuses, type BookingStatus } from "@/content/bookings";
+import { bookingStatus, type BookingStatus } from "@/content/bookings";
 import { countries } from "@/content/countries";
 import { getCourse } from "@/content/courses";
 import type { AdminBooking } from "@/lib/dal/admin";
@@ -47,7 +47,7 @@ export function AdminBookingCard({ booking, returnTo }: AdminBookingCardProps) {
   const studentName = student?.full_name ?? "حساب محذوف";
   const courseTitle = getCourse(booking.course_slug)?.title ?? booking.course_slug;
   const countryName = countries.find((country) => country.code === student?.country)?.name;
-  const statusInfo = bookingStatuses[booking.status];
+  const statusInfo = bookingStatus(booking.status);
   const firstName = studentName.split(" ")[0];
 
   return (

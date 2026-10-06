@@ -6,11 +6,11 @@ interface BackLinkProps {
   label: string;
 }
 
-/** "Back to …" link; the chevron points right because the page reads right-to-left. */
+/** "Back to …" link; the chevron points against the reading direction (right in Arabic, left in English). */
 export function BackLink({ href, label }: BackLinkProps) {
   return (
     <Link href={href} className="inline-flex items-center gap-1 font-bold text-brand hover:text-brand-dark">
-      <ChevronRight aria-hidden="true" className="size-5" />
+      <ChevronRight aria-hidden="true" className="size-5 ltr:rotate-180" />
       {label}
     </Link>
   );

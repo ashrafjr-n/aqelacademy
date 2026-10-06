@@ -8,7 +8,7 @@ import { BackLink } from "@/components/ui/back-link";
 import { Card } from "@/components/ui/card";
 import { PageTitle } from "@/components/ui/page-title";
 import { accountCopy } from "@/content/account";
-import { bookingCopy, bookingFlow } from "@/content/bookings";
+import { bookingCopy } from "@/content/bookings";
 import { getCourse } from "@/content/courses";
 import { localePath } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
@@ -16,34 +16,34 @@ import { getMyOpenBooking } from "@/lib/dal/bookings";
 import { getMyProfile } from "@/lib/dal/profiles";
 import { requireUser } from "@/lib/dal/session";
 
-export const metadata: Metadata = {
-  title: bookingCopy.bookTitle,
-  robots: { index: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: bookingCopy[await getLocale()].bookTitle, robots: { index: false } };
+}
 
 export default async function BookCoursePage({ params }: PageProps<"/[lang]/courses/[slug]/book">) {
   const { slug } = await params;
   const locale = await getLocale();
   const course = getCourse(slug, locale);
   if (!course) notFound();
-  await requireUser(`/courses/${slug}/book`);
+  await requireUser(localePath(locale, `/courses/${slug}/book`));
+  const copy = bookingCopy[locale];
 
   const [openBooking, profile] = await Promise.all([getMyOpenBooking(slug), getMyProfile()]);
   // Already booked: the course page shows where that booking stands.
-  if (openBooking) redirect(`/courses/${course.slug}`);
+  if (openBooking) redirect(localePath(locale, `/courses/${course.slug}`));
 
   return (
     <div className="container-site py-8 sm:py-12">
-      <BackLink href={`/courses/${course.slug}`} label={course.title} />
+      <BackLink href={localePath(locale, `/courses/${course.slug}`)} label={course.title} />
       <div className="mt-4">
-        <PageTitle title={bookingCopy.bookTitle} description={bookingCopy.bookIntro} />
+        <PageTitle title={copy.bookTitle} description={copy.bookIntro} />
       </div>
 
       <div className="mt-8 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="space-y-6">
-          <Card title={bookingCopy.flowTitle}>
+          <Card title={copy.flowTitle}>
             <ol className="grid gap-5 sm:grid-cols-3">
-              {bookingFlow.map((step, index) => (
+              {copy.flow.map((step, index) => (
                 <li key={step.title} className="flex gap-3 sm:flex-col">
                   <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gold-soft text-sm font-bold text-gold-dark ring-1 ring-gold/50">{index + 1}</span>
                   <span>
@@ -55,15 +55,16 @@ export default async function BookCoursePage({ params }: PageProps<"/[lang]/cour
             </ol>
           </Card>
 
-          <Card title={bookingCopy.formTitle}>
+          <Card title={copy.formTitle}>
             {!profile?.phone && (
               <p className="mb-5 flex items-start gap-2 rounded-xl bg-brand-soft p-4 text-sm leading-relaxed text-ink">
                 <Phone aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-brand" />
                 <span>
-                  {bookingCopy.phoneTip}{" "}
+                  {copy.phoneTipBefore}{" "}
                   <Link href={localePath(locale, "/account")} className="font-bold text-brand underline hover:text-brand-dark">
                     {accountCopy[locale].title}
                   </Link>
+                  {copy.phoneTipAfter}
                 </span>
               </p>
             )}
