@@ -8,9 +8,9 @@ interface AccreditationStripProps {
 
 export function AccreditationStrip({ title, badges }: AccreditationStripProps) {
   return (
-    <section aria-label={title} className="border-y border-line bg-white">
-      <div className="container-site flex flex-col items-center gap-6 py-8 sm:flex-row sm:justify-center sm:gap-12">
-        <p className="text-sm font-bold text-body">{title}</p>
+    <section aria-label={title} className="border-b border-line">
+      <div className="container-site flex flex-col items-center gap-6 py-10 sm:flex-row sm:justify-center sm:gap-14">
+        <p className="text-sm font-bold text-gold-dark">{title}</p>
         <ul className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
           {badges.map((badge) => (
             <li key={badge.alt}>
