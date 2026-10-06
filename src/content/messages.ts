@@ -23,7 +23,6 @@ export const messagesCopy = {
   startChat: "ابدأ المحادثة مع الدكتور.",
   noConversations: "لا توجد محادثات بعد.",
   noConversationsText: "تبدأ المحادثة مع الدكتور بعد الموافقة على حجزك.",
-  seeAll: "عرض كل الرسائل",
   inboxEmpty: "لا توجد محادثات بعد. تبدأ المحادثة من صفحة أي طلب.",
   openConversation: "فتح المحادثة",
   newMessages: (count: number) =>

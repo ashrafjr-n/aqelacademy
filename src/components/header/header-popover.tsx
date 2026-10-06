@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import type { MouseEvent, ReactNode, ToggleEvent } from "react";
 
 const triggerClassName =
@@ -71,18 +70,5 @@ export function PanelHeader({ title, action }: PanelHeaderProps) {
       <p className="font-bold text-ink">{title}</p>
       {action}
     </div>
-  );
-}
-
-interface PanelFooterLinkProps {
-  href: string;
-  children: ReactNode;
-}
-
-export function PanelFooterLink({ href, children }: PanelFooterLinkProps) {
-  return (
-    <Link href={href} className="block border-t border-line px-4 py-3 text-center text-sm font-bold text-brand transition-colors hover:bg-canvas hover:text-brand-dark">
-      {children}
-    </Link>
   );
 }

@@ -3,7 +3,7 @@
 import { Bell } from "lucide-react";
 import { useTransition } from "react";
 import { markAllNotificationsRead } from "@/app/(app)/account/notifications/actions";
-import { HeaderPopover, PanelFooterLink, PanelHeader } from "@/components/header/header-popover";
+import { HeaderPopover, PanelHeader } from "@/components/header/header-popover";
 import { NotificationItem } from "@/components/notifications/notification-item";
 import { notificationsCopy } from "@/content/notifications";
 import type { PanelFeed } from "@/lib/dal/account-summary";
@@ -54,7 +54,6 @@ export function NotificationsMenu({ feed, onRefresh }: NotificationsMenuProps) {
           ))}
         </ul>
       )}
-      {feed.hasMore && <PanelFooterLink href="/account/notifications">{notificationsCopy.seeAll}</PanelFooterLink>}
     </HeaderPopover>
   );
 }

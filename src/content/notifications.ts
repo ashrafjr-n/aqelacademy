@@ -42,6 +42,5 @@ export const notificationsCopy = {
   signInPrompt: "سجّل الدخول لتصلك هنا تحديثات حجوزاتك وردود الدكتور.",
   emptyText: "ستصلك هنا تحديثات طلباتك ورسائل الدكتور.",
   markAllRead: "تحديد الكل كمقروء",
-  seeAll: "عرض كل الإشعارات",
   unread: "جديد",
 };

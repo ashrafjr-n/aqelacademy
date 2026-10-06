@@ -1,7 +1,7 @@
 "use client";
 
 import { MessageCircle } from "lucide-react";
-import { HeaderPopover, PanelFooterLink, PanelHeader } from "@/components/header/header-popover";
+import { HeaderPopover, PanelHeader } from "@/components/header/header-popover";
 import { MyConversationRow } from "@/components/messages/my-conversation-row";
 import { messagesCopy } from "@/content/messages";
 import type { PanelFeed } from "@/lib/dal/account-summary";
@@ -36,7 +36,6 @@ export function MessagesMenu({ feed, onRefresh }: MessagesMenuProps) {
           ))}
         </ul>
       )}
-      {feed.hasMore && <PanelFooterLink href="/account/messages">{messagesCopy.seeAll}</PanelFooterLink>}
     </HeaderPopover>
   );
 }

@@ -5,13 +5,12 @@ import { getMyNotifications, getMyUnreadCount, type MyNotification } from "@/lib
 import { getMyProfile } from "@/lib/dal/profiles";
 import { getCurrentUser } from "@/lib/dal/session";
 
-/** How many items a header panel lists before offering "see all". */
-export const PANEL_SIZE = 3;
+/** How many recent items a header panel lists; students have no other list pages. */
+export const PANEL_SIZE = 10;
 
 export interface PanelFeed<T> {
   unread: number;
   items: T[];
-  hasMore: boolean;
 }
 
 /** Everything the header shows about the visitor: nothing for guests, a dashboard link for the doctor, panels for students. */
@@ -29,7 +28,7 @@ export async function getAccountSummary(): Promise<AccountSummary> {
 
   const [profile, notifications, unreadNotifications, conversations] = await Promise.all([
     getMyProfile(),
-    getMyNotifications(PANEL_SIZE + 1),
+    getMyNotifications(PANEL_SIZE),
     getMyUnreadCount(),
     getMyConversations(),
   ]);
@@ -38,15 +37,10 @@ export async function getAccountSummary(): Promise<AccountSummary> {
     kind: "student",
     name: profile?.full_name ?? user.email,
     email: user.email,
-    notifications: {
-      unread: unreadNotifications ?? 0,
-      items: notifications.slice(0, PANEL_SIZE),
-      hasMore: notifications.length > PANEL_SIZE,
-    },
+    notifications: { unread: unreadNotifications ?? 0, items: notifications },
     messages: {
       unread: conversations.reduce((total, conversation) => total + conversation.unread, 0),
       items: conversations.slice(0, PANEL_SIZE),
-      hasMore: conversations.length > PANEL_SIZE,
     },
   };
 }
