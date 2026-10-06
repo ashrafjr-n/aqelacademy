@@ -40,7 +40,6 @@ export const notificationsCopy = {
   title: "الإشعارات",
   empty: "لا توجد إشعارات بعد.",
   signInPrompt: "سجّل الدخول لتصلك هنا تحديثات حجوزاتك وردود الدكتور.",
-  emptyText: "ستصلك هنا تحديثات طلباتك ورسائل الدكتور.",
   markAllRead: "تحديد الكل كمقروء",
   unread: "جديد",
 };
