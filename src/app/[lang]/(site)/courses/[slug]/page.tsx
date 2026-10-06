@@ -14,13 +14,13 @@ export function generateStaticParams() {
   return courses.map((course) => ({ slug: course.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/courses/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/[lang]/courses/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const course = getCourse(slug);
   return course ? { title: course.title, description: course.excerpt, openGraph: { ...baseOpenGraph, title: course.title, description: course.excerpt } } : {};
 }
 
-export default async function CoursePage({ params }: PageProps<"/courses/[slug]">) {
+export default async function CoursePage({ params }: PageProps<"/[lang]/courses/[slug]">) {
   const { slug } = await params;
   const course = getCourse(slug);
   if (!course) notFound();

@@ -1,6 +1,6 @@
 import { BookOpen, CalendarDays, Check, Globe, MessageCircle, RotateCcw, X } from "lucide-react";
 import type { ReactNode } from "react";
-import { decideBooking } from "@/app/admin/actions";
+import { decideBooking } from "@/app/(dashboard)/admin/actions";
 import { ConfirmSubmitButton } from "@/components/forms/confirm-submit-button";
 import { ContactButtons } from "@/components/admin/contact-buttons";
 import { SubmitButton } from "@/components/forms/submit-button";

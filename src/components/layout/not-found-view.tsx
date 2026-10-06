@@ -2,8 +2,8 @@ import { AppFooter } from "@/components/layout/app-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ButtonLink } from "@/components/ui/button-link";
 
-/** Renders outside the group layouts, so it brings its own header and footer. */
-export default function NotFound() {
+/** The 404 page for both root layouts; it renders outside the group layouts, so it brings its own header and footer. */
+export function NotFoundView() {
   return (
     <>
       <SiteHeader />

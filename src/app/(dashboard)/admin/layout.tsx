@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { signOut } from "@/app/(app)/account/actions";
+import { signOut } from "@/app/[lang]/(app)/account/actions";
 import { type AdminNavItem, AdminSidebarNav, AdminTabBar } from "@/components/admin/admin-nav";
 import { AppFooter } from "@/components/layout/app-footer";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";

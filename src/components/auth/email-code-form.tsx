@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { requestPasswordReset, resendConfirmation, verifyEmailCode } from "@/app/(app)/(auth)/actions";
+import { requestPasswordReset, resendConfirmation, verifyEmailCode } from "@/app/[lang]/(app)/(auth)/actions";
 import { ResendCodeForm } from "@/components/auth/resend-code-form";
 import { describedByOf, FieldShell, fieldIdOf, inputClassName } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";

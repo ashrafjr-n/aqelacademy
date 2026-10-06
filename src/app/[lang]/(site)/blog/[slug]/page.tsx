@@ -14,7 +14,7 @@ export function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/[lang]/blog/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) return {};
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
   };
 }
 
-export default async function ArticlePage({ params }: PageProps<"/blog/[slug]">) {
+export default async function ArticlePage({ params }: PageProps<"/[lang]/blog/[slug]">) {
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) notFound();

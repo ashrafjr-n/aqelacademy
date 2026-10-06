@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { connection } from "next/server";
-import { ForgotPasswordForm } from "@/app/(app)/(auth)/forgot-password/forgot-password-form";
+import { ForgotPasswordForm } from "@/app/[lang]/(app)/(auth)/forgot-password/forgot-password-form";
 import { AuthHeading } from "@/components/auth/auth-heading";
 import { authCopy } from "@/content/auth";
 import { getEnv } from "@/lib/env";

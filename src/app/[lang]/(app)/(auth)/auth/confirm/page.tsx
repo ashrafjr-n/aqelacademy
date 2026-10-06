@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { confirmEmailLink } from "@/app/(app)/(auth)/actions";
+import { confirmEmailLink } from "@/app/[lang]/(app)/(auth)/actions";
 import { AuthHeading } from "@/components/auth/auth-heading";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-export default async function ConfirmEmailLinkPage({ searchParams }: PageProps<"/auth/confirm">) {
+export default async function ConfirmEmailLinkPage({ searchParams }: PageProps<"/[lang]/auth/confirm">) {
   const { token_hash: tokenHash, type } = await searchParams;
   const link = typeof tokenHash === "string" && isEmailLinkType(type) ? { tokenHash, type } : null;
   const invalidLink = getNotice("link-invalid");

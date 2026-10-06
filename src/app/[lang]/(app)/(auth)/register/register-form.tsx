@@ -3,7 +3,7 @@
 import { Mail, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useActionState } from "react";
-import { signUp } from "@/app/(app)/(auth)/actions";
+import { signUp } from "@/app/[lang]/(app)/(auth)/actions";
 import { EmailCodeForm } from "@/components/auth/email-code-form";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";

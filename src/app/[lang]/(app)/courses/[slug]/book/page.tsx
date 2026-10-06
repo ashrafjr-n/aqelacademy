@@ -2,7 +2,7 @@ import { Phone } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { BookingForm } from "@/app/(app)/courses/[slug]/book/booking-form";
+import { BookingForm } from "@/app/[lang]/(app)/courses/[slug]/book/booking-form";
 import { CourseSummaryCard } from "@/components/courses/course-summary-card";
 import { BackLink } from "@/components/ui/back-link";
 import { Card } from "@/components/ui/card";
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-export default async function BookCoursePage({ params }: PageProps<"/courses/[slug]/book">) {
+export default async function BookCoursePage({ params }: PageProps<"/[lang]/courses/[slug]/book">) {
   const { slug } = await params;
   const course = getCourse(slug);
   if (!course) notFound();

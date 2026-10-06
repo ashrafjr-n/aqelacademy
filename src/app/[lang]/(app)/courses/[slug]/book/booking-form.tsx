@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { createBooking } from "@/app/(app)/courses/[slug]/book/actions";
+import { createBooking } from "@/app/[lang]/(app)/courses/[slug]/book/actions";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { TextAreaField } from "@/components/forms/text-area-field";

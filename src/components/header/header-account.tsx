@@ -4,7 +4,7 @@ import { Bell, LogIn, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { signOut } from "@/app/(app)/account/actions";
+import { signOut } from "@/app/[lang]/(app)/account/actions";
 import { AccountMenu, accountTriggerClassName } from "@/components/header/account-menu";
 import { GuestMenu } from "@/components/header/guest-menu";
 import { MessagesMenu } from "@/components/header/messages-menu";

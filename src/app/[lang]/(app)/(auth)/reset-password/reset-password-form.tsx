@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { updatePassword } from "@/app/(app)/(auth)/actions";
+import { updatePassword } from "@/app/[lang]/(app)/(auth)/actions";
 import { FormAlert } from "@/components/forms/form-alert";
 import { PasswordField } from "@/components/forms/password-field";
 import { SubmitButton } from "@/components/forms/submit-button";

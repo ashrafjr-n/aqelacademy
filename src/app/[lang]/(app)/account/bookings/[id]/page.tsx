@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 /** One booking: where it stands, and the conversation with the doctor about it. */
-export default async function MyBookingPage({ params }: PageProps<"/account/bookings/[id]">) {
+export default async function MyBookingPage({ params }: PageProps<"/[lang]/account/bookings/[id]">) {
   const { id } = await params;
   if (!z.uuid().safeParse(id).success) notFound();
   const conversation = await getMyConversation(id);

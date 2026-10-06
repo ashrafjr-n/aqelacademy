@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { RegisterForm } from "@/app/(app)/(auth)/register/register-form";
+import { RegisterForm } from "@/app/[lang]/(app)/(auth)/register/register-form";
 import { AuthDivider } from "@/components/auth/auth-divider";
 import { AuthHeading } from "@/components/auth/auth-heading";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";

@@ -2,7 +2,7 @@
 
 import { Mail } from "lucide-react";
 import { useActionState } from "react";
-import { signIn } from "@/app/(app)/(auth)/actions";
+import { signIn } from "@/app/[lang]/(app)/(auth)/actions";
 import { EmailCodeForm } from "@/components/auth/email-code-form";
 import { FieldMessage } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";

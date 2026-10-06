@@ -1,8 +1,8 @@
 import { ChevronLeft, KeyRound, LayoutDashboard, LogOut, Trash2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { deleteAccount, signOut } from "@/app/(app)/account/actions";
-import { ProfileForm } from "@/app/(app)/account/profile-form";
+import { deleteAccount, signOut } from "@/app/[lang]/(app)/account/actions";
+import { ProfileForm } from "@/app/[lang]/(app)/account/profile-form";
 import { ConfirmSubmitButton } from "@/components/forms/confirm-submit-button";
 import { FormAlert } from "@/components/forms/form-alert";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-export default async function AccountPage({ searchParams }: PageProps<"/account">) {
+export default async function AccountPage({ searchParams }: PageProps<"/[lang]/account">) {
   const { notice } = await searchParams;
   const noticeMessage = getNotice(notice);
   const profile = await getMyProfile();
