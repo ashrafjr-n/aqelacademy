@@ -1,16 +1,19 @@
 "use client";
 
-import { LogIn } from "lucide-react";
+import { Bell, LogIn, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { signOut } from "@/app/(app)/account/actions";
 import { AccountMenu, accountTriggerClassName } from "@/components/header/account-menu";
+import { GuestMenu } from "@/components/header/guest-menu";
 import { MessagesMenu } from "@/components/header/messages-menu";
 import { NotificationsMenu } from "@/components/header/notifications-menu";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";
 import { buttonClassName } from "@/components/ui/button-styles";
 import { adminCopy, adminSections } from "@/content/admin";
+import { messagesCopy } from "@/content/messages";
+import { notificationsCopy } from "@/content/notifications";
 import type { AccountSummary } from "@/lib/dal/account-summary";
 
 const POLL_INTERVAL_MS = 60_000;
@@ -37,8 +40,8 @@ async function fetchSummary(signal?: AbortSignal): Promise<AccountSummary | null
 }
 
 /**
- * The header's signed-in area: a sign-in button for guests, a dashboard link for the doctor, and
- * notifications, messages and account menus for students. Refreshes on navigation, on focus,
+ * The header's signed-in area: notifications and messages buttons that ask guests to sign in, plus a
+ * sign-in button; a dashboard link for the doctor; notifications, messages and account menus for students. Refreshes on navigation, on focus,
  * every minute while signed in, and whenever a panel opens.
  */
 export function HeaderAccount() {
@@ -84,11 +87,28 @@ export function HeaderAccount() {
   if (summary.kind === "guest") {
     // Come back here after signing in, unless "here" is a sign-in page itself.
     const isAuthPage = authPaths.some((path) => pathname.startsWith(path));
+    const loginHref = isAuthPage ? "/login" : `/login?next=${encodeURIComponent(pathname)}`;
     return (
-      <Link href={isAuthPage ? "/login" : `/login?next=${encodeURIComponent(pathname)}`} className={`${buttonClassName("outline")} h-10 px-4`}>
-        <LogIn aria-hidden="true" className="size-4" />
-        تسجيل الدخول
-      </Link>
+      <>
+        <GuestMenu
+          id="notifications-panel"
+          title={notificationsCopy.title}
+          icon={<Bell aria-hidden="true" className="size-5" />}
+          text={notificationsCopy.signInPrompt}
+          loginHref={loginHref}
+        />
+        <GuestMenu
+          id="messages-panel"
+          title={messagesCopy.inboxTitle}
+          icon={<MessageCircle aria-hidden="true" className="size-5" />}
+          text={messagesCopy.signInPrompt}
+          loginHref={loginHref}
+        />
+        <Link href={loginHref} aria-label="تسجيل الدخول" className={`${buttonClassName("outline")} h-10 px-3 sm:px-4`}>
+          <LogIn aria-hidden="true" className="size-4" />
+          <span className="hidden sm:inline">تسجيل الدخول</span>
+        </Link>
+      </>
     );
   }
 

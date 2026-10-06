@@ -19,6 +19,7 @@ export const messagesCopy = {
   send: "إرسال",
   sending: "جارٍ الإرسال…",
   inboxTitle: "الرسائل",
+  signInPrompt: "سجّل الدخول لتتواصل مع الدكتور بعد الموافقة على حجزك.",
   startChat: "ابدأ المحادثة مع الدكتور.",
   noConversations: "لا توجد محادثات بعد.",
   noConversationsText: "تبدأ المحادثة مع الدكتور بعد الموافقة على حجزك.",
