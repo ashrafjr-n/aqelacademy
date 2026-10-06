@@ -1,14 +1,19 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { localePath } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 import type { NavLink } from "@/types/content";
 
 interface SectionHeadingProps {
   title: string;
   subtitle?: string;
+  /** A locale-free link; the heading adds the /en prefix. */
   action?: NavLink;
 }
 
-export function SectionHeading({ title, subtitle, action }: SectionHeadingProps) {
+export async function SectionHeading({ title, subtitle, action }: SectionHeadingProps) {
+  const locale = await getLocale();
+
   return (
     <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
       <div>
@@ -17,9 +22,9 @@ export function SectionHeading({ title, subtitle, action }: SectionHeadingProps)
         {subtitle && <p className="mt-3">{subtitle}</p>}
       </div>
       {action && (
-        <Link href={action.href} className="group inline-flex items-center gap-1.5 font-bold text-ink transition-colors hover:text-gold-dark">
+        <Link href={localePath(locale, action.href)} className="group inline-flex items-center gap-1.5 font-bold text-ink transition-colors hover:text-gold-dark">
           {action.label}
-          <ArrowLeft aria-hidden="true" className="size-4 transition-transform group-hover:-translate-x-0.5" />
+          <ArrowLeft aria-hidden="true" className="size-4 transition-transform ltr:rotate-180 rtl:group-hover:-translate-x-0.5 ltr:group-hover:translate-x-0.5" />
         </Link>
       )}
     </div>

@@ -21,6 +21,11 @@ export function localePath(locale: Locale, path: string): string {
   return path === "/" ? "/en" : `/en${path}`;
 }
 
+/** A content link with the locale prefix added. */
+export function localeLink<T extends { href: string }>(locale: Locale, link: T): T {
+  return { ...link, href: localePath(locale, link.href) };
+}
+
 /** The locale a public or internal pathname belongs to ("/en/…" is English, "/ar/…" and the rest Arabic). */
 export function localeOfPath(pathname: string): Locale {
   return pathname === "/en" || pathname.startsWith("/en/") ? "en" : defaultLocale;
