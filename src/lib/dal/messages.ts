@@ -130,23 +130,6 @@ export async function markConversationRead(bookingId: string): Promise<void> {
   if (notifications.error) throw notifications.error;
 }
 
-/** Unread messages from the doctor, per booking, for the signed-in student. */
-export async function getMyUnreadMessageCounts(): Promise<Record<string, number>> {
-  const user = await requireUser("/account/bookings");
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("messages")
-    .select("booking_id")
-    .neq("sender_id", user.id)
-    .is("read_at", null)
-    .limit(MESSAGE_LIMIT);
-  if (error) throw error;
-
-  const counts: Record<string, number> = {};
-  for (const { booking_id: bookingId } of data) counts[bookingId] = (counts[bookingId] ?? 0) + 1;
-  return counts;
-}
-
 /** The signed-in student's conversations, newest activity first. */
 export async function getMyConversations(): Promise<MyConversation[]> {
   const user = await requireUser("/account/messages");

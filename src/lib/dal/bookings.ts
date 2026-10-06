@@ -10,19 +10,6 @@ export type MyBooking = Pick<BookingRow, "id" | "course_slug" | "status" | "user
 
 const myBookingColumns = "id, course_slug, status, user_note, created_at";
 
-/** The signed-in user's bookings, newest first (RLS also limits rows to them). */
-export async function getMyBookings(): Promise<MyBooking[]> {
-  const user = await requireUser("/account/bookings");
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("bookings")
-    .select(myBookingColumns)
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return data;
-}
-
 /** The user's pending or approved booking for a course, if any. */
 export async function getMyOpenBooking(courseSlug: string): Promise<MyBooking | null> {
   const user = await requireUser(`/courses/${courseSlug}/book`);
