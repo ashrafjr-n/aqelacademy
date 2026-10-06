@@ -1,21 +1,25 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/page-header";
 import { RichText } from "@/components/ui/rich-text";
-import { policy } from "@/content/policy";
+import { policyContent } from "@/content/policy";
 import { formatDate } from "@/lib/format";
+import { getLocale } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: policy.title,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: policyContent[await getLocale()].title };
+}
 
-export default function PolicyPage() {
+export default async function PolicyPage() {
+  const locale = await getLocale();
+  const policy = policyContent[locale];
+
   return (
     <>
       <PageHeader title={policy.title} />
       <div className="container-site py-20">
         <article className="mx-auto max-w-3xl">
           <p className="mb-8 text-sm">
-            آخر تحديث: <time dateTime={policy.updatedAt}>{formatDate(policy.updatedAt)}</time>
+            {policy.lastUpdated} <time dateTime={policy.updatedAt}>{formatDate(policy.updatedAt, locale)}</time>
           </p>
           <RichText blocks={policy.body} />
         </article>
