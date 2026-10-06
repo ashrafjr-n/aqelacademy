@@ -8,11 +8,14 @@ import { isActiveLink } from "@/components/header/main-nav";
 import type { NavLink } from "@/types/content";
 
 interface MobileNavProps {
+  /** Hrefs already carry the locale prefix. */
   links: NavLink[];
+  label: string;
+  buttonLabel: string;
 }
 
 /** The main menu below `lg`, as a native popover under the header. */
-export function MobileNav({ links }: MobileNavProps) {
+export function MobileNav({ links, label, buttonLabel }: MobileNavProps) {
   const pathname = usePathname();
 
   function closeOnLink(event: MouseEvent<HTMLElement>) {
@@ -24,7 +27,7 @@ export function MobileNav({ links }: MobileNavProps) {
       <button
         type="button"
         popoverTarget="mobile-nav"
-        aria-label="القائمة"
+        aria-label={buttonLabel}
         className="flex size-10 items-center justify-center rounded-full text-ink hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand"
       >
         <Menu aria-hidden="true" className="size-6" />
@@ -33,7 +36,7 @@ export function MobileNav({ links }: MobileNavProps) {
       <nav
         id="mobile-nav"
         popover="auto"
-        aria-label="القائمة الرئيسية"
+        aria-label={label}
         onClick={closeOnLink}
         className="fixed inset-auto inset-x-4 top-[4.5rem] m-0 w-auto rounded-xl border border-line bg-white p-2 shadow-pop opacity-0 transition-[opacity,translate,overlay,display] transition-discrete duration-150 -translate-y-1 open:translate-y-0 open:opacity-100 starting:open:-translate-y-1 starting:open:opacity-0"
       >

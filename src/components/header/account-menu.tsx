@@ -3,8 +3,10 @@
 import { ChevronDown, LogOut, UserRoundPen } from "lucide-react";
 import Link from "next/link";
 import { HeaderPopover } from "@/components/header/header-popover";
+import { useLocale } from "@/components/locale-provider";
 import { Avatar } from "@/components/ui/avatar";
-import { accountLink } from "@/content/site";
+import { siteText } from "@/content/site";
+import { localePath } from "@/lib/i18n";
 
 /** The round pill in the header's corner: the student's account menu, or the doctor's dashboard link. */
 export const accountTriggerClassName =
@@ -20,6 +22,9 @@ interface AccountMenuProps {
 }
 
 export function AccountMenu({ name, email, onSignOut }: AccountMenuProps) {
+  const locale = useLocale();
+  const accountLink = siteText[locale].account;
+
   return (
     <HeaderPopover
       id="account-menu"
@@ -43,7 +48,7 @@ export function AccountMenu({ name, email, onSignOut }: AccountMenuProps) {
         </div>
       </div>
       <div className="p-2">
-        <Link href={accountLink.href} className={`${itemClassName} text-ink hover:bg-surface`}>
+        <Link href={localePath(locale, accountLink.href)} className={`${itemClassName} text-ink hover:bg-surface`}>
           <UserRoundPen aria-hidden="true" className="size-5 text-body" />
           تعديل الملف الشخصي
         </Link>

@@ -2,22 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { pathWithoutLocale } from "@/lib/i18n";
 import type { NavLink } from "@/types/content";
 
 interface MainNavProps {
+  /** Hrefs already carry the locale prefix. */
   links: NavLink[];
+  label: string;
 }
 
-/** True for the link's own page and the pages under it ("/" only matches itself). */
+/**
+ * True for the link's own page and the pages under it ("/" only matches itself). Both sides drop the
+ * locale prefix: a prerendered Arabic page sees its internal "/ar/…" path on the server and "/…" in the browser.
+ */
 export function isActiveLink(pathname: string, href: string): boolean {
-  return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+  const page = pathWithoutLocale(pathname);
+  const target = pathWithoutLocale(href);
+  return target === "/" ? page === "/" : page === target || page.startsWith(`${target}/`);
 }
 
-export function MainNav({ links }: MainNavProps) {
+export function MainNav({ links, label }: MainNavProps) {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="القائمة الرئيسية" className="hidden lg:block">
+    <nav aria-label={label} className="hidden lg:block">
       <ul className="flex items-center gap-1">
         {links.map((link) => (
           <li key={link.href}>
