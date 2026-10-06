@@ -1,4 +1,6 @@
 import { ArticleCard } from "@/components/blog/article-card";
+import { articleCopy } from "@/content/articles";
+import { getLocale } from "@/lib/locale";
 import type { Article } from "@/types/content";
 
 interface ArticleGridProps {
@@ -7,9 +9,9 @@ interface ArticleGridProps {
   preloadFirst?: boolean;
 }
 
-export function ArticleGrid({ articles, preloadFirst = false }: ArticleGridProps) {
+export async function ArticleGrid({ articles, preloadFirst = false }: ArticleGridProps) {
   if (articles.length === 0) {
-    return <p className="rounded-xl border border-line bg-canvas p-8 text-center">لا توجد مقالات منشورة حاليًا.</p>;
+    return <p className="rounded-xl border border-line bg-canvas p-8 text-center">{articleCopy[await getLocale()].empty}</p>;
   }
 
   return (

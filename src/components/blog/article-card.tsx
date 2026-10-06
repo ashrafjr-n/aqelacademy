@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { cardClassName } from "@/components/ui/card";
 import { formatDate } from "@/lib/format";
+import { localePath } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 import type { Article } from "@/types/content";
 
 interface ArticleCardProps {
@@ -11,8 +13,9 @@ interface ArticleCardProps {
   preload?: boolean;
 }
 
-export function ArticleCard({ article, preload = false }: ArticleCardProps) {
-  const href = `/blog/${article.slug}`;
+export async function ArticleCard({ article, preload = false }: ArticleCardProps) {
+  const locale = await getLocale();
+  const href = localePath(locale, `/blog/${article.slug}`);
 
   return (
     <article className={`${cardClassName} flex flex-col overflow-hidden transition-shadow hover:shadow-lift`}>
@@ -22,7 +25,7 @@ export function ArticleCard({ article, preload = false }: ArticleCardProps) {
       <div className="flex flex-1 flex-col p-6">
         <p className="flex items-center gap-1.5 text-xs font-bold text-gold-dark">
           <CalendarDays aria-hidden="true" className="size-4 text-gold" />
-          <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+          <time dateTime={article.publishedAt}>{formatDate(article.publishedAt, locale)}</time>
         </p>
         <h3 className="mt-2 text-lg font-bold leading-snug text-ink">
           <Link href={href} className="transition-colors hover:text-gold-dark">

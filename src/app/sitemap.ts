@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { articles } from "@/content/articles";
+import { getArticles } from "@/content/articles";
 import { courseSlugs } from "@/content/courses";
 import { site } from "@/content/site";
 
@@ -9,6 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticPaths.map((path) => ({ url: `${site.url}${path}` })),
     ...courseSlugs.map((slug) => ({ url: `${site.url}/courses/${slug}` })),
-    ...articles.map((article) => ({ url: `${site.url}/blog/${article.slug}`, lastModified: article.publishedAt })),
+    ...getArticles("ar").map((article) => ({ url: `${site.url}/blog/${article.slug}`, lastModified: article.publishedAt })),
   ];
 }

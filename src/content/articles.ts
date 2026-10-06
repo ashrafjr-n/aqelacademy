@@ -1,10 +1,12 @@
 import abaIntroduction from "@/assets/images/articles/aba-introduction.jpg";
 import cbtChildren from "@/assets/images/articles/cbt-children.jpg";
 import specialEducation from "@/assets/images/articles/special-education.jpg";
+import { articlesEn } from "@/content/en/articles";
+import { defaultLocale, type Locale } from "@/lib/i18n";
 import type { Article } from "@/types/content";
 
 /** Newest first. */
-export const articles: Article[] = [
+const articlesAr: Article[] = [
   {
     slug: "special-education-empowering-children",
     title: "التربية الخاصة ودورها في تمكين الأطفال ذوي الاحتياجات الخاصة",
@@ -187,6 +189,20 @@ export const articles: Article[] = [
   },
 ];
 
-export function getArticle(slug: string): Article | undefined {
-  return articles.find((article) => article.slug === slug);
+const articlesByLocale: Record<Locale, Article[]> = { ar: articlesAr, en: articlesEn };
+
+/** Every article slug; the same in both languages. */
+export const articleSlugs = articlesByLocale[defaultLocale].map((article) => article.slug);
+
+export function getArticles(locale: Locale): Article[] {
+  return articlesByLocale[locale];
 }
+
+export function getArticle(slug: string, locale: Locale): Article | undefined {
+  return articlesByLocale[locale].find((article) => article.slug === slug);
+}
+
+export const articleCopy: Record<Locale, { listTitle: string; empty: string }> = {
+  ar: { listTitle: "المقالات", empty: "لا توجد مقالات منشورة حاليًا." },
+  en: { listTitle: "Articles", empty: "No articles have been published yet." },
+};

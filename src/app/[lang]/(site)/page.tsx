@@ -7,13 +7,11 @@ import { ButtonLink } from "@/components/ui/button-link";
 import { CheckList } from "@/components/ui/check-list";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitSection } from "@/components/ui/split-section";
-import { articles } from "@/content/articles";
+import { getArticles } from "@/content/articles";
 import { getCourses } from "@/content/courses";
 import { homeContent } from "@/content/home";
 import { localeLink } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
-
-const latestArticles = articles.slice(0, 3);
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -56,7 +54,7 @@ export default async function HomePage() {
 
       <section className="container-site py-20">
         <SectionHeading title={articlesSection.title} action={articlesSection.action} />
-        <ArticleGrid articles={latestArticles} />
+        <ArticleGrid articles={getArticles(locale).slice(0, 3)} />
       </section>
 
       <CtaBand title={cta.title} text={cta.text} primaryAction={localeLink(locale, cta.primaryAction)} secondaryAction={localeLink(locale, cta.secondaryAction)} />
