@@ -18,7 +18,9 @@ export function CtaBand({ title, text, primaryAction, secondaryAction }: CtaBand
         <h2 className="text-2xl font-extrabold text-white md:text-3xl">{title}</h2>
         <p className="mx-auto mt-3 max-w-xl leading-relaxed text-white/80">{text}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <ButtonLink href={primaryAction.href}>{primaryAction.label}</ButtonLink>
+          <ButtonLink href={primaryAction.href} variant="gold">
+            {primaryAction.label}
+          </ButtonLink>
           <ButtonLink href={secondaryAction.href} variant="light">
             {secondaryAction.label}
           </ButtonLink>
