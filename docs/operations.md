@@ -135,7 +135,7 @@ PGOPTIONS='-c session_replication_role=replica' psql "$SUPABASE_DB_URL" -f backu
 | ------------------ | ---------------------------- |
 | `/`                | Home                         |
 | `/courses`         | Course list                  |
-| `/courses/[slug]`  | Course details               |
+| `/courses/[slug]`  | Course details; signed-in students also see where their booking for it stands |
 | `/blog`            | Articles                     |
 | `/blog/[slug]`     | Article                      |
 | `/about-us`        | About the academy            |
@@ -148,11 +148,9 @@ PGOPTIONS='-c session_replication_role=replica' psql "$SUPABASE_DB_URL" -f backu
 | `/reset-password`  | Set a new password           |
 | `/auth/confirm`    | Confirm an email link        |
 | `/account`         | Profile, password and account deletion |
-| `/account/bookings` | My bookings and their status |
-| `/account/bookings/[id]` | Booking details and the conversation with the doctor |
-| `/account/messages` | All conversations with the doctor |
-| `/account/notifications` | Notifications (open one to mark it read) |
+| `/account/bookings/[id]` | Booking details and the conversation with the doctor (opened from the header, notifications, emails and the course page) |
 | `/api/account/summary` | Header state: guest, doctor, or a student's latest notifications and conversations (JSON, private) |
+| `/api/account/course-booking?course=` | The visitor's latest booking for one course, for the course page (JSON, private) |
 | `/courses/[slug]/book` | Confirm a course booking (signed in) |
 | `/admin`           | Doctor dashboard: counts, oldest pending requests, latest messages (admins only) |
 | `/admin/bookings`  | Booking requests: approve, reject, reopen |
