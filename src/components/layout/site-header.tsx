@@ -1,7 +1,7 @@
-import { Languages } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { HeaderAccount } from "@/components/header/header-account";
+import { LanguageSwitch } from "@/components/header/language-switch";
 import { MainNav } from "@/components/header/main-nav";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { site, siteText } from "@/content/site";
@@ -33,16 +33,7 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
         <MainNav links={links} label={text.chrome.mainMenu} />
 
         <div className="ms-auto flex items-center gap-1.5">
-          {/* ponytail: placeholder until the English version exists; wire it to the locale switch then. */}
-          <button
-            type="button"
-            aria-disabled="true"
-            aria-label={text.chrome.switchLanguage}
-            title={text.chrome.switchLanguage}
-            className="flex size-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand"
-          >
-            <Languages aria-hidden="true" className="size-5" />
-          </button>
+          <LanguageSwitch locale={locale} label={text.chrome.switchLanguage} />
           <HeaderAccount />
           <MobileNav links={links} label={text.chrome.mainMenu} buttonLabel={text.chrome.menu} />
         </div>

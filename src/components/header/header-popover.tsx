@@ -8,10 +8,10 @@ const triggerClassName =
   "relative flex size-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand";
 
 // Native popover: the browser handles outside clicks, Escape and returning focus. It renders in the
-// top layer, so it's placed under the sticky header and aligned with the container's left edge,
-// where the header's buttons sit in RTL.
+// top layer, so it's placed under the sticky header and aligned with the container's end edge,
+// where the header's buttons sit (left in Arabic, right in English).
 const panelClassName =
-  "fixed inset-auto top-[4.5rem] left-4 m-0 max-h-[calc(100dvh-5.5rem)] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto overscroll-contain rounded-2xl border border-line bg-white p-0 text-body shadow-pop sm:left-[max(1rem,calc((100vw-72rem)/2+1rem))] opacity-0 transition-[opacity,translate,overlay,display] transition-discrete duration-150 -translate-y-1 open:translate-y-0 open:opacity-100 starting:open:-translate-y-1 starting:open:opacity-0";
+  "fixed inset-auto top-[4.5rem] end-4 m-0 max-h-[calc(100dvh-5.5rem)] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto overscroll-contain rounded-xl border border-line bg-white p-0 text-body shadow-pop sm:end-[max(1rem,calc((100vw-72rem)/2+1rem))] opacity-0 transition-[opacity,translate,overlay,display] transition-discrete duration-150 -translate-y-1 open:translate-y-0 open:opacity-100 starting:open:-translate-y-1 starting:open:opacity-0";
 
 interface HeaderPopoverProps {
   id: string;
