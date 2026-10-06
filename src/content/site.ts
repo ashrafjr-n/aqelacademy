@@ -47,6 +47,8 @@ interface SiteText {
     privacyPolicy: string;
     whatsapp: string;
     whatsappAria: string;
+    /** After a header button's unread count, for screen readers: "الرسائل: 3 جديد". */
+    unreadSuffix: string;
     /** The other language's name, on the language switch. */
     switchLanguage: string;
     notFoundTitle: string;
@@ -98,6 +100,7 @@ export const siteText: Record<Locale, SiteText> = {
       privacyPolicy: "سياسة الخصوصية",
       whatsapp: "واتساب",
       whatsappAria: "تواصل معنا عبر واتساب",
+      unreadSuffix: "جديد",
       switchLanguage: "English",
       notFoundTitle: "الصفحة غير موجودة",
       notFoundText: "ربما تم نقل الصفحة أو أن الرابط غير صحيح.",
@@ -144,6 +147,7 @@ export const siteText: Record<Locale, SiteText> = {
       privacyPolicy: "Privacy policy",
       whatsapp: "WhatsApp",
       whatsappAria: "Message us on WhatsApp",
+      unreadSuffix: "new",
       switchLanguage: "العربية",
       notFoundTitle: "Page not found",
       notFoundText: "The page may have moved, or the link may be wrong.",

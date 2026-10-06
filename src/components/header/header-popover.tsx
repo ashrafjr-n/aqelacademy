@@ -1,6 +1,8 @@
 "use client";
 
 import type { MouseEvent, ReactNode, ToggleEvent } from "react";
+import { useLocale } from "@/components/locale-provider";
+import { siteText } from "@/content/site";
 
 const triggerClassName =
   "relative flex size-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand";
@@ -26,6 +28,8 @@ interface HeaderPopoverProps {
 
 /** A header button that opens a panel under the header. Following a link or submitting a form inside closes it. */
 export function HeaderPopover({ id, label, trigger, badge = 0, triggerClass = triggerClassName, onOpen, children }: HeaderPopoverProps) {
+  const { unreadSuffix } = siteText[useLocale()].chrome;
+
   function handleToggle(event: ToggleEvent<HTMLDivElement>) {
     if (event.newState === "open") onOpen?.();
   }
@@ -36,7 +40,7 @@ export function HeaderPopover({ id, label, trigger, badge = 0, triggerClass = tr
 
   return (
     <>
-      <button type="button" popoverTarget={id} aria-label={badge > 0 ? `${label}: ${badge} جديد` : label} className={triggerClass}>
+      <button type="button" popoverTarget={id} aria-label={badge > 0 ? `${label}: ${badge} ${unreadSuffix}` : label} className={triggerClass}>
         {trigger}
         {badge > 0 && (
           <span aria-hidden="true" className="absolute -top-0.5 -end-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1 text-[0.6875rem] font-bold text-white ring-2 ring-white">
