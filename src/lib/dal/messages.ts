@@ -132,7 +132,7 @@ export async function markConversationRead(bookingId: string): Promise<void> {
 
 /** The signed-in student's conversations, newest activity first. */
 export async function getMyConversations(): Promise<MyConversation[]> {
-  const user = await requireUser("/account/messages");
+  const user = await requireUser("/");
   const supabase = await createClient();
   const [bookings, messages] = await Promise.all([
     supabase.from("bookings").select("id, course_slug, status, created_at, decided_at").eq("user_id", user.id),

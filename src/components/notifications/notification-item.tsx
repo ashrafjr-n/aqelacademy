@@ -1,4 +1,4 @@
-import { openNotification } from "@/app/(app)/account/notifications/actions";
+import { openNotification } from "@/components/notifications/actions";
 import { NotificationIcon } from "@/components/notifications/notification-icon";
 import { notificationsCopy } from "@/content/notifications";
 import type { MyNotification } from "@/lib/dal/notifications";

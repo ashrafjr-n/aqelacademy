@@ -2,7 +2,7 @@
 
 import { Bell } from "lucide-react";
 import { useTransition } from "react";
-import { markAllNotificationsRead } from "@/app/(app)/account/notifications/actions";
+import { markAllNotificationsRead } from "@/components/notifications/actions";
 import { HeaderPopover, PanelHeader } from "@/components/header/header-popover";
 import { NotificationItem } from "@/components/notifications/notification-item";
 import { notificationsCopy } from "@/content/notifications";

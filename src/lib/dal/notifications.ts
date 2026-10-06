@@ -26,8 +26,8 @@ export async function getMyUnreadCount(): Promise<number | null> {
   return count ?? 0;
 }
 
-export async function getMyNotifications(limit = 50): Promise<MyNotification[]> {
-  const user = await requireUser("/account/notifications");
+export async function getMyNotifications(limit: number): Promise<MyNotification[]> {
+  const user = await requireUser("/");
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("notifications")
@@ -53,7 +53,7 @@ export async function getMyNotifications(limit = 50): Promise<MyNotification[]> 
 
 /** Marks one of the user's notifications read and returns where it leads (never a client-supplied URL). */
 export async function openMyNotification(notificationId: string): Promise<string> {
-  const user = await requireUser("/account/notifications");
+  const user = await requireUser("/");
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("notifications")
@@ -63,12 +63,12 @@ export async function openMyNotification(notificationId: string): Promise<string
     .select("type, booking_id, booking:bookings(user_id)")
     .maybeSingle();
   if (error) throw error;
-  if (!data) return "/account/notifications";
+  if (!data) return "/";
   return notificationTarget(data.type, data.booking_id, data.booking?.user_id === user.id);
 }
 
 export async function markAllMyNotificationsRead(): Promise<void> {
-  const user = await requireUser("/account/notifications");
+  const user = await requireUser("/");
   const supabase = await createClient();
   const { error } = await supabase
     .from("notifications")
