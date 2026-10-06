@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <section className="py-10 sm:py-16">
       <div className="container-site">
-        <div className="mx-auto grid max-w-5xl overflow-hidden rounded-2xl border border-line bg-white shadow-lift lg:grid-cols-[1.1fr_1fr]">
+        <div className="mx-auto grid max-w-5xl overflow-hidden rounded-xl border border-line bg-white shadow-lift lg:grid-cols-[1.1fr_1fr]">
           <div className="p-6 sm:p-10">
             <Link href="/" className="mb-8 flex justify-center lg:hidden">
               <Image src={site.logo.src} alt={site.logo.alt} sizes="64px" className="size-16" />
@@ -18,12 +18,14 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             {children}
           </div>
 
-          <aside className="hidden flex-col justify-between gap-10 bg-linear-to-b from-ink to-ink-dark p-10 text-white lg:flex">
+          <aside className="relative hidden flex-col justify-between gap-10 bg-ink p-10 text-white lg:flex">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-3 rounded-lg border border-gold/40" />
             <div>
               <div className="flex size-20 items-center justify-center rounded-full bg-white p-1.5">
                 <Image src={site.logo.src} alt={site.logo.alt} sizes="80px" className="size-full" />
               </div>
-              <h2 className="mt-8 text-2xl font-bold leading-relaxed">{authPanel.title}</h2>
+              <h2 className="mt-8 font-heading text-2xl font-bold leading-relaxed">{authPanel.title}</h2>
+              <span aria-hidden="true" className="mt-5 block h-0.5 w-12 bg-gold" />
               <div className="mt-6 text-white/90">
                 <CheckList items={authPanel.points} />
               </div>
