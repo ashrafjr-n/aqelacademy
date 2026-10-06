@@ -6,7 +6,6 @@ import { ConversationPanel } from "@/components/messages/conversation-panel";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";
 import { BackLink } from "@/components/ui/back-link";
 import { cardClassName } from "@/components/ui/card";
-import { accountSections } from "@/content/account";
 import { drMuaffaq, getCourse } from "@/content/courses";
 import { messagesCopy } from "@/content/messages";
 import { getMyConversation } from "@/lib/dal/messages";
@@ -26,7 +25,7 @@ export default async function MyBookingPage({ params }: PageProps<"/account/book
 
   return (
     <>
-      <BackLink href={accountSections.bookings.href} label={accountSections.bookings.label} />
+      <BackLink href={`/courses/${booking.course_slug}`} label={courseTitle} />
 
       <section className={`${cardClassName} overflow-hidden`}>
         <BookingSummary booking={booking} headingLevel="h1" />
