@@ -14,9 +14,9 @@ The whole platform runs on free tiers. Payments and the courses themselves stay 
 
 - **Public site:** courses, articles, FAQ, contact and privacy pages. Pages are statically rendered, with SEO metadata and link previews.
 - **Accounts:** email and password with 8-digit email codes, "Continue with Google", captcha protection, and account deletion by the user.
-- **Bookings:** a student requests a seat, and the doctor approves or rejects it. Students get one open request per course, with rate limits.
+- **Bookings:** a student requests a seat, and the doctor approves or rejects it. The course page itself shows where the request stands, so students need no dashboard. One open request per course, with rate limits.
 - **Messages:** one conversation per booking, with read receipts and auto-refresh.
-- **Notifications:** in-app (header panels and a notifications page) plus email.
+- **Notifications:** in-app header panels (booking sent, decision, new message) plus email.
 - **Doctor dashboard:** stats, a request queue, student search, and WhatsApp, call and email shortcuts.
 - **Security:** Row Level Security on every table, column-level grants, and a Google session required for admin rights. Strict security headers (CSP, HSTS) and automated database security tests in CI.
 - **Operations:** daily encrypted database backups, uptime monitoring, and automated dependency updates.
