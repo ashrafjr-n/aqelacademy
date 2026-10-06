@@ -42,12 +42,12 @@ Locally they live in `.env.local`. In production they are Worker variables (set 
 
 ## Authentication
 
-Accounts use Supabase Auth with email and password, or "Continue with Google": Google Identity Services gives the browser an ID token, and Supabase verifies it with a per-attempt nonce. The flow lives in `src/app/(app)/(auth)` and `src/app/(app)/account`:
+Accounts use Supabase Auth with email and password, or "Continue with Google": Google Identity Services gives the browser an ID token, and Supabase verifies it with a per-attempt nonce. The flow lives in `src/app/[lang]/(app)/(auth)` and `src/app/[lang]/(app)/account`:
 
 - **Sign-up:** email confirmation is required. The confirmation email carries an 8-digit code (valid for 15 minutes) that the student types on the sign-up page (or on the login page, for an account that is not confirmed yet); the email also keeps a fallback link. Sign-up, login and password reset are protected by Turnstile, which Supabase Auth verifies.
 - **Password reset:** the reset email also carries an 8-digit code (valid for 15 minutes), typed on the "forgot password" page, which then leads to setting a new password.
 - **Email links** (email change, and the fallback links in the sign-up and reset emails): they open `/auth/confirm`, which verifies the token only after a click, so link scanners can't use it up.
-- **Session cookies:** they are `httpOnly`. `src/middleware.ts` refreshes the session before protected pages render and redirects signed-out visitors to `/login`.
+- **Session cookies:** they are `httpOnly`. `src/middleware.ts` refreshes the session before protected pages render and redirects signed-out visitors to `/login` (or `/en/login` on English pages).
 - **Server checks:** every page and action re-checks the user through the data access layer in `src/lib/dal`.
 
 Auth settings (password policy, captcha, Resend SMTP, Arabic email templates in `supabase/templates/`) are versioned in `supabase/config.toml`. To apply them, put `SUPABASE_AUTH_CAPTCHA_SECRET` and `RESEND_API_KEY` in `supabase/.env` (gitignored), then run:
@@ -129,7 +129,17 @@ PGOPTIONS='-c session_replication_role=replica' psql "$SUPABASE_DB_URL" -f backu
 
 `session_replication_role=replica` stops the sign-up trigger from creating duplicate profiles during the restore.
 
+## Languages
+
+The site is in Arabic and British English. Arabic keeps the original URLs (`/courses`); English pages live under `/en` (`/en/courses`). The header's language button opens the same page in the other language. The doctor's dashboard (`/admin`) and the emails stay Arabic.
+
+- **Routing:** every visitor page sits under `src/app/[lang]`. `src/middleware.ts` rewrites Arabic URLs to `/ar/…` internally, redirects a typed `/ar/…` back to the plain URL, and tells Server Actions the language through the `x-locale` header. Both languages are prerendered.
+- **Text:** each file in `src/content/` holds both languages, keyed by locale (`ar`, `en`). Long English texts (articles, privacy policy) live in `src/content/en/`. Change both languages together.
+- **SEO:** every public page has a canonical URL and `hreflang` links to its twin, and the sitemap lists both versions.
+
 ## Pages
+
+Every page below also exists in English under `/en` (for example `/en/courses`), except `/admin`, the API routes, `/robots.txt` and `/sitemap.xml`.
 
 | Route              | Page                         |
 | ------------------ | ---------------------------- |
@@ -167,14 +177,15 @@ Every page carries Open Graph tags, so shared links (WhatsApp, Facebook) show a 
 
 ```
 src/
-  app/          Routes (App Router), grouped by layout:
-                (site) public pages, (app) sign-in/account/booking, admin dashboard
+  app/          Routes (App Router):
+                [lang]/(site) public pages, [lang]/(app) sign-in/account/booking,
+                (dashboard)/admin the doctor's dashboard (its own root layout, Arabic only)
   components/   UI components (layout, header, ui, forms, home, courses, blog,
                 bookings, messages, notifications, admin)
-  content/      Site content: courses, articles, pages, contact details
+  content/      Site content in Arabic and English: courses, articles, pages, contact details
   lib/          Helpers, validation, Supabase clients, data access layer (dal/)
   types/        Shared content types
   assets/       Images
 ```
 
-All site copy lives in `src/content/`. To add a course or an article, add an entry to `courses.ts` or `articles.ts`. The pages and cards pick it up automatically.
+All site copy lives in `src/content/`, in both languages. To add a course or an article, add the Arabic entry to `courses.ts` or `articles.ts` and the English one next to it (courses) or in `en/articles.ts` (articles), with the same slug. The pages and cards pick it up automatically.
