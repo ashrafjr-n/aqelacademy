@@ -7,6 +7,9 @@ import { FormAlert } from "@/components/forms/form-alert";
 import { PhoneCountryFields } from "@/components/forms/phone-country-fields";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { TextField } from "@/components/forms/text-field";
+import { useLocale } from "@/components/locale-provider";
+import { accountCopy } from "@/content/account";
+import { authCopy } from "@/content/auth";
 import { initialFormState } from "@/lib/forms";
 
 interface ProfileFormProps {
@@ -18,13 +21,15 @@ interface ProfileFormProps {
 export function ProfileForm({ fullName, phone, country }: ProfileFormProps) {
   const [state, formAction] = useActionState(updateProfile, initialFormState);
   const values = state.values ?? { fullName, phone: phone ?? "", country: country ?? "" };
+  const locale = useLocale();
+  const copy = accountCopy[locale];
 
   return (
     <form action={formAction} noValidate className="space-y-5">
       {state.message && <FormAlert tone={state.status === "success" ? "success" : "error"} message={state.message} />}
       <TextField
         name="fullName"
-        label="الاسم الكامل"
+        label={authCopy[locale].register.fullName}
         icon={UserRound}
         autoComplete="name"
         required
@@ -37,7 +42,7 @@ export function ProfileForm({ fullName, phone, country }: ProfileFormProps) {
         countryError={state.fieldErrors?.country}
         phoneError={state.fieldErrors?.phone}
       />
-      <SubmitButton label="حفظ التغييرات" pendingLabel="جارٍ الحفظ…" fullWidth={false} />
+      <SubmitButton label={copy.saveChanges} pendingLabel={copy.saving} fullWidth={false} />
     </form>
   );
 }

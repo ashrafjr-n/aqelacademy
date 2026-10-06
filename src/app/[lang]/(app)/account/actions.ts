@@ -6,6 +6,8 @@ import { deleteMyAccount, updateMyProfile } from "@/lib/dal/profiles";
 import { fieldErrorsOf, formValues, type FormState } from "@/lib/forms";
 import { getRequestLocale } from "@/lib/locale";
 import { createClient } from "@/lib/supabase/server";
+import { accountCopy } from "@/content/account";
+import { localePath } from "@/lib/i18n";
 import { profileSchema } from "@/lib/validation/auth";
 
 export async function updateProfile(previous: FormState, formData: FormData): Promise<FormState> {
@@ -17,16 +19,16 @@ export async function updateProfile(previous: FormState, formData: FormData): Pr
 
   await updateMyProfile(parsed.data);
   revalidatePath("/account");
-  return { status: "success", message: "تم حفظ بياناتك.", values, attempt };
+  return { status: "success", message: accountCopy[locale].saved, values, attempt };
 }
 
 export async function signOut(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  redirect("/");
+  redirect(localePath(await getRequestLocale(), "/"));
 }
 
 export async function deleteAccount(): Promise<void> {
   await deleteMyAccount();
-  redirect("/login?notice=account-deleted");
+  redirect(localePath(await getRequestLocale(), "/login?notice=account-deleted"));
 }

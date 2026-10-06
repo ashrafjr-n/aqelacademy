@@ -7,9 +7,10 @@ import { CourseSummaryCard } from "@/components/courses/course-summary-card";
 import { BackLink } from "@/components/ui/back-link";
 import { Card } from "@/components/ui/card";
 import { PageTitle } from "@/components/ui/page-title";
-import { accountSections } from "@/content/account";
+import { accountCopy } from "@/content/account";
 import { bookingCopy, bookingFlow } from "@/content/bookings";
 import { getCourse } from "@/content/courses";
+import { localePath } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
 import { getMyOpenBooking } from "@/lib/dal/bookings";
 import { getMyProfile } from "@/lib/dal/profiles";
@@ -22,7 +23,8 @@ export const metadata: Metadata = {
 
 export default async function BookCoursePage({ params }: PageProps<"/[lang]/courses/[slug]/book">) {
   const { slug } = await params;
-  const course = getCourse(slug, await getLocale());
+  const locale = await getLocale();
+  const course = getCourse(slug, locale);
   if (!course) notFound();
   await requireUser(`/courses/${slug}/book`);
 
@@ -59,8 +61,8 @@ export default async function BookCoursePage({ params }: PageProps<"/[lang]/cour
                 <Phone aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-brand" />
                 <span>
                   {bookingCopy.phoneTip}{" "}
-                  <Link href={accountSections.profile.href} className="font-bold text-brand underline hover:text-brand-dark">
-                    {accountSections.profile.label}
+                  <Link href={localePath(locale, "/account")} className="font-bold text-brand underline hover:text-brand-dark">
+                    {accountCopy[locale].title}
                   </Link>
                 </span>
               </p>
