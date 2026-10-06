@@ -44,7 +44,7 @@ export function AccountMenu({ name, email, onSignOut }: AccountMenuProps) {
         <Avatar name={name} />
         <div className="min-w-0">
           <p className="truncate font-bold text-ink">{name}</p>
-          <p dir="ltr" className="truncate text-end text-xs">
+          <p dir="ltr" className="truncate text-xs rtl:text-end">
             {email}
           </p>
         </div>

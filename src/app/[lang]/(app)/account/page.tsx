@@ -55,7 +55,7 @@ export default async function AccountPage({ searchParams }: PageProps<"/[lang]/a
             {isAdmin ? <DoctorAvatar size="lg" /> : <Avatar name={profile.full_name} size="lg" />}
             <div className="min-w-0">
               <p className="truncate font-bold text-ink">{profile.full_name}</p>
-              <p dir="ltr" className="truncate text-end text-sm">
+              <p dir="ltr" className="truncate text-sm rtl:text-end">
                 {profile.email}
               </p>
             </div>
