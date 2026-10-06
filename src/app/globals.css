@@ -23,6 +23,9 @@
   --color-warning: #b54708;
   --color-warning-soft: #fffaeb;
 
+  /* The page width (`container-site`); the header popovers align with its edge too. */
+  --container-site: 80rem;
+
   --shadow-card: 0 1px 2px rgb(20 38 81 / 0.04);
   --shadow-lift: 0 1px 2px rgb(20 38 81 / 0.04), 0 10px 24px -12px rgb(20 38 81 / 0.16);
   --shadow-pop: 0 4px 8px rgb(20 38 81 / 0.06), 0 24px 48px -12px rgb(20 38 81 / 0.24);
@@ -37,7 +40,7 @@
 @utility container-site {
   margin-inline: auto;
   width: 100%;
-  max-width: 72rem;
+  max-width: var(--container-site);
   padding-inline: 1rem;
 }
 
