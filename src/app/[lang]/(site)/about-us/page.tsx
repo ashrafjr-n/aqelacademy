@@ -4,16 +4,19 @@ import { CheckList } from "@/components/ui/check-list";
 import { PageHeader } from "@/components/ui/page-header";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitSection } from "@/components/ui/split-section";
-import { aboutAcademy, aboutMission, aboutValues, aboutVision, aboutWhyUs } from "@/content/about";
+import { aboutContent } from "@/content/about";
+import { getLocale } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: "من نحن",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: aboutContent[await getLocale()].title };
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const { title, vision: aboutVision, academy: aboutAcademy, whyUs: aboutWhyUs, mission: aboutMission, values: aboutValues } = aboutContent[await getLocale()];
+
   return (
     <>
-      <PageHeader title="من نحن" />
+      <PageHeader title={title} />
 
       <section className="container-site py-20">
         <SplitSection image={aboutVision.image}>
