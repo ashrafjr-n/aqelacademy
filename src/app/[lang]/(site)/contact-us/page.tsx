@@ -3,13 +3,15 @@ import type { Metadata } from "next";
 import { cardClassName } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { contactIntro } from "@/content/contact";
-import { site } from "@/content/site";
+import { contactContent } from "@/content/contact";
+import { site, siteText } from "@/content/site";
+import type { Locale } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 import { whatsappUrl } from "@/lib/whatsapp";
 
-export const metadata: Metadata = {
-  title: "اتصل بنا",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: contactContent[await getLocale()].title };
+}
 
 interface ContactChannel {
   id: "phone" | "whatsapp" | "email" | "location";
@@ -22,17 +24,24 @@ interface ContactChannel {
   external?: boolean;
 }
 
-const channels: ContactChannel[] = [
-  { id: "phone", icon: Phone, label: "رقم الهاتف", value: site.contact.phoneDisplay, href: `tel:${site.contact.phone}`, ltr: true },
-  { id: "whatsapp", icon: MessageCircle, label: "واتساب", value: "راسلنا مباشرة", href: whatsappUrl(), external: true },
-  { id: "email", icon: Mail, label: "البريد الإلكتروني", value: site.contact.email, href: `mailto:${site.contact.email}`, ltr: true },
-  { id: "location", icon: MapPin, label: "العنوان", value: site.contact.location },
-];
+function channelsFor(locale: Locale): ContactChannel[] {
+  const { labels } = contactContent[locale];
+  return [
+    { id: "phone", icon: Phone, label: labels.phone, value: site.contact.phoneDisplay, href: `tel:${site.contact.phone}`, ltr: true },
+    { id: "whatsapp", icon: MessageCircle, label: labels.whatsapp, value: labels.whatsappValue, href: whatsappUrl(), external: true },
+    { id: "email", icon: Mail, label: labels.email, value: site.contact.email, href: `mailto:${site.contact.email}`, ltr: true },
+    { id: "location", icon: MapPin, label: labels.address, value: siteText[locale].location },
+  ];
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const locale = await getLocale();
+  const { title, intro: contactIntro } = contactContent[locale];
+  const channels = channelsFor(locale);
+
   return (
     <>
-      <PageHeader title="اتصل بنا" />
+      <PageHeader title={title} />
       <section className="container-site py-20">
         <div className="max-w-2xl">
           <SectionHeading title={contactIntro.title} />
