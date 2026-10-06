@@ -18,7 +18,7 @@ export function CourseSummaryCard({ course, bookable = true }: CourseSummaryCard
   const details = [
     { id: "duration", icon: Clock, label: "المدة", value: courseDurationLabel(course.durationWeeks) },
     { id: "hours", icon: GraduationCap, label: "عدد الساعات", value: courseHoursLabel(course.trainingHours) },
-    { id: "level", icon: Signal, label: "المستوى", value: formatCourseLevel(course.level) },
+    { id: "level", icon: Signal, label: "المستوى", value: formatCourseLevel(course.level, "ar") },
     { id: "instructor", icon: UserRound, label: "المدرب", value: course.instructor.name },
   ];
 
