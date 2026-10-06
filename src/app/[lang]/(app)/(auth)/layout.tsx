@@ -3,17 +3,23 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CheckList } from "@/components/ui/check-list";
-import { authPanel } from "@/content/auth";
-import { site } from "@/content/site";
+import { authCopy } from "@/content/auth";
+import { site, siteText } from "@/content/site";
+import { localePath } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 
-export default function AuthLayout({ children }: { children: ReactNode }) {
+export default async function AuthLayout({ children }: { children: ReactNode }) {
+  const locale = await getLocale();
+  const authPanel = authCopy[locale].panel;
+  const logoAlt = siteText[locale].logoAlt;
+
   return (
     <section className="py-10 sm:py-16">
       <div className="container-site">
         <div className="mx-auto grid max-w-5xl overflow-hidden rounded-xl border border-line bg-white shadow-lift lg:grid-cols-[1.1fr_1fr]">
           <div className="p-6 sm:p-10">
-            <Link href="/" className="mb-8 flex justify-center lg:hidden">
-              <Image src={site.logo.src} alt={site.logo.alt} sizes="64px" className="size-16" />
+            <Link href={localePath(locale, "/")} className="mb-8 flex justify-center lg:hidden">
+              <Image src={site.logo.src} alt={logoAlt} sizes="64px" className="size-16" />
             </Link>
             {children}
           </div>
@@ -22,7 +28,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <div aria-hidden="true" className="pointer-events-none absolute inset-3 rounded-lg border border-gold/40" />
             <div>
               <div className="flex size-20 items-center justify-center rounded-full bg-white p-1.5">
-                <Image src={site.logo.src} alt={site.logo.alt} sizes="80px" className="size-full" />
+                <Image src={site.logo.src} alt={logoAlt} sizes="80px" className="size-full" />
               </div>
               <h2 className="mt-8 font-heading text-2xl font-bold leading-relaxed">{authPanel.title}</h2>
               <span aria-hidden="true" className="mt-5 block h-0.5 w-12 bg-gold" />

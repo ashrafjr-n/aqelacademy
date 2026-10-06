@@ -5,6 +5,9 @@ import Script from "next/script";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { signInWithGoogle } from "@/app/[lang]/(app)/(auth)/actions";
 import { FormAlert } from "@/components/forms/form-alert";
+import { useLocale } from "@/components/locale-provider";
+import { authCopy } from "@/content/auth";
+import { localePath } from "@/lib/i18n";
 
 interface GoogleIdConfiguration {
   client_id: string;
@@ -56,6 +59,8 @@ export function GoogleSignInButton({ clientId, nextPath }: GoogleSignInButtonPro
   const [isScriptReady, setIsScriptReady] = useState(false);
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
+  const locale = useLocale();
+  const copy = authCopy[locale].google;
 
   useEffect(() => {
     const container = containerRef.current;
@@ -83,7 +88,7 @@ export function GoogleSignInButton({ clientId, nextPath }: GoogleSignInButtonPro
         size: "large",
         text: "continue_with",
         shape: "pill",
-        locale: "ar",
+        locale: locale === "en" ? "en-GB" : "ar",
         width: Math.min(400, Math.max(200, container.offsetWidth)),
       });
     });
@@ -92,7 +97,7 @@ export function GoogleSignInButton({ clientId, nextPath }: GoogleSignInButtonPro
       isActive = false;
       window.google?.accounts.id.cancel();
     };
-  }, [isScriptReady, clientId, nextPath]);
+  }, [isScriptReady, clientId, nextPath, locale]);
 
   return (
     <div className="space-y-3">
@@ -100,11 +105,11 @@ export function GoogleSignInButton({ clientId, nextPath }: GoogleSignInButtonPro
       {error && <FormAlert tone="error" message={error} />}
       <div ref={containerRef} aria-busy={isPending} className={`flex min-h-11 justify-center ${isPending ? "pointer-events-none opacity-60" : ""}`} />
       <p className="text-center text-xs leading-relaxed">
-        بالمتابعة باستخدام Google، أنت توافق على{" "}
-        <Link href="/policy" target="_blank" className="font-bold text-brand underline hover:text-brand-dark">
-          سياسة الخصوصية
+        {copy.consentBefore}{" "}
+        <Link href={localePath(locale, "/policy")} target="_blank" className="font-bold text-brand underline hover:text-brand-dark">
+          {copy.consentLink}
         </Link>
-        .
+        {copy.consentAfter}
       </p>
     </div>
   );

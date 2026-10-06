@@ -10,6 +10,9 @@ import { PasswordField } from "@/components/forms/password-field";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { TextField } from "@/components/forms/text-field";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
+import { useLocale } from "@/components/locale-provider";
+import { authCopy } from "@/content/auth";
+import { formsCopy } from "@/content/forms";
 import { initialFormState } from "@/lib/forms";
 
 interface LoginFormProps {
@@ -20,6 +23,9 @@ interface LoginFormProps {
 export function LoginForm({ siteKey, nextPath }: LoginFormProps) {
   const [state, formAction] = useActionState(signIn, initialFormState);
   const needsConfirmation = state.code === "email_not_confirmed" && Boolean(state.values?.email);
+  const locale = useLocale();
+  const copy = authCopy[locale].login;
+  const fields = formsCopy[locale];
 
   return (
     <div className="space-y-5">
@@ -28,7 +34,7 @@ export function LoginForm({ siteKey, nextPath }: LoginFormProps) {
         <input type="hidden" name="next" value={nextPath} />
         <TextField
           name="email"
-          label="البريد الإلكتروني"
+          label={fields.email}
           icon={Mail}
           type="email"
           autoComplete="email"
@@ -37,12 +43,12 @@ export function LoginForm({ siteKey, nextPath }: LoginFormProps) {
           defaultValue={state.values?.email}
           error={state.fieldErrors?.email}
         />
-        <PasswordField name="password" label="كلمة المرور" autoComplete="current-password" error={state.fieldErrors?.password} />
+        <PasswordField name="password" label={fields.password} autoComplete="current-password" error={state.fieldErrors?.password} />
         <div>
           <TurnstileWidget key={state.attempt} siteKey={siteKey} />
           <FieldMessage id="field-captcha" error={state.fieldErrors?.captchaToken} />
         </div>
-        <SubmitButton label="تسجيل الدخول" pendingLabel="جارٍ تسجيل الدخول…" />
+        <SubmitButton label={copy.submit} pendingLabel={copy.pending} />
       </form>
       {needsConfirmation && <EmailCodeForm type="email" email={state.values?.email ?? ""} nextPath={nextPath} siteKey={siteKey} />}
     </div>

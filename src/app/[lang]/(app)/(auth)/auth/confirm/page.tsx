@@ -7,32 +7,35 @@ import { ButtonLink } from "@/components/ui/button-link";
 import { authCopy } from "@/content/auth";
 import { getNotice } from "@/content/notices";
 import { isEmailLinkType } from "@/lib/auth/email-link";
+import { localePath } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: authCopy.confirm.title,
-  robots: { index: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: authCopy[await getLocale()].confirm.title, robots: { index: false } };
+}
 
 export default async function ConfirmEmailLinkPage({ searchParams }: PageProps<"/[lang]/auth/confirm">) {
   const { token_hash: tokenHash, type } = await searchParams;
+  const locale = await getLocale();
+  const copy = authCopy[locale].confirm;
   const link = typeof tokenHash === "string" && isEmailLinkType(type) ? { tokenHash, type } : null;
-  const invalidLink = getNotice("link-invalid");
+  const invalidLink = getNotice("link-invalid", locale);
 
   return (
     <>
-      <AuthHeading title={authCopy.confirm.title} subtitle={authCopy.confirm.subtitle} />
+      <AuthHeading title={copy.title} subtitle={copy.subtitle} />
       {link ? (
         <form action={confirmEmailLink}>
           <input type="hidden" name="tokenHash" value={link.tokenHash} />
           <input type="hidden" name="type" value={link.type} />
-          <SubmitButton label="تأكيد ومتابعة" pendingLabel="جارٍ التأكيد…" />
+          <SubmitButton label={copy.submit} pendingLabel={copy.pending} />
         </form>
       ) : (
         <div className="space-y-5">
           {invalidLink && <FormAlert tone={invalidLink.tone} message={invalidLink.text} />}
           <div className="text-center">
-            <ButtonLink href="/login" variant="outline">
-              العودة لتسجيل الدخول
+            <ButtonLink href={localePath(locale, "/login")} variant="outline">
+              {copy.backToLogin}
             </ButtonLink>
           </div>
         </div>

@@ -11,21 +11,25 @@ import { getNotice } from "@/content/notices";
 import { safeNextPath } from "@/lib/auth/redirect";
 import { getCurrentUser } from "@/lib/dal/session";
 import { getEnv } from "@/lib/env";
+import { localePath } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: authCopy.login.title,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: authCopy[await getLocale()].login.title };
+}
 
 export default async function LoginPage({ searchParams }: PageProps<"/[lang]/login">) {
   const { next, notice } = await searchParams;
-  const nextPath = safeNextPath(next);
+  const locale = await getLocale();
+  const copy = authCopy[locale];
+  const nextPath = safeNextPath(next, localePath(locale, "/account"));
   if (await getCurrentUser()) redirect(nextPath);
-  const noticeMessage = getNotice(notice);
+  const noticeMessage = getNotice(notice, locale);
   const { TURNSTILE_SITE_KEY, GOOGLE_CLIENT_ID } = getEnv();
 
   return (
     <>
-      <AuthHeading title={authCopy.login.title} subtitle={authCopy.login.subtitle} />
+      <AuthHeading title={copy.login.title} subtitle={copy.login.subtitle} />
       {noticeMessage && (
         <div className="mb-5">
           <FormAlert tone={noticeMessage.tone} message={noticeMessage.text} />
@@ -34,20 +38,20 @@ export default async function LoginPage({ searchParams }: PageProps<"/[lang]/log
       {GOOGLE_CLIENT_ID && (
         <>
           <GoogleSignInButton clientId={GOOGLE_CLIENT_ID} nextPath={nextPath} />
-          <AuthDivider />
+          <AuthDivider label={copy.divider} />
         </>
       )}
       <LoginForm siteKey={TURNSTILE_SITE_KEY} nextPath={nextPath} />
       <div className="mt-6 space-y-2 text-center text-sm">
         <p>
-          <Link href="/forgot-password" className="font-semibold text-brand hover:text-brand-dark">
-            نسيت كلمة المرور؟
+          <Link href={localePath(locale, "/forgot-password")} className="font-semibold text-brand hover:text-brand-dark">
+            {copy.login.forgotPassword}
           </Link>
         </p>
         <p>
-          ليس لديك حساب؟{" "}
-          <Link href="/register" className="font-semibold text-brand hover:text-brand-dark">
-            أنشئ حسابًا
+          {copy.login.noAccount}{" "}
+          <Link href={localePath(locale, "/register")} className="font-semibold text-brand hover:text-brand-dark">
+            {copy.login.createAccount}
           </Link>
         </p>
       </div>

@@ -9,6 +9,7 @@ import { safeNextPath } from "@/lib/auth/redirect";
 import { requireUser } from "@/lib/dal/session";
 import { getEnv } from "@/lib/env";
 import { fieldErrorsOf, formValues, type FormState } from "@/lib/forms";
+import { localePath, type Locale } from "@/lib/i18n";
 import { getRequestLocale } from "@/lib/locale";
 import { createClient } from "@/lib/supabase/server";
 import { emailCodeSchema, emailWithCaptchaSchema, loginSchema, registerSchema, resetPasswordSchema } from "@/lib/validation/auth";
@@ -16,6 +17,11 @@ import { emailCodeSchema, emailWithCaptchaSchema, loginSchema, registerSchema, r
 /** Where auth emails send people back to; the route picks the next page by link type. */
 function emailLinkTarget(): string {
   return `${getEnv().SITE_URL}/auth/confirm`;
+}
+
+/** After signing in: the page the visitor came from, or their account page in their language. */
+function nextPathOf(next: unknown, locale: Locale): string {
+  return safeNextPath(next, localePath(locale, "/account"));
 }
 
 export async function signIn(previous: FormState, formData: FormData): Promise<FormState> {
@@ -30,7 +36,7 @@ export async function signIn(previous: FormState, formData: FormData): Promise<F
   const { error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken } });
   if (error) return { status: "error", message: authErrorMessage(error, locale), code: error.code, values, attempt };
 
-  redirect(safeNextPath(formData.get("next")));
+  redirect(nextPathOf(formData.get("next"), locale));
 }
 
 export async function signUp(previous: FormState, formData: FormData): Promise<FormState> {
@@ -56,7 +62,7 @@ export async function signUp(previous: FormState, formData: FormData): Promise<F
 
   // Same answer whether or not the email was already registered (no account enumeration).
   // The email is echoed back for the code step.
-  return { status: "success", message: authCopy.register.success, values: { email }, attempt };
+  return { status: "success", message: authCopy[locale].register.success, values: { email }, attempt };
 }
 
 /** Checks the code from a sign-up or password reset email; Supabase signs the user in, then we go to `next`. */
@@ -72,7 +78,7 @@ export async function verifyEmailCode(previous: FormState, formData: FormData): 
   const { error } = await supabase.auth.verifyOtp({ email, token: code, type });
   if (error) return { status: "error", message: authErrorMessage(error, locale), values, attempt };
 
-  redirect(safeNextPath(formData.get("next")));
+  redirect(nextPathOf(formData.get("next"), locale));
 }
 
 export async function requestPasswordReset(previous: FormState, formData: FormData): Promise<FormState> {
@@ -87,7 +93,7 @@ export async function requestPasswordReset(previous: FormState, formData: FormDa
   const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: emailLinkTarget(), captchaToken });
   if (error) return { status: "error", message: authErrorMessage(error, locale), values, attempt };
 
-  return { status: "success", message: authCopy.forgotPassword.success, values: { email }, attempt };
+  return { status: "success", message: authCopy[locale].forgotPassword.success, values: { email }, attempt };
 }
 
 export async function resendConfirmation(previous: FormState, formData: FormData): Promise<FormState> {
@@ -106,13 +112,13 @@ export async function resendConfirmation(previous: FormState, formData: FormData
   });
   if (error) return { status: "error", message: authErrorMessage(error, locale), values, attempt };
 
-  return { status: "success", message: authCopy.resendConfirmation.success, values, attempt };
+  return { status: "success", message: authCopy[locale].resendConfirmation.success, values, attempt };
 }
 
 export async function updatePassword(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
   const locale = await getRequestLocale();
-  await requireUser("/reset-password");
+  await requireUser(localePath(locale, "/reset-password"));
   const parsed = resetPasswordSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error, locale), attempt };
 
@@ -120,7 +126,7 @@ export async function updatePassword(previous: FormState, formData: FormData): P
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
   if (error) return { status: "error", message: authErrorMessage(error, locale), attempt };
 
-  redirect("/account?notice=password-updated");
+  redirect(localePath(locale, "/account?notice=password-updated"));
 }
 
 const googleSignInSchema = z.object({
@@ -136,7 +142,7 @@ const googleSignInSchema = z.object({
 export async function signInWithGoogle(credential: string, nonce: string, next: string): Promise<string> {
   const locale = await getRequestLocale();
   const parsed = googleSignInSchema.safeParse({ credential, nonce });
-  if (!parsed.success) return "تعذّر تسجيل الدخول باستخدام Google. حاول مرة أخرى.";
+  if (!parsed.success) return authCopy[locale].google.failed;
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithIdToken({
@@ -146,18 +152,19 @@ export async function signInWithGoogle(credential: string, nonce: string, next: 
   });
   if (error) return authErrorMessage(error, locale);
 
-  redirect(safeNextPath(next));
+  redirect(nextPathOf(next, locale));
 }
 
 /** Second step of every email link: a POST, so link scanners that pre-open URLs can't burn the token. */
 export async function confirmEmailLink(formData: FormData): Promise<void> {
+  const locale = await getRequestLocale();
   const tokenHash = formData.get("tokenHash");
   const type = formData.get("type");
-  if (typeof tokenHash !== "string" || !isEmailLinkType(type)) redirect("/login?notice=link-invalid");
+  if (typeof tokenHash !== "string" || !isEmailLinkType(type)) redirect(localePath(locale, "/login?notice=link-invalid"));
 
   const supabase = await createClient();
   const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
-  if (error) redirect("/login?notice=link-invalid");
+  if (error) redirect(localePath(locale, "/login?notice=link-invalid"));
 
-  redirect(type === "recovery" ? "/reset-password" : "/account?notice=email-confirmed");
+  redirect(localePath(locale, type === "recovery" ? "/reset-password" : "/account?notice=email-confirmed"));
 }

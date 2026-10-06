@@ -9,6 +9,10 @@ import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { TextField } from "@/components/forms/text-field";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
+import { useLocale } from "@/components/locale-provider";
+import { authCopy } from "@/content/auth";
+import { formsCopy } from "@/content/forms";
+import { localePath } from "@/lib/i18n";
 import { initialFormState } from "@/lib/forms";
 
 interface ForgotPasswordFormProps {
@@ -17,12 +21,14 @@ interface ForgotPasswordFormProps {
 
 export function ForgotPasswordForm({ siteKey }: ForgotPasswordFormProps) {
   const [state, formAction] = useActionState(requestPasswordReset, initialFormState);
+  const locale = useLocale();
+  const copy = authCopy[locale].forgotPassword;
 
   if (state.status === "success" && state.message) {
     return (
       <div className="space-y-5">
         <FormAlert tone="success" message={state.message} />
-        <EmailCodeForm type="recovery" email={state.values?.email ?? ""} nextPath="/reset-password" siteKey={siteKey} />
+        <EmailCodeForm type="recovery" email={state.values?.email ?? ""} nextPath={localePath(locale, "/reset-password")} siteKey={siteKey} />
       </div>
     );
   }
@@ -32,7 +38,7 @@ export function ForgotPasswordForm({ siteKey }: ForgotPasswordFormProps) {
       {state.message && <FormAlert tone="error" message={state.message} />}
       <TextField
         name="email"
-        label="البريد الإلكتروني"
+        label={formsCopy[locale].email}
         icon={Mail}
         type="email"
         autoComplete="email"
@@ -45,7 +51,7 @@ export function ForgotPasswordForm({ siteKey }: ForgotPasswordFormProps) {
         <TurnstileWidget key={state.attempt} siteKey={siteKey} />
         <FieldMessage id="field-captcha" error={state.fieldErrors?.captchaToken} />
       </div>
-      <SubmitButton label="أرسل الرمز" pendingLabel="جارٍ الإرسال…" />
+      <SubmitButton label={copy.submit} pendingLabel={copy.pending} />
     </form>
   );
 }

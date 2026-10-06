@@ -12,6 +12,10 @@ import { PhoneCountryFields } from "@/components/forms/phone-country-fields";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { TextField } from "@/components/forms/text-field";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
+import { useLocale } from "@/components/locale-provider";
+import { authCopy } from "@/content/auth";
+import { formsCopy } from "@/content/forms";
+import { localePath } from "@/lib/i18n";
 import { initialFormState } from "@/lib/forms";
 
 interface RegisterFormProps {
@@ -20,12 +24,15 @@ interface RegisterFormProps {
 
 export function RegisterForm({ siteKey }: RegisterFormProps) {
   const [state, formAction] = useActionState(signUp, initialFormState);
+  const locale = useLocale();
+  const copy = authCopy[locale].register;
+  const fields = formsCopy[locale];
 
   if (state.status === "success" && state.message) {
     return (
       <div className="space-y-5">
         <FormAlert tone="success" message={state.message} />
-        <EmailCodeForm type="email" email={state.values?.email ?? ""} nextPath="/account?notice=email-confirmed" siteKey={siteKey} />
+        <EmailCodeForm type="email" email={state.values?.email ?? ""} nextPath={localePath(locale, "/account?notice=email-confirmed")} siteKey={siteKey} />
       </div>
     );
   }
@@ -35,7 +42,7 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
       {state.message && <FormAlert tone="error" message={state.message} />}
       <TextField
         name="fullName"
-        label="الاسم الكامل"
+        label={copy.fullName}
         icon={UserRound}
         autoComplete="name"
         required
@@ -44,7 +51,7 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
       />
       <TextField
         name="email"
-        label="البريد الإلكتروني"
+        label={fields.email}
         icon={Mail}
         type="email"
         autoComplete="email"
@@ -55,9 +62,9 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
       />
       <PasswordField
         name="password"
-        label="كلمة المرور"
+        label={fields.password}
         autoComplete="new-password"
-        hint="10 أحرف على الأقل، وفيها حرف إنجليزي ورقم."
+        hint={copy.passwordHint}
         error={state.fieldErrors?.password}
       />
       <PhoneCountryFields
@@ -77,11 +84,11 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
             className="mt-0.5 size-5 shrink-0 accent-brand"
           />
           <span>
-            قرأت{" "}
-            <Link href="/policy" target="_blank" className="font-bold text-brand underline hover:text-brand-dark">
-              سياسة الخصوصية
-            </Link>{" "}
-            وأوافق عليها.
+            {copy.privacyBefore}{" "}
+            <Link href={localePath(locale, "/policy")} target="_blank" className="font-bold text-brand underline hover:text-brand-dark">
+              {copy.privacyLink}
+            </Link>
+            {copy.privacyAfter}
           </span>
         </label>
         <FieldMessage id="field-privacy" error={state.fieldErrors?.privacy} />
@@ -90,7 +97,7 @@ export function RegisterForm({ siteKey }: RegisterFormProps) {
         <TurnstileWidget key={state.attempt} siteKey={siteKey} />
         <FieldMessage id="field-captcha" error={state.fieldErrors?.captchaToken} />
       </div>
-      <SubmitButton label="إنشاء الحساب" pendingLabel="جارٍ إنشاء الحساب…" />
+      <SubmitButton label={copy.submit} pendingLabel={copy.pending} />
     </form>
   );
 }

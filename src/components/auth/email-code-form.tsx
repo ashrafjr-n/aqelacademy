@@ -6,6 +6,7 @@ import { ResendCodeForm } from "@/components/auth/resend-code-form";
 import { describedByOf, FieldShell, fieldIdOf, inputClassName } from "@/components/forms/field";
 import { FormAlert } from "@/components/forms/form-alert";
 import { SubmitButton } from "@/components/forms/submit-button";
+import { useLocale } from "@/components/locale-provider";
 import { authCopy } from "@/content/auth";
 import { initialFormState } from "@/lib/forms";
 import type { EmailCodeType } from "@/lib/validation/auth";
@@ -26,7 +27,8 @@ export function EmailCodeForm({ type, email, nextPath, siteKey }: EmailCodeFormP
   const [state, formAction] = useActionState(verifyEmailCode, initialFormState);
   const id = fieldIdOf("code");
   const error = state.fieldErrors?.code;
-  const hint = authCopy.emailCode.hint(email);
+  const copy = authCopy[useLocale()].emailCode;
+  const hint = copy.hint(email);
 
   return (
     <div className="space-y-5">
@@ -35,7 +37,7 @@ export function EmailCodeForm({ type, email, nextPath, siteKey }: EmailCodeFormP
         <input type="hidden" name="type" value={type} />
         <input type="hidden" name="email" value={email} />
         <input type="hidden" name="next" value={nextPath} />
-        <FieldShell id={id} label={authCopy.emailCode.label} error={error} hint={hint}>
+        <FieldShell id={id} label={copy.label} error={error} hint={hint}>
           <input
             id={id}
             name="code"
@@ -52,7 +54,7 @@ export function EmailCodeForm({ type, email, nextPath, siteKey }: EmailCodeFormP
             className={`${inputClassName} px-4 text-center text-2xl font-bold tracking-[0.5em]`}
           />
         </FieldShell>
-        <SubmitButton label={authCopy.emailCode.submit[type]} pendingLabel={authCopy.emailCode.pending} />
+        <SubmitButton label={copy.submit[type]} pendingLabel={copy.pending} />
       </form>
       <ResendCodeForm email={email} siteKey={siteKey} action={resendActions[type]} />
     </div>
