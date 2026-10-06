@@ -1,10 +1,10 @@
-import { CircleCheck } from "lucide-react";
 import { ArticleGrid } from "@/components/blog/article-grid";
 import { CourseGrid } from "@/components/courses/course-grid";
 import { AccreditationStrip } from "@/components/home/accreditation-strip";
 import { CtaBand } from "@/components/home/cta-band";
 import { HomeHero } from "@/components/home/home-hero";
 import { ButtonLink } from "@/components/ui/button-link";
+import { CheckList } from "@/components/ui/check-list";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitSection } from "@/components/ui/split-section";
 import { articles } from "@/content/articles";
@@ -44,20 +44,15 @@ export default function HomePage() {
         <CourseGrid courses={featuredCourses} />
       </section>
 
-      <section className="bg-canvas py-20">
+      <section className="border-y border-line bg-canvas py-20">
         <div className="container-site">
           <SplitSection image={journeySection.image}>
             <SectionHeading title={journeySection.title} />
-            <p className="text-lg leading-relaxed">{journeySection.text}</p>
-            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-              {journeySection.points.map((point) => (
-                <li key={point} className="flex items-center gap-3 rounded-xl bg-white p-4 font-bold text-ink shadow-card">
-                  <CircleCheck aria-hidden="true" className="size-5 shrink-0 text-success" />
-                  {point}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <p className="text-lg leading-loose">{journeySection.text}</p>
+            <div className="mt-8 font-bold text-ink">
+              <CheckList items={journeySection.points} />
+            </div>
+            <div className="mt-10 flex flex-wrap gap-3">
               <ButtonLink href={journeySection.primaryAction.href}>{journeySection.primaryAction.label}</ButtonLink>
               <ButtonLink href={journeySection.secondaryAction.href} variant="outline">
                 {journeySection.secondaryAction.label}
