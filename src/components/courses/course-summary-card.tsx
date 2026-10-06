@@ -23,18 +23,18 @@ export function CourseSummaryCard({ course, bookable = true }: CourseSummaryCard
   ];
 
   return (
-    <div className={`${cardClassName} overflow-hidden`}>
-      <div className="relative aspect-[16/9] bg-surface">
+    <div className={`${cardClassName} overflow-hidden border-t-2 border-t-gold`}>
+      <div className="relative aspect-[16/9] border-b border-line bg-surface">
         <Image src={course.image.src} alt={course.image.alt} fill sizes="(min-width: 1024px) 22rem, 100vw" className="object-cover" />
       </div>
       <div className="p-5 sm:p-6">
         {!bookable && <p className="mb-2 font-bold leading-snug text-ink">{course.title}</p>}
-        <p className="text-3xl font-extrabold text-ink">{formatPrice(course.priceUsd)}</p>
+        <p className="text-3xl font-bold text-ink">{formatPrice(course.priceUsd)}</p>
         <dl className="mt-4 divide-y divide-line">
           {details.map(({ id, icon: Icon, label, value }) => (
             <div key={id} className="flex items-center justify-between gap-4 py-3 text-sm">
               <dt className="flex items-center gap-2">
-                <Icon aria-hidden="true" className="size-4 text-body/60" />
+                <Icon aria-hidden="true" className="size-4 text-gold" />
                 {label}
               </dt>
               <dd className="font-bold text-ink">{value}</dd>

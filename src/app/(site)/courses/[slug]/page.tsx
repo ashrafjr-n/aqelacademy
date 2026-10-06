@@ -28,13 +28,13 @@ export default async function CoursePage({ params }: PageProps<"/courses/[slug]"
   return (
     <>
       <PageHeader title={course.title} parents={[{ href: "/courses", label: "الدورات التدريبية" }]} />
-      <div className="container-site grid gap-10 py-16 lg:grid-cols-[1fr_22rem]">
+      <div className="container-site grid gap-12 py-20 lg:grid-cols-[1fr_22rem] lg:gap-16">
         <aside className="lg:sticky lg:top-24 lg:order-2 lg:self-start">
           <CourseSummaryCard course={course} />
         </aside>
         <div>
           <RichText blocks={course.body} />
-          <div className="mt-12">
+          <div className="mt-16">
             <SectionHeading title="المدرب" />
             <InstructorCard instructor={course.instructor} />
           </div>
