@@ -8,16 +8,16 @@ interface CtaBandProps {
   secondaryAction: NavLink;
 }
 
-/** The closing call to action: a navy panel with two buttons. */
+/** The closing call to action: a navy panel with a thin gold inner frame. */
 export function CtaBand({ title, text, primaryAction, secondaryAction }: CtaBandProps) {
   return (
     <section className="container-site pb-20">
-      <div className="relative isolate overflow-hidden rounded-3xl bg-ink px-6 py-12 text-center sm:px-12">
-        <div aria-hidden="true" className="absolute -top-24 -start-16 -z-10 size-72 rounded-full bg-brand/30 blur-3xl" />
-        <div aria-hidden="true" className="absolute -bottom-32 -end-10 -z-10 size-80 rounded-full bg-white/10 blur-3xl" />
-        <h2 className="text-2xl font-extrabold text-white md:text-3xl">{title}</h2>
-        <p className="mx-auto mt-3 max-w-xl leading-relaxed text-white/80">{text}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+      <div className="relative rounded-xl bg-ink px-6 py-14 text-center sm:px-12 sm:py-16">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-2.5 rounded-lg border border-gold/40 sm:inset-3" />
+        <span aria-hidden="true" className="mx-auto block h-0.5 w-12 bg-gold" />
+        <h2 className="mt-6 font-heading text-2xl font-bold leading-snug text-white md:text-3xl md:leading-snug">{title}</h2>
+        <p className="mx-auto mt-4 max-w-xl leading-loose text-white/80">{text}</p>
+        <div className="relative mt-9 flex flex-wrap justify-center gap-3">
           <ButtonLink href={primaryAction.href} variant="gold">
             {primaryAction.label}
           </ButtonLink>
