@@ -1,3 +1,4 @@
+import { Languages } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { HeaderAccount } from "@/components/header/header-account";
@@ -24,6 +25,16 @@ export function SiteHeader() {
         <MainNav links={mainNav} />
 
         <div className="ms-auto flex items-center gap-1.5">
+          {/* ponytail: placeholder until the English version exists; wire it to the locale switch then. */}
+          <button
+            type="button"
+            aria-disabled="true"
+            aria-label="English (قريبًا)"
+            title="English (قريبًا)"
+            className="flex size-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand"
+          >
+            <Languages aria-hidden="true" className="size-5" />
+          </button>
           <HeaderAccount />
           <MobileNav links={mainNav} />
         </div>
