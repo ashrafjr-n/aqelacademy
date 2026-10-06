@@ -8,31 +8,30 @@ interface PageHeaderProps {
   parents?: NavLink[];
 }
 
-/** The navy title band at the top of public pages, with the breadcrumb trail. */
+/** The title band at the top of public pages, with the breadcrumb trail. */
 export function PageHeader({ title, parents = [] }: PageHeaderProps) {
   const trail: NavLink[] = [{ href: "/", label: "الرئيسية" }, ...parents];
 
   return (
-    <div className="relative isolate overflow-hidden bg-ink">
-      <div aria-hidden="true" className="absolute -top-28 -start-20 -z-10 size-80 rounded-full bg-brand/25 blur-3xl" />
-      <div aria-hidden="true" className="absolute -bottom-40 end-10 -z-10 size-96 rounded-full bg-white/5 blur-3xl" />
-      <div className="container-site py-12 sm:py-14">
+    <div className="border-b border-line bg-canvas">
+      <div className="container-site py-12 sm:py-16">
         <nav aria-label="مسار التنقل">
-          <ol className="flex flex-wrap items-center gap-1.5 text-sm text-white/70">
+          <ol className="flex flex-wrap items-center gap-1.5 text-sm">
             {trail.map((link) => (
               <li key={link.href} className="flex items-center gap-1.5">
-                <Link href={link.href} className="transition-colors hover:text-white">
+                <Link href={link.href} className="transition-colors hover:text-ink">
                   {link.label}
                 </Link>
-                <ChevronLeft aria-hidden="true" className="size-3.5" />
+                <ChevronLeft aria-hidden="true" className="size-3.5 text-gold" />
               </li>
             ))}
-            <li aria-current="page" className="text-white">
+            <li aria-current="page" className="font-bold text-ink">
               {title}
             </li>
           </ol>
         </nav>
-        <h1 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight text-white md:text-4xl">{title}</h1>
+        <h1 className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-snug text-ink md:text-4xl md:leading-snug">{title}</h1>
+        <span aria-hidden="true" className="mt-5 block h-0.5 w-12 bg-gold" />
       </div>
     </div>
   );
