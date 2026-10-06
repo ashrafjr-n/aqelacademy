@@ -14,7 +14,7 @@ export function StatCard({ href, label, value, icon: Icon, highlight = false }: 
   return (
     <Link
       href={href}
-      className={`group flex flex-col gap-4 rounded-2xl border p-5 shadow-card transition-shadow hover:shadow-lift focus-visible:outline-2 focus-visible:outline-brand ${highlight ? "border-brand/30 bg-brand-soft" : "border-line bg-white"}`}
+      className={`group flex flex-col gap-4 rounded-xl border p-5 shadow-card transition-shadow hover:shadow-lift focus-visible:outline-2 focus-visible:outline-brand ${highlight ? "border-brand/30 bg-brand-soft" : "border-line bg-white"}`}
     >
       <span className="flex items-center justify-between">
         <span className={`flex size-11 items-center justify-center rounded-xl ${highlight ? "bg-brand text-white" : "bg-surface text-ink/70"}`}>

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 export const inputClassName =
-  "block w-full rounded-xl border border-line bg-white py-3 text-ink shadow-xs outline-none transition placeholder:text-body/50 hover:border-ink/25 focus:border-brand focus:ring-4 focus:ring-brand/10 aria-invalid:border-danger aria-invalid:ring-danger/10";
+  "block w-full rounded-lg border border-line bg-white py-3 text-ink shadow-xs outline-none transition placeholder:text-body/50 hover:border-ink/25 focus:border-brand focus:ring-4 focus:ring-brand/10 aria-invalid:border-danger aria-invalid:ring-danger/10";
 
 /** Icon slot on the physical right (start of the RTL page). Inputs using it need `pr-11`. */
 export const fieldIconClassName = "pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-body/60";

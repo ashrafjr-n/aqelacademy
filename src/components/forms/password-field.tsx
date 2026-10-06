@@ -41,7 +41,7 @@ export function PasswordField({ name, label, autoComplete, error, hint }: Passwo
           aria-label={isVisible ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
           aria-pressed={isVisible}
           aria-controls={id}
-          className="absolute inset-y-0 left-0 flex items-center rounded-l-xl px-3.5 text-body/70 hover:text-brand focus-visible:outline-2 focus-visible:outline-brand"
+          className="absolute inset-y-0 left-0 flex items-center rounded-l-lg px-3.5 text-body/70 hover:text-brand focus-visible:outline-2 focus-visible:outline-brand"
         >
           <ToggleIcon aria-hidden="true" className="size-5" />
         </button>

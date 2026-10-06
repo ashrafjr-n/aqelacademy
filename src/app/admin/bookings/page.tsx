@@ -26,7 +26,7 @@ export default async function AdminBookingsPage({ searchParams }: PageProps<"/ad
       <PageTitle title={adminSections.bookings.label} description={adminCopy.bookingsDescription} />
       {noticeMessage && <FormAlert tone={noticeMessage.tone} message={noticeMessage.text} />}
 
-      <nav aria-label="تصفية الطلبات" className="flex gap-1 overflow-x-auto rounded-2xl border border-line bg-white p-1.5 shadow-card">
+      <nav aria-label="تصفية الطلبات" className="flex gap-1 overflow-x-auto rounded-xl border border-line bg-white p-1.5 shadow-card">
         {adminBookingFilters.map((filter) => {
           const isActive = filter.status === activeStatus;
           return (
@@ -34,7 +34,7 @@ export default async function AdminBookingsPage({ searchParams }: PageProps<"/ad
               key={filter.status}
               href={`${adminSections.bookings.href}?status=${filter.status}`}
               aria-current={isActive ? "page" : undefined}
-              className="flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-base font-bold text-body transition-colors hover:text-ink aria-[current=page]:bg-ink aria-[current=page]:text-white"
+              className="flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 py-2.5 text-base font-bold text-body transition-colors hover:text-ink aria-[current=page]:bg-ink aria-[current=page]:text-white"
             >
               {filter.label}
               <span className={`rounded-full px-2 text-sm tabular-nums ${isActive ? "bg-white/15" : "bg-surface"}`}>{counts[filter.status]}</span>
