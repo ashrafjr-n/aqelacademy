@@ -1,5 +1,5 @@
-import Image from "next/image";
 import type { ReactNode } from "react";
+import { FramedImage } from "@/components/ui/framed-image";
 import type { ContentImage } from "@/types/content";
 
 interface SplitSectionProps {
@@ -11,10 +11,10 @@ interface SplitSectionProps {
 
 export function SplitSection({ image, imageSide = "end", children }: SplitSectionProps) {
   return (
-    <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+    <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
       <div className={imageSide === "start" ? "lg:order-2" : undefined}>{children}</div>
-      <div className="relative mx-auto aspect-[9/10] w-full max-w-md overflow-hidden rounded-3xl bg-surface">
-        <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1024px) 28rem, 100vw" className="object-cover" />
+      <div className="mx-auto w-full max-w-md">
+        <FramedImage image={image} shape="portrait" sizes="(min-width: 1024px) 28rem, 100vw" />
       </div>
     </div>
   );
