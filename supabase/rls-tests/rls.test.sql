@@ -92,6 +92,7 @@ select tests.check(not private.is_admin(), 'A is not an admin');
 -- ---------------------------------------------------------------- user A: bookings
 insert into public.bookings (user_id, course_slug, user_note) values ('00000000-0000-0000-0000-00000000000a', 'abat', 'Interested');
 select tests.check((select status from public.bookings) = 'pending', 'new booking is pending');
+select tests.check((select count(*) from public.notifications where type = 'booking_submitted') = 1, 'A is told the booking was sent');
 select tests.expect_error($$insert into public.bookings (user_id, course_slug, status) values ('00000000-0000-0000-0000-00000000000a', 'c2', 'approved')$$, '42501');
 select tests.expect_error($$insert into public.bookings (user_id, course_slug) values ('00000000-0000-0000-0000-00000000000b', 'c2')$$, '42501');
 select tests.expect_error($$insert into public.bookings (user_id, course_slug) values ('00000000-0000-0000-0000-00000000000a', 'no-such-course')$$, '42501');
@@ -121,6 +122,7 @@ select tests.check(private.is_admin(), 'D is an admin');
 select tests.check((select count(*) from public.profiles) = 3, 'admin sees all profiles');
 select tests.check((select count(*) from public.bookings) = 6, 'admin sees all bookings');
 select tests.check((select count(*) from public.notifications where type = 'booking_created') = 6, 'admin is notified of every booking');
+select tests.check((select count(*) from public.notifications where type = 'booking_submitted') = 0, 'admin gets no "booking sent" notices');
 select tests.check(tests.affected($$update public.bookings set status = 'approved' where user_id = '00000000-0000-0000-0000-00000000000a'$$) = 1, 'admin approves A''s booking');
 select tests.check((select decided_by = '00000000-0000-0000-0000-00000000000d' and decided_at is not null from public.bookings where user_id = '00000000-0000-0000-0000-00000000000a'), 'decision is stamped with admin and time');
 select tests.check((select count(*) from public.audit_logs where action = 'booking.status_changed' and details ->> 'to' = 'approved') = 1, 'approval is audit-logged');
@@ -134,7 +136,7 @@ reset role;
 -- ---------------------------------------------------------------- user A after approval: messages + notifications
 set role authenticated;
 select tests.login('00000000-0000-0000-0000-00000000000a');
-select tests.check((select count(*) from public.notifications) = 2, 'A is notified of the decision and the message');
+select tests.check((select count(*) from public.notifications) = 3, 'A is notified of the sent booking, the decision and the message');
 select tests.check((select booking_status from public.notifications where type = 'booking_status_changed') = 'approved', 'decision notification keeps the announced status');
 select tests.expect_error($$update public.notifications set booking_status = 'rejected'$$, '42501');
 select tests.check((select count(*) from public.messages) = 1, 'A sees only messages in own booking');
@@ -144,7 +146,7 @@ select tests.expect_error($$insert into public.messages (booking_id, sender_id, 
 select tests.expect_error($$insert into public.messages (booking_id, sender_id, body) select id, '00000000-0000-0000-0000-00000000000a', repeat('x', 1001) from public.bookings$$, '23514');
 select tests.check(tests.affected($$update public.messages set read_at = now() where sender_id = '00000000-0000-0000-0000-00000000000d'$$) = 1, 'A marks the doctor''s message read');
 select tests.check(tests.affected($$update public.messages set read_at = now() where sender_id = '00000000-0000-0000-0000-00000000000a'$$) = 0, 'A cannot mark own message read');
-select tests.check(tests.affected($$update public.notifications set read_at = now()$$) = 2, 'A marks own notifications read');
+select tests.check(tests.affected($$update public.notifications set read_at = now()$$) = 3, 'A marks own notifications read');
 select tests.expect_error($$update public.notifications set user_id = '00000000-0000-0000-0000-00000000000b'$$, '42501');
 -- Burst cap: A already sent 1 message; 9 more are allowed, the 11th is rejected.
 insert into public.messages (booking_id, sender_id, body)
