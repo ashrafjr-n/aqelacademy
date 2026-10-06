@@ -9,6 +9,7 @@ import { safeNextPath } from "@/lib/auth/redirect";
 import { requireUser } from "@/lib/dal/session";
 import { getEnv } from "@/lib/env";
 import { fieldErrorsOf, formValues, type FormState } from "@/lib/forms";
+import { getRequestLocale } from "@/lib/locale";
 import { createClient } from "@/lib/supabase/server";
 import { emailCodeSchema, emailWithCaptchaSchema, loginSchema, registerSchema, resetPasswordSchema } from "@/lib/validation/auth";
 
@@ -19,9 +20,10 @@ function emailLinkTarget(): string {
 
 export async function signIn(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
+  const locale = await getRequestLocale();
   const values = formValues(formData, ["email"]);
   const parsed = loginSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error, locale), values, attempt };
 
   const { email, password, captchaToken } = parsed.data;
   const supabase = await createClient();
@@ -33,9 +35,10 @@ export async function signIn(previous: FormState, formData: FormData): Promise<F
 
 export async function signUp(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
+  const locale = await getRequestLocale();
   const values = formValues(formData, ["fullName", "email", "phone", "country"]);
   const parsed = registerSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error, locale), values, attempt };
 
   const { fullName, email, password, phone, country, captchaToken } = parsed.data;
   const supabase = await createClient();
@@ -59,9 +62,10 @@ export async function signUp(previous: FormState, formData: FormData): Promise<F
 /** Checks the code from a sign-up or password reset email; Supabase signs the user in, then we go to `next`. */
 export async function verifyEmailCode(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
+  const locale = await getRequestLocale();
   const values = formValues(formData, ["code"]);
   const parsed = emailCodeSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error, locale), values, attempt };
 
   const supabase = await createClient();
   const { email, code, type } = parsed.data;
@@ -73,9 +77,10 @@ export async function verifyEmailCode(previous: FormState, formData: FormData): 
 
 export async function requestPasswordReset(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
+  const locale = await getRequestLocale();
   const values = formValues(formData, ["email"]);
   const parsed = emailWithCaptchaSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error, locale), values, attempt };
 
   const { email, captchaToken } = parsed.data;
   const supabase = await createClient();
@@ -87,9 +92,10 @@ export async function requestPasswordReset(previous: FormState, formData: FormDa
 
 export async function resendConfirmation(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
+  const locale = await getRequestLocale();
   const values = formValues(formData, ["email"]);
   const parsed = emailWithCaptchaSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error, locale), values, attempt };
 
   const { email, captchaToken } = parsed.data;
   const supabase = await createClient();
@@ -105,9 +111,10 @@ export async function resendConfirmation(previous: FormState, formData: FormData
 
 export async function updatePassword(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
+  const locale = await getRequestLocale();
   await requireUser("/reset-password");
   const parsed = resetPasswordSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), attempt };
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error, locale), attempt };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });

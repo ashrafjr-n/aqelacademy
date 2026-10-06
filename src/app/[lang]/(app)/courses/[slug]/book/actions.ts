@@ -8,13 +8,15 @@ import { createMyBooking } from "@/lib/dal/bookings";
 import { getMyProfile } from "@/lib/dal/profiles";
 import { emailNewBooking } from "@/lib/email/notify";
 import { fieldErrorsOf, formValues, type FormState } from "@/lib/forms";
+import { getRequestLocale } from "@/lib/locale";
 import { bookingSchema } from "@/lib/validation/bookings";
 
 export async function createBooking(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
+  const locale = await getRequestLocale();
   const values = formValues(formData, ["note"]);
   const parsed = bookingSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error), values, attempt };
+  if (!parsed.success) return { status: "error", fieldErrors: fieldErrorsOf(parsed.error, locale), values, attempt };
 
   const { courseSlug, note } = parsed.data;
   if (!getCourse(courseSlug)) return { status: "error", message: bookingCopy.failures.unavailable, values, attempt };

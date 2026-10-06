@@ -1,40 +1,41 @@
 import { z } from "zod";
 import { EMAIL_CODE_LENGTH } from "@/content/auth";
 import { countries, dialCodeOf } from "@/content/countries";
+import { issue, type ValidationKey } from "@/lib/validation/messages";
 
 const countryCodes = countries.map((country) => country.code);
 
 const fullNameSchema = z
   .string()
   .trim()
-  .min(2, { error: "الاسم قصير جدًا." })
-  .max(100, { error: "الاسم طويل جدًا." });
+  .min(2, issue("nameTooShort"))
+  .max(100, issue("nameTooLong"));
 
 const emailSchema = z.preprocess(
   (value) => (typeof value === "string" ? value.trim().toLowerCase() : value),
-  z.email({ error: "أدخل بريدًا إلكترونيًا صحيحًا." }).max(254, { error: "البريد الإلكتروني طويل جدًا." }),
+  z.email(issue("emailInvalid")).max(254, issue("emailTooLong")),
 );
 
 /** Matches the Supabase project policy: 10+ chars, at least one letter and one digit. */
 const newPasswordSchema = z
   .string()
-  .min(10, { error: "كلمة المرور يجب أن تكون 10 أحرف على الأقل." })
-  .max(72, { error: "كلمة المرور طويلة جدًا (72 حرفًا كحد أقصى)." })
-  .regex(/[A-Za-z]/, { error: "كلمة المرور يجب أن تحتوي على حرف إنجليزي واحد على الأقل." })
-  .regex(/[0-9]/, { error: "كلمة المرور يجب أن تحتوي على رقم واحد على الأقل." });
+  .min(10, issue("passwordTooShort"))
+  .max(72, issue("passwordTooLong"))
+  .regex(/[A-Za-z]/, issue("passwordNeedsLetter"))
+  .regex(/[0-9]/, issue("passwordNeedsDigit"));
 
 /** Optional phone as typed: local ("0791…") or international ("+962…" / "00962…"). Normalized by `withE164Phone`. */
 const phoneInputSchema = z
   .string()
   .transform((value) => value.replace(/[\s\-().]/g, ""))
-  .refine((value) => value === "" || /^(\+|00)?[0-9]{6,15}$/.test(value), { error: "رقم الهاتف غير صحيح." });
+  .refine((value) => value === "" || /^(\+|00)?[0-9]{6,15}$/.test(value), issue("phoneInvalid"));
 
 const countrySchema = z
   .string()
-  .refine((value) => value === "" || countryCodes.includes(value), { error: "اختر دولة من القائمة." })
+  .refine((value) => value === "" || countryCodes.includes(value), issue("countryInvalid"))
   .transform((value) => value || null);
 
-const captchaTokenSchema = z.string().min(1, { error: "يرجى الانتظار حتى يكتمل التحقق الأمني." });
+const captchaTokenSchema = z.string().min(1, issue("captchaPending"));
 
 /** Phone keyboards may type Arabic-Indic digits (٠-٩ or ۰-۹); codes are checked as Latin digits. */
 function toLatinDigits(value: string): string {
@@ -47,7 +48,7 @@ function toLatinDigits(value: string): string {
 const emailCodeInputSchema = z
   .string()
   .transform((value) => toLatinDigits(value).replace(/\s/g, ""))
-  .pipe(z.string().regex(new RegExp(`^[0-9]{${EMAIL_CODE_LENGTH}}$`), { error: `أدخل الرمز المكوّن من ${EMAIL_CODE_LENGTH} أرقام.` }));
+  .pipe(z.string().regex(new RegExp(`^[0-9]{${EMAIL_CODE_LENGTH}}$`), issue("codeFormat")));
 
 interface ContactInput {
   phone: string;
@@ -66,11 +67,11 @@ function withE164Phone<T extends ContactInput>(data: T, ctx: z.RefinementCtx): O
   else if (dialCode) international = `+${dialCode}${phone.replace(/^0+/, "")}`;
 
   if (!international) {
-    ctx.addIssue({ code: "custom", path: ["phone"], message: "اختر الدولة أولًا، أو اكتب الرقم مع رمز الدولة." });
+    ctx.addIssue({ code: "custom", path: ["phone"], message: "phoneNeedsCountry" satisfies ValidationKey });
     return z.NEVER;
   }
   if (!/^\+[1-9][0-9]{6,14}$/.test(international)) {
-    ctx.addIssue({ code: "custom", path: ["phone"], message: "رقم الهاتف غير صحيح." });
+    ctx.addIssue({ code: "custom", path: ["phone"], message: "phoneInvalid" satisfies ValidationKey });
     return z.NEVER;
   }
   return { ...data, phone: international };
@@ -83,14 +84,14 @@ export const registerSchema = z
     password: newPasswordSchema,
     phone: phoneInputSchema,
     country: countrySchema,
-    privacy: z.literal("on", { error: "يجب الموافقة على سياسة الخصوصية للمتابعة." }),
+    privacy: z.literal("on", issue("privacyRequired")),
     captchaToken: captchaTokenSchema,
   })
   .transform(withE164Phone);
 
 export const loginSchema = z.object({
   email: emailSchema,
-  password: z.string().min(1, { error: "أدخل كلمة المرور." }),
+  password: z.string().min(1, issue("passwordRequired")),
   captchaToken: captchaTokenSchema,
 });
 
@@ -113,7 +114,7 @@ export const emailCodeSchema = z.object({
 export const resetPasswordSchema = z
   .object({ password: newPasswordSchema, confirmPassword: z.string() })
   .refine((data) => data.password === data.confirmPassword, {
-    error: "كلمتا المرور غير متطابقتين.",
+    ...issue("passwordsDontMatch"),
     path: ["confirmPassword"],
   });
 

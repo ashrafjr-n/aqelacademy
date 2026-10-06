@@ -1,4 +1,6 @@
 import type { z } from "zod";
+import type { Locale } from "@/lib/i18n";
+import { validationMessage } from "@/lib/validation/messages";
 
 export interface FormState<Field extends string = string> {
   status: "idle" | "error" | "success";
@@ -14,12 +16,12 @@ export interface FormState<Field extends string = string> {
 
 export const initialFormState: FormState = { status: "idle", attempt: 0 };
 
-/** First error message per field. */
-export function fieldErrorsOf<Field extends string>(error: z.ZodError): Partial<Record<Field, string>> {
+/** First error message per field, in the visitor's language. */
+export function fieldErrorsOf<Field extends string>(error: z.ZodError, locale: Locale): Partial<Record<Field, string>> {
   const errors: Partial<Record<Field, string>> = {};
   for (const issue of error.issues) {
     const field = issue.path[0];
-    if (typeof field === "string" && !(field in errors)) errors[field as Field] = issue.message;
+    if (typeof field === "string" && !(field in errors)) errors[field as Field] = validationMessage(issue.message, locale);
   }
   return errors;
 }
