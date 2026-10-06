@@ -26,7 +26,7 @@ export function MainNav({ links, label }: MainNavProps) {
 
   return (
     <nav aria-label={label} className="hidden lg:block">
-      <ul className="flex items-center gap-1">
+      <ul className="flex items-center gap-1 xl:gap-2.5">
         {links.map((link) => (
           <li key={link.href}>
             <Link
