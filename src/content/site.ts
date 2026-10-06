@@ -1,9 +1,13 @@
 import logo from "@/assets/images/logo.png";
 import type { ContentImage, NavLink } from "@/types/content";
 
+const name = "أكاديمية الدكتور موفق عقل";
+const tagline = "لتحليل السلوك التطبيقي والتأهيل";
+
 export const site = {
-  name: "أكاديمية الدكتور موفق عقل",
-  fullName: "أكاديمية الدكتور موفق عقل لتحليل السلوك التطبيقي والتأهيل",
+  name,
+  tagline,
+  fullName: `${name} ${tagline}`,
   description:
     "برامج تدريب احترافية في تحليل السلوك التطبيقي (ABA)، التربية الخاصة، والتأهيل النفسي والسلوكي، بإشراف مباشر من الدكتور موفق عقل.",
   url: "https://aqelacademy.com",

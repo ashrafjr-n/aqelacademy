@@ -35,7 +35,7 @@ export function MobileNav({ links }: MobileNavProps) {
         popover="auto"
         aria-label="القائمة الرئيسية"
         onClick={closeOnLink}
-        className="fixed inset-auto inset-x-4 top-[4.5rem] m-0 w-auto rounded-2xl border border-line bg-white p-2 shadow-pop opacity-0 transition-[opacity,translate,overlay,display] transition-discrete duration-150 -translate-y-1 open:translate-y-0 open:opacity-100 starting:open:-translate-y-1 starting:open:opacity-0"
+        className="fixed inset-auto inset-x-4 top-[4.5rem] m-0 w-auto rounded-xl border border-line bg-white p-2 shadow-pop opacity-0 transition-[opacity,translate,overlay,display] transition-discrete duration-150 -translate-y-1 open:translate-y-0 open:opacity-100 starting:open:-translate-y-1 starting:open:opacity-0"
       >
         <ul>
           {links.map((link) => (
@@ -43,7 +43,7 @@ export function MobileNav({ links }: MobileNavProps) {
               <Link
                 href={link.href}
                 aria-current={isActiveLink(pathname, link.href) ? "page" : undefined}
-                className="block rounded-xl px-4 py-3 font-bold text-ink hover:bg-surface aria-[current=page]:bg-brand-soft aria-[current=page]:text-brand-dark"
+                className="block rounded-lg px-4 py-3 font-bold text-ink hover:bg-surface aria-[current=page]:bg-gold-soft"
               >
                 {link.label}
               </Link>

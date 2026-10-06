@@ -24,7 +24,7 @@ export function MainNav({ links }: MainNavProps) {
             <Link
               href={link.href}
               aria-current={isActiveLink(pathname, link.href) ? "page" : undefined}
-              className="rounded-lg px-3 py-2 text-sm font-bold text-ink/80 transition-colors hover:bg-surface hover:text-ink aria-[current=page]:bg-brand-soft aria-[current=page]:text-brand-dark"
+              className="relative block px-3 py-2 text-sm font-bold text-ink/75 transition-colors after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:bg-gold after:opacity-0 after:transition-opacity hover:text-ink hover:after:opacity-40 aria-[current=page]:text-ink aria-[current=page]:after:opacity-100"
             >
               {link.label}
             </Link>
