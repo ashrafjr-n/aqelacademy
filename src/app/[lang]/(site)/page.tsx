@@ -8,12 +8,11 @@ import { CheckList } from "@/components/ui/check-list";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitSection } from "@/components/ui/split-section";
 import { articles } from "@/content/articles";
-import { courses } from "@/content/courses";
+import { getCourses } from "@/content/courses";
 import { homeContent } from "@/content/home";
 import { localeLink } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
 
-const featuredCourses = courses.slice(0, 3);
 const latestArticles = articles.slice(0, 3);
 
 export default async function HomePage() {
@@ -34,7 +33,7 @@ export default async function HomePage() {
 
       <section className="container-site py-20">
         <SectionHeading title={featuredSection.title} subtitle={featuredSection.subtitle} action={featuredSection.action} />
-        <CourseGrid courses={featuredCourses} />
+        <CourseGrid courses={getCourses(locale).slice(0, 3)} />
       </section>
 
       <section className="border-y border-line bg-canvas py-20">

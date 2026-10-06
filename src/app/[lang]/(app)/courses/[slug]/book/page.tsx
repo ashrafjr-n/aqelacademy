@@ -10,6 +10,7 @@ import { PageTitle } from "@/components/ui/page-title";
 import { accountSections } from "@/content/account";
 import { bookingCopy, bookingFlow } from "@/content/bookings";
 import { getCourse } from "@/content/courses";
+import { getLocale } from "@/lib/locale";
 import { getMyOpenBooking } from "@/lib/dal/bookings";
 import { getMyProfile } from "@/lib/dal/profiles";
 import { requireUser } from "@/lib/dal/session";
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 
 export default async function BookCoursePage({ params }: PageProps<"/[lang]/courses/[slug]/book">) {
   const { slug } = await params;
-  const course = getCourse(slug);
+  const course = getCourse(slug, await getLocale());
   if (!course) notFound();
   await requireUser(`/courses/${slug}/book`);
 

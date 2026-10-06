@@ -6,7 +6,7 @@ import { ConversationPanel } from "@/components/messages/conversation-panel";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";
 import { BackLink } from "@/components/ui/back-link";
 import { cardClassName } from "@/components/ui/card";
-import { drMuaffaq, getCourse } from "@/content/courses";
+import { getCourse, instructors } from "@/content/courses";
 import { messagesCopy } from "@/content/messages";
 import { getMyConversation } from "@/lib/dal/messages";
 
@@ -33,7 +33,7 @@ export default async function MyBookingPage({ params }: PageProps<"/[lang]/accou
 
       <ConversationPanel
         conversation={conversation}
-        counterpart={{ name: drMuaffaq.name, subtitle: courseTitle, avatar: <DoctorAvatar /> }}
+        counterpart={{ name: instructors.ar.name, subtitle: courseTitle, avatar: <DoctorAvatar /> }}
         emptyText={messagesCopy.empty}
       />
     </>

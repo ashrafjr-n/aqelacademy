@@ -2,8 +2,9 @@ import { Clock, GraduationCap, MessageCircle, Signal, UserRound } from "lucide-r
 import Image from "next/image";
 import { CourseBookingAction } from "@/components/courses/course-booking-action";
 import { cardClassName } from "@/components/ui/card";
-import { courseDurationLabel, courseHoursLabel } from "@/content/courses";
+import { courseCopy, courseDurationLabel, courseHoursLabel } from "@/content/courses";
 import { formatCourseLevel, formatPrice } from "@/lib/format";
+import { getLocale } from "@/lib/locale";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Course } from "@/types/content";
 
@@ -13,13 +14,15 @@ interface CourseSummaryCardProps {
   bookable?: boolean;
 }
 
-export function CourseSummaryCard({ course, bookable = true }: CourseSummaryCardProps) {
-  const questionUrl = whatsappUrl(`مرحبًا، لدي استفسار عن ${course.title}`);
+export async function CourseSummaryCard({ course, bookable = true }: CourseSummaryCardProps) {
+  const locale = await getLocale();
+  const copy = courseCopy[locale];
+  const questionUrl = whatsappUrl(copy.whatsappPrefill(course.title));
   const details = [
-    { id: "duration", icon: Clock, label: "المدة", value: courseDurationLabel(course.durationWeeks) },
-    { id: "hours", icon: GraduationCap, label: "عدد الساعات", value: courseHoursLabel(course.trainingHours) },
-    { id: "level", icon: Signal, label: "المستوى", value: formatCourseLevel(course.level, "ar") },
-    { id: "instructor", icon: UserRound, label: "المدرب", value: course.instructor.name },
+    { id: "duration", icon: Clock, label: copy.duration, value: courseDurationLabel(course.durationWeeks, locale) },
+    { id: "hours", icon: GraduationCap, label: copy.hours, value: courseHoursLabel(course.trainingHours, locale) },
+    { id: "level", icon: Signal, label: copy.level, value: formatCourseLevel(course.level, locale) },
+    { id: "instructor", icon: UserRound, label: copy.trainer, value: course.instructor.name },
   ];
 
   return (
@@ -49,7 +52,7 @@ export function CourseSummaryCard({ course, bookable = true }: CourseSummaryCard
           className="mt-4 flex items-center justify-center gap-2 border-t border-line pt-4 text-sm font-bold text-whatsapp-dark hover:underline"
         >
           <MessageCircle aria-hidden="true" className="size-4" />
-          لديك سؤال؟ تواصل معنا عبر واتساب
+          {copy.whatsappQuestion}
         </a>
       </div>
     </div>

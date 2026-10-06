@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import { CourseGrid } from "@/components/courses/course-grid";
 import { PageHeader } from "@/components/ui/page-header";
-import { courses } from "@/content/courses";
+import { courseCopy, getCourses } from "@/content/courses";
+import { getLocale } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: "الدورات التدريبية",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: courseCopy[await getLocale()].listTitle };
+}
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
+  const locale = await getLocale();
+
   return (
     <>
-      <PageHeader title="الدورات التدريبية" />
+      <PageHeader title={courseCopy[locale].listTitle} />
       <section className="container-site py-20">
-        <CourseGrid courses={courses} preloadFirst />
+        <CourseGrid courses={getCourses(locale)} preloadFirst />
       </section>
     </>
   );

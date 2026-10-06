@@ -2,8 +2,10 @@ import { ArrowLeft, Clock, GraduationCap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { cardClassName } from "@/components/ui/card";
-import { courseDurationLabel, courseHoursLabel } from "@/content/courses";
+import { courseCopy, courseDurationLabel, courseHoursLabel } from "@/content/courses";
 import { formatPrice } from "@/lib/format";
+import { localePath } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 import type { Course } from "@/types/content";
 
 interface CourseCardProps {
@@ -12,8 +14,9 @@ interface CourseCardProps {
   preload?: boolean;
 }
 
-export function CourseCard({ course, preload = false }: CourseCardProps) {
-  const href = `/courses/${course.slug}`;
+export async function CourseCard({ course, preload = false }: CourseCardProps) {
+  const locale = await getLocale();
+  const href = localePath(locale, `/courses/${course.slug}`);
 
   return (
     <article className={`${cardClassName} group flex flex-col overflow-hidden transition-shadow hover:shadow-lift`}>
@@ -31,18 +34,18 @@ export function CourseCard({ course, preload = false }: CourseCardProps) {
         <ul className="mt-4 mb-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
           <li className="flex items-center gap-1.5">
             <Clock aria-hidden="true" className="size-4 text-gold" />
-            {courseDurationLabel(course.durationWeeks)}
+            {courseDurationLabel(course.durationWeeks, locale)}
           </li>
           <li className="flex items-center gap-1.5">
             <GraduationCap aria-hidden="true" className="size-4 text-gold" />
-            {courseHoursLabel(course.trainingHours)}
+            {courseHoursLabel(course.trainingHours, locale)}
           </li>
         </ul>
         <div className="mt-auto flex items-center justify-between gap-4 border-t border-line pt-4">
           <p className="text-lg font-bold text-ink">{formatPrice(course.priceUsd)}</p>
           <Link href={href} className="inline-flex items-center gap-1.5 text-sm font-bold text-ink transition-colors hover:text-gold-dark">
-            التفاصيل والحجز
-            <ArrowLeft aria-hidden="true" className="size-4 transition-transform group-hover:-translate-x-0.5" />
+            {courseCopy[locale].details}
+            <ArrowLeft aria-hidden="true" className="size-4 transition-transform ltr:rotate-180 rtl:group-hover:-translate-x-0.5 ltr:group-hover:translate-x-0.5" />
           </Link>
         </div>
       </div>

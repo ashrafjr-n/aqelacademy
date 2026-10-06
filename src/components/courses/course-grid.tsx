@@ -1,4 +1,6 @@
 import { CourseCard } from "@/components/courses/course-card";
+import { courseCopy } from "@/content/courses";
+import { getLocale } from "@/lib/locale";
 import type { Course } from "@/types/content";
 
 interface CourseGridProps {
@@ -7,9 +9,9 @@ interface CourseGridProps {
   preloadFirst?: boolean;
 }
 
-export function CourseGrid({ courses, preloadFirst = false }: CourseGridProps) {
+export async function CourseGrid({ courses, preloadFirst = false }: CourseGridProps) {
   if (courses.length === 0) {
-    return <p className="rounded-xl border border-line bg-canvas p-8 text-center">لا توجد دورات متاحة حاليًا.</p>;
+    return <p className="rounded-xl border border-line bg-canvas p-8 text-center">{courseCopy[await getLocale()].empty}</p>;
   }
 
   return (

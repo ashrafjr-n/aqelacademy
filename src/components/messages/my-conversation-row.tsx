@@ -1,6 +1,6 @@
 import { ConversationRow } from "@/components/messages/conversation-row";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";
-import { drMuaffaq } from "@/content/courses";
+import { instructors } from "@/content/courses";
 import { messagesCopy } from "@/content/messages";
 import type { MyConversation } from "@/lib/dal/messages";
 
@@ -17,7 +17,7 @@ export function MyConversationRow({ conversation }: MyConversationRowProps) {
     <ConversationRow
       href={`/account/bookings/${bookingId}`}
       leading={<DoctorAvatar />}
-      title={drMuaffaq.name}
+      title={instructors.ar.name}
       subtitle={courseTitle}
       preview={preview}
       time={lastActivityAt}

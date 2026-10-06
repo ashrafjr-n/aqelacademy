@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { drMuaffaq } from "@/content/courses";
+import { instructors } from "@/content/courses";
 
 const sizeClasses = {
   sm: "size-8",
@@ -15,7 +15,7 @@ interface DoctorAvatarProps {
 export function DoctorAvatar({ size = "md" }: DoctorAvatarProps) {
   return (
     <span className={`relative shrink-0 overflow-hidden rounded-full bg-surface ring-2 ring-white ${sizeClasses[size]}`}>
-      <Image src={drMuaffaq.image.src} alt="" fill sizes="48px" className="object-cover object-top" />
+      <Image src={instructors.ar.image.src} alt="" fill sizes="48px" className="object-cover object-top" />
     </span>
   );
 }
