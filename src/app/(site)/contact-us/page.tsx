@@ -33,30 +33,30 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader title="اتصل بنا" />
-      <section className="container-site pt-16 pb-20">
+      <section className="container-site py-20">
         <div className="max-w-2xl">
           <SectionHeading title={contactIntro.title} />
-          <div className="space-y-4 text-lg leading-relaxed">
+          <div className="space-y-4 text-lg leading-loose">
             {contactIntro.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
         </div>
 
-        <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {channels.map(({ id, icon: Icon, label, value, href, ltr, external }) => (
             <li key={id} className={`${cardClassName} p-6`}>
-              <span className={`flex size-12 items-center justify-center rounded-xl ${id === "whatsapp" ? "bg-whatsapp-dark text-white" : "bg-brand-soft text-brand"}`}>
+              <span className={`flex size-12 items-center justify-center rounded-full ${id === "whatsapp" ? "bg-whatsapp-dark text-white" : "border border-gold/50 bg-gold-soft text-gold-dark"}`}>
                 <Icon aria-hidden="true" className="size-6" />
               </span>
-              <h2 className="mt-4 font-bold text-ink">{label}</h2>
+              <h2 className="mt-5 font-bold text-ink">{label}</h2>
               {href ? (
                 <a
                   href={href}
                   dir={ltr ? "ltr" : undefined}
                   target={external ? "_blank" : undefined}
                   rel={external ? "noopener noreferrer" : undefined}
-                  className="mt-1 block break-all hover:text-brand"
+                  className="mt-1 block break-all transition-colors hover:text-gold-dark"
                 >
                   {value}
                 </a>
