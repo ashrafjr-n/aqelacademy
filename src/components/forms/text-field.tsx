@@ -1,6 +1,8 @@
 import type { LucideIcon } from "lucide-react";
 import type { HTMLInputTypeAttribute } from "react";
-import { describedByOf, FieldShell, fieldIconClassName, fieldIdOf, inputClassName } from "@/components/forms/field";
+import { describedByOf, FieldShell, fieldIconClassName, fieldIdOf, inputClassName, startIconPadding } from "@/components/forms/field";
+import { useLocale } from "@/components/locale-provider";
+import { dirOf } from "@/lib/i18n";
 
 interface TextFieldProps {
   name: string;
@@ -29,6 +31,7 @@ export function TextField({
   ltr = false,
 }: TextFieldProps) {
   const id = fieldIdOf(name);
+  const padding = startIconPadding[dirOf(useLocale())];
 
   return (
     <FieldShell id={id} label={label} optional={!required} error={error} hint={hint}>
@@ -46,7 +49,7 @@ export function TextField({
           dir={ltr ? "ltr" : undefined}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedByOf(id, error, hint)}
-          className={`${inputClassName} pl-4 pr-11`}
+          className={`${inputClassName} ${padding}`}
         />
       </div>
     </FieldShell>

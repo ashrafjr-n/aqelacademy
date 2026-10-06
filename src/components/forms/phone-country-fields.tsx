@@ -3,7 +3,9 @@
 import { ChevronDown, Globe, Phone } from "lucide-react";
 import { useState } from "react";
 import { describedByOf, FieldShell, fieldIconClassName, fieldIdOf, inputClassName } from "@/components/forms/field";
+import { useLocale } from "@/components/locale-provider";
 import { countries, dialCodeOf } from "@/content/countries";
+import { formsCopy } from "@/content/forms";
 
 interface PhoneCountryFieldsProps {
   defaultCountry?: string;
@@ -24,11 +26,18 @@ export function PhoneCountryFields({ defaultCountry = "", defaultPhone = "", cou
   const phoneValue = defaultDialCode && defaultPhone.startsWith(`+${defaultDialCode}`) ? defaultPhone.slice(defaultDialCode.length + 1) : defaultPhone;
   const countryId = fieldIdOf("country");
   const phoneId = fieldIdOf("phone");
-  const phoneHint = dialCode ? undefined : "اختر الدولة أولًا ليُضاف رمزها تلقائيًا.";
+  const locale = useLocale();
+  const copy = formsCopy[locale];
+  const isRtl = locale === "ar";
+  const phoneHint = dialCode ? undefined : copy.phoneHint;
+  const options = isRtl ? countries : countries.toSorted((a, b) => a.nameEn.localeCompare(b.nameEn, "en-GB"));
+  // The phone input is dir="ltr" on every page: on Arabic pages the start icon sits on its right and the
+  // "+code" prefix on its left; on English pages both sit on the left, the prefix after the icon.
+  const phonePadding = isRtl ? `pr-11 ${dialCode ? "pl-20" : "pl-4"}` : `pr-4 ${dialCode ? "pl-[6.5rem]" : "pl-11"}`;
 
   return (
     <>
-      <FieldShell id={countryId} label="الدولة" optional error={countryError}>
+      <FieldShell id={countryId} label={copy.country} optional error={countryError}>
         <div className="relative">
           <span className={fieldIconClassName}>
             <Globe aria-hidden="true" className="size-5" />
@@ -42,29 +51,29 @@ export function PhoneCountryFields({ defaultCountry = "", defaultPhone = "", cou
             onChange={(event) => setCountry(event.target.value)}
             aria-invalid={countryError ? true : undefined}
             aria-describedby={describedByOf(countryId, countryError)}
-            className={`${inputClassName} appearance-none pl-10 pr-11`}
+            className={`${inputClassName} appearance-none ps-11 pe-10`}
           >
-            <option value="">— اختر الدولة —</option>
-            {countries.map((option) => (
+            <option value="">{copy.countryPlaceholder}</option>
+            {options.map((option) => (
               <option key={option.code} value={option.code}>
                 {/* Isolated left-to-right so "+962" doesn't flip to "962+" in the RTL list. */}
-                {`${option.name} \u2066+${option.dialCode}\u2069`}
+                {`${isRtl ? option.name : option.nameEn} \u2066+${option.dialCode}\u2069`}
               </option>
             ))}
           </select>
-          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-body/60">
+          <span className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5 text-body/60">
             <ChevronDown aria-hidden="true" className="size-5" />
           </span>
         </div>
       </FieldShell>
 
-      <FieldShell id={phoneId} label="رقم الهاتف" optional error={phoneError} hint={phoneHint}>
+      <FieldShell id={phoneId} label={copy.phone} optional error={phoneError} hint={phoneHint}>
         <div className="relative">
           <span className={fieldIconClassName}>
             <Phone aria-hidden="true" className="size-5" />
           </span>
           {dialCode && (
-            <span dir="ltr" className="pointer-events-none absolute inset-y-0 left-0 flex items-center border-e border-line pl-4 pr-3 font-semibold text-ink">
+            <span dir="ltr" className={`pointer-events-none absolute inset-y-0 flex items-center border-e border-line pr-3 font-semibold text-ink ${isRtl ? "left-0 pl-4" : "left-11"}`}>
               +{dialCode}
             </span>
           )}
@@ -78,7 +87,7 @@ export function PhoneCountryFields({ defaultCountry = "", defaultPhone = "", cou
             defaultValue={phoneValue}
             aria-invalid={phoneError ? true : undefined}
             aria-describedby={describedByOf(phoneId, phoneError, phoneHint)}
-            className={`${inputClassName} pr-11 ${dialCode ? "pl-20" : "pl-4"}`}
+            className={`${inputClassName} ${phonePadding}`}
           />
         </div>
       </FieldShell>

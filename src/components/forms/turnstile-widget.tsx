@@ -3,6 +3,8 @@
 import { CircleAlert, LoaderCircle, ShieldCheck } from "lucide-react";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
+import { useLocale } from "@/components/locale-provider";
+import { formsCopy } from "@/content/forms";
 
 interface TurnstileOptions {
   sitekey: string;
@@ -39,6 +41,7 @@ export function TurnstileWidget({ siteKey }: TurnstileWidgetProps) {
   const [isScriptReady, setIsScriptReady] = useState(false);
   const [token, setToken] = useState("");
   const [status, setStatus] = useState<CaptchaStatus>("checking");
+  const locale = useLocale();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -46,7 +49,7 @@ export function TurnstileWidget({ siteKey }: TurnstileWidgetProps) {
 
     const widgetId = window.turnstile.render(container, {
       sitekey: siteKey,
-      language: "ar",
+      language: locale,
       size: "flexible",
       appearance: "interaction-only",
       callback: (newToken) => {
@@ -63,7 +66,7 @@ export function TurnstileWidget({ siteKey }: TurnstileWidgetProps) {
       },
     });
     return () => window.turnstile?.remove(widgetId);
-  }, [isScriptReady, siteKey]);
+  }, [isScriptReady, siteKey, locale]);
 
   return (
     <div>
@@ -79,14 +82,15 @@ export function TurnstileWidget({ siteKey }: TurnstileWidgetProps) {
   );
 }
 
-const statusContent = {
-  checking: { icon: LoaderCircle, text: "جارٍ التحقق الأمني…", className: "text-body [&>svg]:animate-spin" },
-  verified: { icon: ShieldCheck, text: "تم التحقق الأمني", className: "text-success" },
-  failed: { icon: CircleAlert, text: "تعذّر التحقق الأمني. حدّث الصفحة وحاول مرة أخرى.", className: "text-danger" },
+const statusStyles = {
+  checking: { icon: LoaderCircle, className: "text-body [&>svg]:animate-spin" },
+  verified: { icon: ShieldCheck, className: "text-success" },
+  failed: { icon: CircleAlert, className: "text-danger" },
 } as const;
 
 function CaptchaStatusLine({ status }: { status: CaptchaStatus }) {
-  const { icon: Icon, text, className } = statusContent[status];
+  const { icon: Icon, className } = statusStyles[status];
+  const text = formsCopy[useLocale()].captcha[status];
 
   return (
     <p aria-live="polite" className={`flex items-center gap-1.5 text-xs ${className}`}>
