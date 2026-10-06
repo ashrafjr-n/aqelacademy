@@ -61,7 +61,7 @@ export default async function BookCoursePage({ params }: PageProps<"/courses/[sl
                 <ol className="grid gap-5 sm:grid-cols-3">
                   {bookingFlow.map((step, index) => (
                     <li key={step.title} className="flex gap-3 sm:flex-col">
-                      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-soft text-sm font-extrabold text-brand-dark">{index + 1}</span>
+                      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gold-soft text-sm font-bold text-gold-dark ring-1 ring-gold/50">{index + 1}</span>
                       <span>
                         <span className="block font-bold text-ink">{step.title}</span>
                         <span className="mt-1 block text-sm leading-relaxed">{step.text}</span>
