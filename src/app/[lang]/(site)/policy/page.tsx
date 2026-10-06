@@ -4,9 +4,11 @@ import { RichText } from "@/components/ui/rich-text";
 import { policyContent } from "@/content/policy";
 import { formatDate } from "@/lib/format";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: policyContent[await getLocale()].title };
+  const locale = await getLocale();
+  return { title: policyContent[locale].title, alternates: languageAlternates(locale, "/policy") };
 }
 
 export default async function PolicyPage() {

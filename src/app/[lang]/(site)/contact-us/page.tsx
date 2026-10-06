@@ -7,10 +7,12 @@ import { contactContent } from "@/content/contact";
 import { site, siteText } from "@/content/site";
 import type { Locale } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: contactContent[await getLocale()].title };
+  const locale = await getLocale();
+  return { title: contactContent[locale].title, alternates: languageAlternates(locale, "/contact-us") };
 }
 
 interface ContactChannel {

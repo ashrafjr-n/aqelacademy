@@ -13,9 +13,11 @@ import { getCurrentUser } from "@/lib/dal/session";
 import { getEnv } from "@/lib/env";
 import { localePath } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: authCopy[await getLocale()].login.title };
+  const locale = await getLocale();
+  return { title: authCopy[locale].login.title, alternates: languageAlternates(locale, "/login") };
 }
 
 export default async function LoginPage({ searchParams }: PageProps<"/[lang]/login">) {

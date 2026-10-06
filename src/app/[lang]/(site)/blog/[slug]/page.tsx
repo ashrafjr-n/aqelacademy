@@ -7,7 +7,7 @@ import { RichText } from "@/components/ui/rich-text";
 import { articleCopy, articleSlugs, getArticle } from "@/content/articles";
 import { formatDate } from "@/lib/format";
 import { getLocale } from "@/lib/locale";
-import { baseOpenGraph } from "@/lib/metadata";
+import { baseOpenGraph, languageAlternates } from "@/lib/metadata";
 
 export const dynamicParams = false;
 
@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/blog/[slug
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: languageAlternates(locale, `/blog/${slug}`),
     openGraph: { ...baseOpenGraph(locale), type: "article", title: article.title, description: article.excerpt, images: [article.image.src.src] },
   };
 }

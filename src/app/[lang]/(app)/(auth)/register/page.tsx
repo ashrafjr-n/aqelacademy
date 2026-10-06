@@ -10,9 +10,11 @@ import { getCurrentUser } from "@/lib/dal/session";
 import { getEnv } from "@/lib/env";
 import { localePath } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: authCopy[await getLocale()].register.title };
+  const locale = await getLocale();
+  return { title: authCopy[locale].register.title, alternates: languageAlternates(locale, "/register") };
 }
 
 export default async function RegisterPage() {

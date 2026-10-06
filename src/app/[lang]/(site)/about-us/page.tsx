@@ -6,9 +6,11 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitSection } from "@/components/ui/split-section";
 import { aboutContent } from "@/content/about";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: aboutContent[await getLocale()].title };
+  const locale = await getLocale();
+  return { title: aboutContent[locale].title, alternates: languageAlternates(locale, "/about-us") };
 }
 
 export default async function AboutPage() {

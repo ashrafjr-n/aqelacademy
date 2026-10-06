@@ -3,9 +3,11 @@ import { ArticleGrid } from "@/components/blog/article-grid";
 import { PageHeader } from "@/components/ui/page-header";
 import { articleCopy, getArticles } from "@/content/articles";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: articleCopy[await getLocale()].listTitle };
+  const locale = await getLocale();
+  return { title: articleCopy[locale].listTitle, alternates: languageAlternates(locale, "/blog") };
 }
 
 export default async function BlogPage() {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ArticleGrid } from "@/components/blog/article-grid";
 import { CourseGrid } from "@/components/courses/course-grid";
 import { AccreditationStrip } from "@/components/home/accreditation-strip";
@@ -12,6 +13,11 @@ import { getCourses } from "@/content/courses";
 import { homeContent } from "@/content/home";
 import { localeLink } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return { alternates: languageAlternates(await getLocale(), "/") };
+}
 
 export default async function HomePage() {
   const locale = await getLocale();

@@ -3,9 +3,11 @@ import { CourseGrid } from "@/components/courses/course-grid";
 import { PageHeader } from "@/components/ui/page-header";
 import { courseCopy, getCourses } from "@/content/courses";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: courseCopy[await getLocale()].listTitle };
+  const locale = await getLocale();
+  return { title: courseCopy[locale].listTitle, alternates: languageAlternates(locale, "/courses") };
 }
 
 export default async function CoursesPage() {

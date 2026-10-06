@@ -5,9 +5,11 @@ import { PageHeader } from "@/components/ui/page-header";
 import { faqContent } from "@/content/faqs";
 import { localePath } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
+import { languageAlternates } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: faqContent[await getLocale()].title };
+  const locale = await getLocale();
+  return { title: faqContent[locale].title, alternates: languageAlternates(locale, "/faqs") };
 }
 
 export default async function FaqsPage() {
