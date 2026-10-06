@@ -1,6 +1,6 @@
 import "server-only";
 import type { BookingFailure } from "@/content/bookings";
-import { requireUser } from "@/lib/dal/session";
+import { getCurrentUser, requireUser } from "@/lib/dal/session";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 
@@ -33,6 +33,25 @@ export async function getMyOpenBooking(courseSlug: string): Promise<MyBooking | 
     .eq("user_id", user.id)
     .eq("course_slug", courseSlug)
     .in("status", ["pending", "approved"])
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export type CourseBooking = Pick<BookingRow, "id" | "status">;
+
+/** The visitor's latest booking for a course, or null for guests and for students who never booked it. */
+export async function getMyLatestBooking(courseSlug: string): Promise<CourseBooking | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("id, status")
+    .eq("user_id", user.id)
+    .eq("course_slug", courseSlug)
+    .order("created_at", { ascending: false })
+    .limit(1)
     .maybeSingle();
   if (error) throw error;
   return data;
