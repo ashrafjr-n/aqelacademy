@@ -28,7 +28,7 @@ export async function signIn(previous: FormState, formData: FormData): Promise<F
   const { email, password, captchaToken } = parsed.data;
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken } });
-  if (error) return { status: "error", message: authErrorMessage(error), code: error.code, values, attempt };
+  if (error) return { status: "error", message: authErrorMessage(error, locale), code: error.code, values, attempt };
 
   redirect(safeNextPath(formData.get("next")));
 }
@@ -52,7 +52,7 @@ export async function signUp(previous: FormState, formData: FormData): Promise<F
       data: { full_name: fullName, phone, country, privacy_accepted: true },
     },
   });
-  if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
+  if (error) return { status: "error", message: authErrorMessage(error, locale), values, attempt };
 
   // Same answer whether or not the email was already registered (no account enumeration).
   // The email is echoed back for the code step.
@@ -70,7 +70,7 @@ export async function verifyEmailCode(previous: FormState, formData: FormData): 
   const supabase = await createClient();
   const { email, code, type } = parsed.data;
   const { error } = await supabase.auth.verifyOtp({ email, token: code, type });
-  if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
+  if (error) return { status: "error", message: authErrorMessage(error, locale), values, attempt };
 
   redirect(safeNextPath(formData.get("next")));
 }
@@ -85,7 +85,7 @@ export async function requestPasswordReset(previous: FormState, formData: FormDa
   const { email, captchaToken } = parsed.data;
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: emailLinkTarget(), captchaToken });
-  if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
+  if (error) return { status: "error", message: authErrorMessage(error, locale), values, attempt };
 
   return { status: "success", message: authCopy.forgotPassword.success, values: { email }, attempt };
 }
@@ -104,7 +104,7 @@ export async function resendConfirmation(previous: FormState, formData: FormData
     email,
     options: { emailRedirectTo: emailLinkTarget(), captchaToken },
   });
-  if (error) return { status: "error", message: authErrorMessage(error), values, attempt };
+  if (error) return { status: "error", message: authErrorMessage(error, locale), values, attempt };
 
   return { status: "success", message: authCopy.resendConfirmation.success, values, attempt };
 }
@@ -118,7 +118,7 @@ export async function updatePassword(previous: FormState, formData: FormData): P
 
   const supabase = await createClient();
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
-  if (error) return { status: "error", message: authErrorMessage(error), attempt };
+  if (error) return { status: "error", message: authErrorMessage(error, locale), attempt };
 
   redirect("/account?notice=password-updated");
 }
@@ -134,6 +134,7 @@ const googleSignInSchema = z.object({
  * Returns an error message, or redirects on success.
  */
 export async function signInWithGoogle(credential: string, nonce: string, next: string): Promise<string> {
+  const locale = await getRequestLocale();
   const parsed = googleSignInSchema.safeParse({ credential, nonce });
   if (!parsed.success) return "تعذّر تسجيل الدخول باستخدام Google. حاول مرة أخرى.";
 
@@ -143,7 +144,7 @@ export async function signInWithGoogle(credential: string, nonce: string, next: 
     token: parsed.data.credential,
     nonce: parsed.data.nonce,
   });
-  if (error) return authErrorMessage(error);
+  if (error) return authErrorMessage(error, locale);
 
   redirect(safeNextPath(next));
 }
