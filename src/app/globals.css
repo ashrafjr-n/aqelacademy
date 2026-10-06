@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
-/* Navy + orange from the old WordPress theme (EduPress); brand orange darkened to pass WCAG AA (4.5:1) with white text. */
+/* Navy and gold from the academy logo. Plain gold is 2.9:1 on white, so gold text on light backgrounds uses gold-dark; on navy, plain gold passes (5.1:1). */
 @theme {
-  --color-brand: #c2410c;
-  --color-brand-dark: #9a3412;
-  --color-brand-soft: #fff3eb;
-  /* Orange for icons and accents on the navy background. */
-  --color-brand-light: #fb923c;
-  --color-ink: #162648;
-  --color-ink-dark: #0e1a33;
+  --color-brand: #142651;
+  --color-brand-dark: #0c1938;
+  --color-brand-soft: #eef1f7;
+  --color-gold: #c58e3d;
+  --color-gold-dark: #8f6322;
+  --color-gold-soft: #f8f2e6;
+  --color-ink: #142651;
+  --color-ink-dark: #0c1938;
   --color-body: #4d5566;
-  --color-canvas: #f5f6fa;
-  --color-surface: #f1f3f7;
-  --color-line: #e3e6ee;
+  --color-canvas: #f9f8f5;
+  --color-surface: #f2f1ed;
+  --color-line: #e7e5df;
   --color-whatsapp: #25d366;
   --color-whatsapp-dark: #0f7a41;
   --color-danger: #b42318;
@@ -22,13 +23,15 @@
   --color-warning: #b54708;
   --color-warning-soft: #fffaeb;
 
-  --shadow-card: 0 1px 2px rgb(22 38 72 / 0.04), 0 2px 8px -2px rgb(22 38 72 / 0.06);
-  --shadow-lift: 0 2px 4px rgb(22 38 72 / 0.04), 0 12px 28px -8px rgb(22 38 72 / 0.14);
-  --shadow-pop: 0 4px 8px rgb(22 38 72 / 0.06), 0 24px 48px -12px rgb(22 38 72 / 0.24);
+  --shadow-card: 0 1px 2px rgb(20 38 81 / 0.04);
+  --shadow-lift: 0 1px 2px rgb(20 38 81 / 0.04), 0 10px 24px -12px rgb(20 38 81 / 0.16);
+  --shadow-pop: 0 4px 8px rgb(20 38 81 / 0.06), 0 24px 48px -12px rgb(20 38 81 / 0.24);
 }
 
 @theme inline {
   --font-sans: var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+  /* Display headings on public pages; UI text stays in Cairo. */
+  --font-heading: var(--font-naskh), var(--font-cairo), serif;
 }
 
 @utility container-site {
@@ -56,6 +59,6 @@ body {
 }
 
 ::selection {
-  background: var(--color-brand-soft);
+  background: var(--color-gold-soft);
   color: var(--color-ink);
 }

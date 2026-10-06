@@ -36,17 +36,17 @@ export function SiteFooter() {
           <h2 className="font-bold text-white">تواصل معنا</h2>
           <ul className="mt-4 space-y-2.5">
             <li className="flex items-center gap-3">
-              <MapPin aria-hidden="true" className="size-4 shrink-0 text-brand-light" />
+              <MapPin aria-hidden="true" className="size-4 shrink-0 text-gold" />
               {site.contact.location}
             </li>
             <li className="flex items-center gap-3">
-              <Phone aria-hidden="true" className="size-4 shrink-0 text-brand-light" />
+              <Phone aria-hidden="true" className="size-4 shrink-0 text-gold" />
               <a href={`tel:${site.contact.phone}`} dir="ltr" className="transition-colors hover:text-white">
                 {site.contact.phoneDisplay}
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <Mail aria-hidden="true" className="size-4 shrink-0 text-brand-light" />
+              <Mail aria-hidden="true" className="size-4 shrink-0 text-gold" />
               <a href={`mailto:${site.contact.email}`} className="break-all transition-colors hover:text-white">
                 {site.contact.email}
               </a>

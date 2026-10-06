@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Cairo } from "next/font/google";
+import { Cairo, Noto_Naskh_Arabic } from "next/font/google";
 import { site } from "@/content/site";
 import { baseOpenGraph } from "@/lib/metadata";
 import "./globals.css";
 
 const cairo = Cairo({
   variable: "--font-cairo",
+  subsets: ["arabic", "latin"],
+});
+
+const naskh = Noto_Naskh_Arabic({
+  variable: "--font-naskh",
   subsets: ["arabic", "latin"],
 });
 
@@ -23,7 +28,7 @@ export const metadata: Metadata = {
 /** Page chrome (header, footer) lives in the group layouts: (site), (app) and admin each have their own. */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`}>
+    <html lang="ar" dir="rtl" className={`${cairo.variable} ${naskh.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">{children}</body>
     </html>
   );

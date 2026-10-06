@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
             <p className="flex items-center gap-2 text-sm text-white/70">
-              <ShieldCheck aria-hidden="true" className="size-5 text-brand-light" />
+              <ShieldCheck aria-hidden="true" className="size-5 text-gold" />
               {authPanel.security}
             </p>
           </aside>
