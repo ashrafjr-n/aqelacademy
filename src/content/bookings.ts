@@ -31,6 +31,15 @@ export const bookingFlow = [
 export type BookingFailure = "duplicate" | "rate_limited" | "unavailable";
 
 export const bookingCopy = {
+  bookNow: "احجز مقعدك الآن",
+  seatsLimited: "المقاعد محدودة",
+  /** The heading of the booking box on the course page. */
+  courseStatusTitles: {
+    pending: "تم إرسال طلب الحجز",
+    approved: "تمت الموافقة على حجزك",
+    rejected: "طلبك السابق",
+  } satisfies Record<BookingStatus, string>,
+  messageDoctor: "مراسلة الدكتور",
   bookTitle: "تأكيد الحجز",
   bookIntro: "راجع تفاصيل الدورة ثم أكّد طلبك. سيصل الطلب إلى الدكتور ليراجعه ويتواصل معك.",
   flowTitle: "كيف يتم الحجز؟",

@@ -1,6 +1,6 @@
 import { Clock, GraduationCap, MessageCircle, Signal, UserRound } from "lucide-react";
 import Image from "next/image";
-import { ButtonLink } from "@/components/ui/button-link";
+import { CourseBookingAction } from "@/components/courses/course-booking-action";
 import { cardClassName } from "@/components/ui/card";
 import { courseDurationLabel, courseHoursLabel } from "@/content/courses";
 import { formatCourseLevel, formatPrice } from "@/lib/format";
@@ -41,14 +41,7 @@ export function CourseSummaryCard({ course, bookable = true }: CourseSummaryCard
             </div>
           ))}
         </dl>
-        {bookable && (
-          <>
-            <div className="mt-5 grid">
-              <ButtonLink href={`/courses/${course.slug}/book`}>احجز مقعدك الآن</ButtonLink>
-            </div>
-            <p className="mt-2.5 text-center text-xs">المقاعد محدودة</p>
-          </>
-        )}
+        {bookable && <CourseBookingAction courseSlug={course.slug} />}
         <a
           href={questionUrl}
           target="_blank"
