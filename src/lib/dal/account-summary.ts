@@ -4,6 +4,7 @@ import { getMyConversations, type MyConversation } from "@/lib/dal/messages";
 import { getMyNotifications, getMyUnreadCount, type MyNotification } from "@/lib/dal/notifications";
 import { getMyProfile } from "@/lib/dal/profiles";
 import { getCurrentUser } from "@/lib/dal/session";
+import type { Locale } from "@/lib/i18n";
 
 /** How many recent items a header panel lists; students have no other list pages. */
 export const PANEL_SIZE = 10;
@@ -19,7 +20,8 @@ export type AccountSummary =
   | { kind: "admin" }
   | { kind: "student"; name: string; email: string; notifications: PanelFeed<MyNotification>; messages: PanelFeed<MyConversation> };
 
-export async function getAccountSummary(): Promise<AccountSummary> {
+/** Texts (notifications, course titles) come back in `locale`. */
+export async function getAccountSummary(locale: Locale): Promise<AccountSummary> {
   const user = await getCurrentUser();
   if (!user) return { kind: "guest" };
 
@@ -28,9 +30,9 @@ export async function getAccountSummary(): Promise<AccountSummary> {
 
   const [profile, notifications, unreadNotifications, conversations] = await Promise.all([
     getMyProfile(),
-    getMyNotifications(PANEL_SIZE),
+    getMyNotifications(PANEL_SIZE, locale),
     getMyUnreadCount(),
-    getMyConversations(),
+    getMyConversations(locale),
   ]);
 
   return {

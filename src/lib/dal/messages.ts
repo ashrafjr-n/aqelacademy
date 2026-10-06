@@ -1,6 +1,7 @@
 import "server-only";
 import { notFound } from "next/navigation";
 import { getCourse } from "@/content/courses";
+import type { Locale } from "@/lib/i18n";
 import type { MessageFailure } from "@/content/messages";
 import { requireAdmin, type StudentContact } from "@/lib/dal/admin";
 import { requireUser, type SessionUser } from "@/lib/dal/session";
@@ -131,7 +132,7 @@ export async function markConversationRead(bookingId: string): Promise<void> {
 }
 
 /** The signed-in student's conversations, newest activity first. */
-export async function getMyConversations(): Promise<MyConversation[]> {
+export async function getMyConversations(locale: Locale): Promise<MyConversation[]> {
   const user = await requireUser("/");
   const supabase = await createClient();
   const [bookings, messages] = await Promise.all([
@@ -152,7 +153,7 @@ export async function getMyConversations(): Promise<MyConversation[]> {
     const last = thread[0];
     conversations.push({
       bookingId: booking.id,
-      courseTitle: getCourse(booking.course_slug)?.title ?? booking.course_slug,
+      courseTitle: getCourse(booking.course_slug, locale)?.title ?? booking.course_slug,
       lastMessage: last?.body ?? null,
       lastFromMe: last?.sender_id === user.id,
       lastActivityAt: last?.created_at ?? booking.decided_at ?? booking.created_at,

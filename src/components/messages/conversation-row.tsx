@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { messagesCopy } from "@/content/messages";
 import { formatRelativeTime } from "@/lib/format";
+import { defaultLocale, type Locale } from "@/lib/i18n";
 
 interface ConversationRowProps {
   href: string;
@@ -12,10 +13,12 @@ interface ConversationRowProps {
   preview: string;
   time: string;
   unread: number;
+  /** The dashboard is Arabic only, so it leaves this out. */
+  locale?: Locale;
 }
 
 /** One conversation in a list: who, about what, the latest line, and the unread count. */
-export function ConversationRow({ href, leading, title, subtitle, preview, time, unread }: ConversationRowProps) {
+export function ConversationRow({ href, leading, title, subtitle, preview, time, unread, locale = defaultLocale }: ConversationRowProps) {
   const hasUnread = unread > 0;
 
   return (
@@ -28,7 +31,7 @@ export function ConversationRow({ href, leading, title, subtitle, preview, time,
         <span className="flex items-baseline justify-between gap-3">
           <span className={`truncate text-ink ${hasUnread ? "font-bold" : "font-semibold"}`}>{title}</span>
           <time dateTime={time} className="shrink-0 text-xs">
-            {formatRelativeTime(time)}
+            {formatRelativeTime(time, locale)}
           </time>
         </span>
         {subtitle && <span className="block truncate text-xs">{subtitle}</span>}
@@ -37,7 +40,7 @@ export function ConversationRow({ href, leading, title, subtitle, preview, time,
           {hasUnread && (
             <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-brand px-1.5 text-xs font-bold text-white">
               {unread}
-              <span className="sr-only"> {messagesCopy.newMessages(unread)}</span>
+              <span className="sr-only"> {messagesCopy[locale].newMessages(unread)}</span>
             </span>
           )}
         </span>

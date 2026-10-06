@@ -100,7 +100,7 @@ export function AdminBookingCard({ booking, returnTo }: AdminBookingCardProps) {
         {returnTo !== "detail" && (
           <ButtonLink href={`/admin/bookings/${booking.id}`} variant="outline">
             <MessageCircle aria-hidden="true" className="size-5" />
-            {messagesCopy.openConversation}
+            {messagesCopy.ar.openConversation}
           </ButtonLink>
         )}
         <div className="flex flex-wrap gap-3 sm:ms-auto">

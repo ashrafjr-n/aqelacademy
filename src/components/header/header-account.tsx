@@ -7,14 +7,18 @@ import { useEffect, useState } from "react";
 import { signOut } from "@/app/[lang]/(app)/account/actions";
 import { AccountMenu, accountTriggerClassName } from "@/components/header/account-menu";
 import { GuestMenu } from "@/components/header/guest-menu";
+import { useLocale } from "@/components/locale-provider";
 import { MessagesMenu } from "@/components/header/messages-menu";
 import { NotificationsMenu } from "@/components/header/notifications-menu";
 import { DoctorAvatar } from "@/components/messages/doctor-avatar";
 import { buttonClassName } from "@/components/ui/button-styles";
-import { adminCopy, adminSections } from "@/content/admin";
+import { accountCopy } from "@/content/account";
+import { adminSections } from "@/content/admin";
+import { authCopy } from "@/content/auth";
 import { messagesCopy } from "@/content/messages";
 import { notificationsCopy } from "@/content/notifications";
 import type { AccountSummary } from "@/lib/dal/account-summary";
+import { localePath, pathWithoutLocale, type Locale } from "@/lib/i18n";
 
 const POLL_INTERVAL_MS = 60_000;
 
@@ -27,9 +31,9 @@ function isAccountSummary(value: unknown): value is AccountSummary {
   return typeof value === "object" && value !== null && "kind" in value && ["guest", "admin", "student"].includes(String(value.kind));
 }
 
-async function fetchSummary(signal?: AbortSignal): Promise<AccountSummary | null> {
+async function fetchSummary(locale: Locale, signal?: AbortSignal): Promise<AccountSummary | null> {
   try {
-    const response = await fetch("/api/account/summary", { cache: "no-store", signal });
+    const response = await fetch(`/api/account/summary?locale=${locale}`, { cache: "no-store", signal });
     if (!response.ok) return null;
     const data: unknown = await response.json();
     return isAccountSummary(data) ? data : null;
@@ -46,6 +50,7 @@ async function fetchSummary(signal?: AbortSignal): Promise<AccountSummary | null
  */
 export function HeaderAccount() {
   const pathname = usePathname();
+  const locale = useLocale();
   const [summary, setSummary] = useState<AccountSummary | null>(cachedSummary);
 
   function apply(data: AccountSummary) {
@@ -56,7 +61,7 @@ export function HeaderAccount() {
   useEffect(() => {
     const controller = new AbortController();
     function load() {
-      return fetchSummary(controller.signal).then((data) => {
+      return fetchSummary(locale, controller.signal).then((data) => {
         if (!data) return;
         cachedSummary = data;
         setSummary(data);
@@ -75,38 +80,41 @@ export function HeaderAccount() {
       clearInterval(interval);
       window.removeEventListener("focus", loadIfVisible);
     };
-  }, [pathname]);
+  }, [pathname, locale]);
 
   async function refresh() {
-    const data = await fetchSummary();
+    const data = await fetchSummary(locale);
     if (data) apply(data);
   }
 
   if (!summary) return null;
 
   if (summary.kind === "guest") {
-    // Come back here after signing in, unless "here" is a sign-in page itself.
-    const isAuthPage = authPaths.some((path) => pathname.startsWith(path));
-    const loginHref = isAuthPage ? "/login" : `/login?next=${encodeURIComponent(pathname)}`;
+    // Come back here after signing in, unless "here" is a sign-in page itself. Arabic URLs carry no
+    // prefix, so an internal "/ar/…" pathname is turned back into the public one.
+    const page = pathWithoutLocale(pathname);
+    const isAuthPage = authPaths.some((path) => page.startsWith(path));
+    const loginPath = localePath(locale, "/login");
+    const loginHref = isAuthPage ? loginPath : `${loginPath}?next=${encodeURIComponent(localePath(locale, page))}`;
     return (
       <>
         <GuestMenu
           id="notifications-panel"
-          title={notificationsCopy.title}
+          title={notificationsCopy[locale].title}
           icon={<Bell aria-hidden="true" className="size-5" />}
-          text={notificationsCopy.signInPrompt}
+          text={notificationsCopy[locale].signInPrompt}
           loginHref={loginHref}
         />
         <GuestMenu
           id="messages-panel"
-          title={messagesCopy.inboxTitle}
+          title={messagesCopy[locale].inboxTitle}
           icon={<MessageCircle aria-hidden="true" className="size-5" />}
-          text={messagesCopy.signInPrompt}
+          text={messagesCopy[locale].signInPrompt}
           loginHref={loginHref}
         />
-        <Link href={loginHref} aria-label="تسجيل الدخول" className={`${buttonClassName("outline")} h-10 px-3 sm:px-4`}>
+        <Link href={loginHref} aria-label={authCopy[locale].login.title} className={`${buttonClassName("outline")} h-10 px-3 sm:px-4`}>
           <LogIn aria-hidden="true" className="size-4" />
-          <span className="hidden sm:inline">تسجيل الدخول</span>
+          <span className="hidden sm:inline">{authCopy[locale].login.title}</span>
         </Link>
       </>
     );
@@ -117,7 +125,7 @@ export function HeaderAccount() {
     return (
       <Link href={adminSections.home.href} className={accountTriggerClassName}>
         <DoctorAvatar size="sm" />
-        <span className="sr-only text-sm font-bold sm:not-sr-only">{adminCopy.title}</span>
+        <span className="sr-only text-sm font-bold sm:not-sr-only">{accountCopy[locale].dashboard}</span>
       </Link>
     );
   }

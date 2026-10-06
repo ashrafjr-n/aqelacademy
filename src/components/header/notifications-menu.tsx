@@ -4,6 +4,7 @@ import { Bell } from "lucide-react";
 import { useTransition } from "react";
 import { markAllNotificationsRead } from "@/components/notifications/actions";
 import { HeaderPopover, PanelHeader } from "@/components/header/header-popover";
+import { useLocale } from "@/components/locale-provider";
 import { NotificationItem } from "@/components/notifications/notification-item";
 import { notificationsCopy } from "@/content/notifications";
 import type { PanelFeed } from "@/lib/dal/account-summary";
@@ -17,6 +18,8 @@ interface NotificationsMenuProps {
 
 export function NotificationsMenu({ feed, onRefresh }: NotificationsMenuProps) {
   const [isPending, startTransition] = useTransition();
+  const locale = useLocale();
+  const copy = notificationsCopy[locale];
 
   function markAllRead() {
     startTransition(async () => {
@@ -28,28 +31,28 @@ export function NotificationsMenu({ feed, onRefresh }: NotificationsMenuProps) {
   return (
     <HeaderPopover
       id="notifications-panel"
-      label={notificationsCopy.title}
+      label={copy.title}
       badge={feed.unread}
       trigger={<Bell aria-hidden="true" className="size-5" />}
       onOpen={() => void onRefresh()}
     >
       <PanelHeader
-        title={notificationsCopy.title}
+        title={copy.title}
         action={
           feed.unread > 0 && (
             <button type="button" onClick={markAllRead} disabled={isPending} className="text-xs font-bold text-brand hover:text-brand-dark disabled:opacity-60">
-              {notificationsCopy.markAllRead}
+              {copy.markAllRead}
             </button>
           )
         }
       />
       {feed.items.length === 0 ? (
-        <p className="px-4 py-10 text-center text-sm">{notificationsCopy.empty}</p>
+        <p className="px-4 py-10 text-center text-sm">{copy.empty}</p>
       ) : (
         <ul className="divide-y divide-line">
           {feed.items.map((notification) => (
             <li key={notification.id}>
-              <NotificationItem notification={notification} />
+              <NotificationItem notification={notification} locale={locale} />
             </li>
           ))}
         </ul>

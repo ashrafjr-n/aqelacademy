@@ -12,6 +12,7 @@ interface AccountCopy {
   securityText: string;
   changePassword: string;
   signOut: string;
+  editProfile: string;
   deleteTitle: string;
   deleteText: string;
   deleteButton: string;
@@ -33,6 +34,7 @@ export const accountCopy: Record<Locale, AccountCopy> = {
     securityText: "غيّر كلمة المرور، أو سجّل الخروج من هذا الجهاز.",
     changePassword: "تغيير كلمة المرور",
     signOut: "تسجيل الخروج",
+    editProfile: "تعديل الملف الشخصي",
     deleteTitle: "حذف الحساب",
     deleteText: "يحذف حسابك وبياناتك وحجوزاتك ورسائلك نهائيًا، ولا يمكن التراجع عن ذلك.",
     deleteButton: "حذف حسابي نهائيًا",
@@ -52,6 +54,7 @@ export const accountCopy: Record<Locale, AccountCopy> = {
     securityText: "Change your password, or sign out of this device.",
     changePassword: "Change password",
     signOut: "Sign out",
+    editProfile: "Edit profile",
     deleteTitle: "Delete account",
     deleteText: "This permanently deletes your account, data, bookings and messages. It can't be undone.",
     deleteButton: "Delete my account permanently",

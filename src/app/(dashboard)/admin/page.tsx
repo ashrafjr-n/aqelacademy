@@ -53,7 +53,7 @@ export default async function AdminHomePage() {
 
         <Card title={adminCopy.latestMessages} action={<SeeAllLink href={adminSections.messages.href} />} flush>
           {latestConversations.length === 0 ? (
-            <EmptyState icon={<MessageCircle aria-hidden="true" />} title={messagesCopy.inboxEmpty} />
+            <EmptyState icon={<MessageCircle aria-hidden="true" />} title={messagesCopy.ar.inboxEmpty} />
           ) : (
             <ul className="divide-y divide-line">
               {latestConversations.map((entry) => (

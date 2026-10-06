@@ -5,6 +5,7 @@ import Link from "next/link";
 import { HeaderPopover } from "@/components/header/header-popover";
 import { useLocale } from "@/components/locale-provider";
 import { Avatar } from "@/components/ui/avatar";
+import { accountCopy } from "@/content/account";
 import { siteText } from "@/content/site";
 import { localePath } from "@/lib/i18n";
 
@@ -24,6 +25,7 @@ interface AccountMenuProps {
 export function AccountMenu({ name, email, onSignOut }: AccountMenuProps) {
   const locale = useLocale();
   const accountLink = siteText[locale].account;
+  const copy = accountCopy[locale];
 
   return (
     <HeaderPopover
@@ -50,12 +52,12 @@ export function AccountMenu({ name, email, onSignOut }: AccountMenuProps) {
       <div className="p-2">
         <Link href={localePath(locale, accountLink.href)} className={`${itemClassName} text-ink hover:bg-surface`}>
           <UserRoundPen aria-hidden="true" className="size-5 text-body" />
-          تعديل الملف الشخصي
+          {copy.editProfile}
         </Link>
         <form action={onSignOut}>
           <button type="submit" className={`${itemClassName} text-danger hover:bg-danger-soft`}>
             <LogOut aria-hidden="true" className="size-5" />
-            تسجيل الخروج
+            {copy.signOut}
           </button>
         </form>
       </div>

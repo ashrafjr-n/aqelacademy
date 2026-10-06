@@ -31,7 +31,7 @@ export default async function AdminBookingPage({ params, searchParams }: PagePro
         <ConversationPanel
           conversation={conversation}
           counterpart={{ name: studentName, subtitle: getCourse(conversation.booking.course_slug)?.title, avatar: <Avatar name={studentName} /> }}
-          emptyText={messagesCopy.emptyAdmin}
+          emptyText={messagesCopy.ar.emptyAdmin}
         />
       </div>
     </>

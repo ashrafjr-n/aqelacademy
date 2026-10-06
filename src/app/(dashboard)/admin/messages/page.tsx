@@ -15,7 +15,7 @@ export default async function AdminMessagesPage() {
       <PageTitle title={adminSections.messages.label} description={adminCopy.messagesDescription} />
       <Card flush>
         {inbox.length === 0 ? (
-          <EmptyState icon={<MessageCircle aria-hidden="true" />} title={messagesCopy.inboxEmpty} />
+          <EmptyState icon={<MessageCircle aria-hidden="true" />} title={messagesCopy.ar.inboxEmpty} />
         ) : (
           <ul className="divide-y divide-line">
             {inbox.map((entry) => (

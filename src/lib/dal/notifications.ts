@@ -2,6 +2,7 @@ import "server-only";
 import { getCourse } from "@/content/courses";
 import { notificationTarget, notificationText, type NotificationType } from "@/content/notifications";
 import { getCurrentUser, requireUser } from "@/lib/dal/session";
+import { localePath, type Locale } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/server";
 
 export interface MyNotification {
@@ -26,7 +27,7 @@ export async function getMyUnreadCount(): Promise<number | null> {
   return count ?? 0;
 }
 
-export async function getMyNotifications(limit: number): Promise<MyNotification[]> {
+export async function getMyNotifications(limit: number, locale: Locale): Promise<MyNotification[]> {
   const user = await requireUser("/");
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -42,17 +43,20 @@ export async function getMyNotifications(limit: number): Promise<MyNotification[
     type: notification.type,
     createdAt: notification.created_at,
     isRead: notification.read_at !== null,
-    text: notificationText({
-      type: notification.type,
-      bookingStatus: notification.booking_status,
-      courseTitle: getCourse(notification.booking?.course_slug ?? "")?.title ?? "دورة",
-      studentName: notification.booking?.student?.full_name ?? "طالب",
-    }),
+    text: notificationText(
+      {
+        type: notification.type,
+        bookingStatus: notification.booking_status,
+        courseTitle: getCourse(notification.booking?.course_slug ?? "", locale)?.title ?? (locale === "en" ? "course" : "دورة"),
+        studentName: notification.booking?.student?.full_name ?? (locale === "en" ? "a student" : "طالب"),
+      },
+      locale,
+    ),
   }));
 }
 
 /** Marks one of the user's notifications read and returns where it leads (never a client-supplied URL). */
-export async function openMyNotification(notificationId: string): Promise<string> {
+export async function openMyNotification(notificationId: string, locale: Locale): Promise<string> {
   const user = await requireUser("/");
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -63,8 +67,8 @@ export async function openMyNotification(notificationId: string): Promise<string
     .select("type, booking_id, booking:bookings(user_id)")
     .maybeSingle();
   if (error) throw error;
-  if (!data) return "/";
-  return notificationTarget(data.type, data.booking_id, data.booking?.user_id === user.id);
+  if (!data) return localePath(locale, "/");
+  return notificationTarget(data.type, data.booking_id, data.booking?.user_id === user.id, locale);
 }
 
 export async function markAllMyNotificationsRead(): Promise<void> {

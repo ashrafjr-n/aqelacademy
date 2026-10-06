@@ -5,6 +5,7 @@ import { MessageThread } from "@/components/messages/message-thread";
 import { cardClassName } from "@/components/ui/card";
 import { messagesCopy } from "@/content/messages";
 import type { Conversation } from "@/lib/dal/messages";
+import { defaultLocale, type Locale } from "@/lib/i18n";
 
 /** The other side of the conversation, as shown in the chat header. */
 export interface Counterpart {
@@ -18,14 +19,17 @@ interface ConversationPanelProps {
   conversation: Conversation;
   counterpart: Counterpart;
   emptyText: string;
+  /** The dashboard is Arabic only, so it leaves this out. */
+  locale?: Locale;
 }
 
-export function ConversationPanel({ conversation, counterpart, emptyText }: ConversationPanelProps) {
+export function ConversationPanel({ conversation, counterpart, emptyText, locale = defaultLocale }: ConversationPanelProps) {
   const { booking, messages, canSend } = conversation;
   const threadId = `thread-${booking.id}`;
   const lastMessageId = messages.at(-1)?.id ?? null;
   const hasUnread = messages.some((message) => !message.isMine && !message.isRead);
-  const closedText = booking.status === "rejected" ? messagesCopy.closedRejected : messagesCopy.waitForApproval;
+  const copy = messagesCopy[locale];
+  const closedText = booking.status === "rejected" ? copy.closedRejected : copy.waitForApproval;
 
   return (
     <section aria-labelledby={`${threadId}-title`} className={`${cardClassName} overflow-hidden`}>
@@ -38,7 +42,7 @@ export function ConversationPanel({ conversation, counterpart, emptyText }: Conv
           {counterpart.subtitle && <p className="truncate text-xs">{counterpart.subtitle}</p>}
         </div>
       </header>
-      <MessageThread id={threadId} messages={messages} counterpartName={counterpart.name} emptyText={emptyText} />
+      <MessageThread id={threadId} messages={messages} counterpartName={counterpart.name} emptyText={emptyText} locale={locale} />
       <div className="border-t border-line p-4">
         {canSend ? (
           <MessageComposer bookingId={booking.id} />

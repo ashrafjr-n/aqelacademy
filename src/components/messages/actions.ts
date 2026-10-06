@@ -7,6 +7,7 @@ import { MESSAGE_MAX_LENGTH, messagesCopy } from "@/content/messages";
 import { markConversationRead, sendMessage } from "@/lib/dal/messages";
 import { emailNewMessage } from "@/lib/email/notify";
 import type { FormState } from "@/lib/forms";
+import { getRequestLocale } from "@/lib/locale";
 
 const messageSchema = z.object({
   bookingId: z.uuid(),
@@ -15,12 +16,13 @@ const messageSchema = z.object({
 
 export async function sendMessageAction(previous: FormState, formData: FormData): Promise<FormState> {
   const attempt = previous.attempt + 1;
+  const copy = messagesCopy[await getRequestLocale()];
   const parsed = messageSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { status: "error", message: messagesCopy.failures.invalid, attempt };
+  if (!parsed.success) return { status: "error", message: copy.failures.invalid, attempt };
 
   const { bookingId, body } = parsed.data;
   const result = await sendMessage(bookingId, body);
-  if (!result.ok) return { status: "error", message: messagesCopy.failures[result.reason], values: { body }, attempt };
+  if (!result.ok) return { status: "error", message: copy.failures[result.reason], values: { body }, attempt };
 
   after(() => emailNewMessage(bookingId));
   revalidatePath(`/account/bookings/${bookingId}`);

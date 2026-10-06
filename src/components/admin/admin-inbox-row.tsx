@@ -16,7 +16,7 @@ export function AdminInboxRow({ entry }: AdminInboxRowProps) {
       leading={<Avatar name={entry.studentName} />}
       title={entry.studentName}
       subtitle={getCourse(entry.courseSlug)?.title ?? entry.courseSlug}
-      preview={entry.lastFromStudent ? entry.lastMessage : `${messagesCopy.you}: ${entry.lastMessage}`}
+      preview={entry.lastFromStudent ? entry.lastMessage : `${messagesCopy.ar.you}: ${entry.lastMessage}`}
       time={entry.lastMessageAt}
       unread={entry.unreadFromStudent}
     />

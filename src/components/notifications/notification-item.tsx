@@ -3,13 +3,15 @@ import { NotificationIcon } from "@/components/notifications/notification-icon";
 import { notificationsCopy } from "@/content/notifications";
 import type { MyNotification } from "@/lib/dal/notifications";
 import { formatRelativeTime } from "@/lib/format";
+import type { Locale } from "@/lib/i18n";
 
 interface NotificationItemProps {
   notification: MyNotification;
+  locale: Locale;
 }
 
 /** Opening a notification marks it read on the server, which then picks where it leads. */
-export function NotificationItem({ notification }: NotificationItemProps) {
+export function NotificationItem({ notification, locale }: NotificationItemProps) {
   const { id, type, text, createdAt, isRead } = notification;
 
   return (
@@ -23,13 +25,13 @@ export function NotificationItem({ notification }: NotificationItemProps) {
         <span className="min-w-0 flex-1">
           <span className={`block text-sm leading-relaxed ${isRead ? "" : "font-bold text-ink"}`}>{text}</span>
           <time dateTime={createdAt} className="mt-0.5 block text-xs">
-            {formatRelativeTime(createdAt)}
+            {formatRelativeTime(createdAt, locale)}
           </time>
         </span>
         {!isRead && (
           <>
             <span aria-hidden="true" className="mt-2 size-2 shrink-0 rounded-full bg-brand" />
-            <span className="sr-only">{notificationsCopy.unread}</span>
+            <span className="sr-only">{notificationsCopy[locale].unread}</span>
           </>
         )}
       </button>
