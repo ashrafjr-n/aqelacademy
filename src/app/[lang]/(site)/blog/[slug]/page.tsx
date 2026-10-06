@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { RichText } from "@/components/ui/rich-text";
 import { articles, getArticle } from "@/content/articles";
 import { formatDate } from "@/lib/format";
+import { getLocale } from "@/lib/locale";
 import { baseOpenGraph } from "@/lib/metadata";
 
 export const dynamicParams = false;
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/blog/[slug
   return {
     title: article.title,
     description: article.excerpt,
-    openGraph: { ...baseOpenGraph, type: "article", title: article.title, description: article.excerpt, images: [article.image.src.src] },
+    openGraph: { ...baseOpenGraph(await getLocale()), type: "article", title: article.title, description: article.excerpt, images: [article.image.src.src] },
   };
 }
 

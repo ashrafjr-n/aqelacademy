@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { RichText } from "@/components/ui/rich-text";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { courses, getCourse } from "@/content/courses";
+import { getLocale } from "@/lib/locale";
 import { baseOpenGraph } from "@/lib/metadata";
 
 export const dynamicParams = false;
@@ -17,7 +18,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/[lang]/courses/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const course = getCourse(slug);
-  return course ? { title: course.title, description: course.excerpt, openGraph: { ...baseOpenGraph, title: course.title, description: course.excerpt } } : {};
+  return course ? { title: course.title, description: course.excerpt, openGraph: { ...baseOpenGraph(await getLocale()), title: course.title, description: course.excerpt } } : {};
 }
 
 export default async function CoursePage({ params }: PageProps<"/[lang]/courses/[slug]">) {

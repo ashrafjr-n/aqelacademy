@@ -3,8 +3,9 @@ import { lang } from "next/root-params";
 import { notFound } from "next/navigation";
 import { fontClassName } from "@/app/fonts";
 import { LocaleProvider } from "@/components/locale-provider";
-import { site } from "@/content/site";
+import { site, siteText } from "@/content/site";
 import { dirOf, isLocale, locales } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale";
 import { baseOpenGraph } from "@/lib/metadata";
 import "@/app/globals.css";
 
@@ -14,16 +15,17 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ lang: locale }));
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: {
-    default: site.fullName,
-    template: `%s | ${site.name}`,
-  },
-  description: site.description,
-  openGraph: { ...baseOpenGraph, title: site.fullName, description: site.description },
-  twitter: { card: "summary_large_image" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const text = siteText[locale];
+  return {
+    metadataBase: new URL(site.url),
+    title: { default: text.fullName, template: `%s | ${text.name}` },
+    description: text.description,
+    openGraph: { ...baseOpenGraph(locale), title: text.fullName, description: text.description },
+    twitter: { card: "summary_large_image" },
+  };
+}
 
 /** The site's root layout: Arabic at the original URLs, English under /en. Page chrome lives in the (site) and (app) groups. */
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
