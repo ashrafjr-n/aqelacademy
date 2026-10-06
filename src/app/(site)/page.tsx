@@ -30,7 +30,6 @@ export default function HomePage() {
         title={homeHero.title}
         text={homeHero.text}
         image={homeHero.image}
-        badge={accreditations[0]}
         actions={[homeHero.primaryAction, homeHero.secondaryAction]}
       />
 
