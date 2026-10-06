@@ -1,8 +1,9 @@
-import { BadgeCheck, MessageCircle, Ticket, type LucideIcon } from "lucide-react";
+import { BadgeCheck, MessageCircle, Send, Ticket, type LucideIcon } from "lucide-react";
 import type { NotificationType } from "@/content/notifications";
 
 const typeIcons: Record<NotificationType, LucideIcon> = {
   booking_created: Ticket,
+  booking_submitted: Send,
   booking_status_changed: BadgeCheck,
   message_received: MessageCircle,
 };

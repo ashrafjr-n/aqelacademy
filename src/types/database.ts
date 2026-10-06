@@ -237,6 +237,7 @@ export type Database = {
         | "booking_created"
         | "booking_status_changed"
         | "message_received"
+        | "booking_submitted"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -369,6 +370,7 @@ export const Constants = {
         "booking_created",
         "booking_status_changed",
         "message_received",
+        "booking_submitted",
       ],
     },
   },

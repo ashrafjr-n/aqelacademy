@@ -8,9 +8,9 @@ export type NotificationType = Database["public"]["Enums"]["notification_type"];
  * Admin-side for the doctor, account-side for the student who owns the booking.
  */
 export function notificationTarget(type: NotificationType, bookingId: string | null, recipientOwnsBooking: boolean): string {
-  if (!bookingId) return "/account/notifications";
+  if (!bookingId) return "/";
   if (type === "booking_created") return `/admin/bookings/${bookingId}`;
-  if (type === "booking_status_changed") return `/account/bookings/${bookingId}`;
+  if (type === "booking_submitted" || type === "booking_status_changed") return `/account/bookings/${bookingId}`;
   return recipientOwnsBooking ? `/account/bookings/${bookingId}` : `/admin/bookings/${bookingId}`;
 }
 
@@ -25,6 +25,8 @@ export function notificationText({ type, bookingStatus, courseTitle, studentName
   switch (type) {
     case "booking_created":
       return `طلب حجز جديد من ${studentName} لـ ${courseTitle}.`;
+    case "booking_submitted":
+      return `تم إرسال طلب حجزك لـ ${courseTitle} بنجاح. بانتظار موافقة الدكتور.`;
     case "booking_status_changed":
       if (bookingStatus === "approved") return `تمت الموافقة على طلبك لـ ${courseTitle}. انتظر رسالة من الدكتور.`;
       if (bookingStatus === "rejected") return `لم تتم الموافقة على طلبك لـ ${courseTitle}.`;
