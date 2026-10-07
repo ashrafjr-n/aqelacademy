@@ -152,6 +152,7 @@ Every page below also exists in English under `/en` (for example `/en/courses`),
 | `/faqs`            | Frequently asked questions   |
 | `/contact-us`      | Contact details              |
 | `/policy`          | Privacy policy               |
+| `/refund-policy`   | Refund policy                |
 | `/register`        | Create an account            |
 | `/login`           | Sign in                      |
 | `/forgot-password` | Request a password reset     |
@@ -188,4 +189,4 @@ src/
   assets/       Images
 ```
 
-All site copy lives in `src/content/`, in both languages. To add a course or an article, add the Arabic entry to `courses.ts` or `articles.ts` and the English one next to it (courses) or in `en/articles.ts` (articles), with the same slug. The pages and cards pick it up automatically.
+All site copy lives in `src/content/`, in both languages. To add a course or an article, add the Arabic entry to `courses.ts` or `articles.ts` and the English one next to it (courses) or in `en/articles.ts` (articles), with the same slug. The pages and cards pick it up automatically. A bookable course also needs a row with that slug in `public.courses`: add it with a new migration and run `npx supabase db push`.
