@@ -53,6 +53,15 @@ export interface Faq {
   link?: NavLink;
 }
 
+/** A dated legal page (privacy, refunds). */
+export interface PolicyDocument {
+  title: string;
+  lastUpdated: string;
+  /** ISO date, shared by both languages. */
+  updatedAt: string;
+  body: RichBlock[];
+}
+
 export interface TitledText {
   title: string;
   text: string;

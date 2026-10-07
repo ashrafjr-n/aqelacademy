@@ -1,7 +1,7 @@
 import { site } from "@/content/site";
 import { policyBodyEn } from "@/content/en/policy";
 import type { Locale } from "@/lib/i18n";
-import type { RichBlock } from "@/types/content";
+import type { PolicyDocument, RichBlock } from "@/types/content";
 
 /** Shared by both languages; bump it when either text changes. */
 const updatedAt = "2026-10-05";
@@ -138,7 +138,7 @@ const policyBodyAr: RichBlock[] = [
   },
 ];
 
-export const policyContent: Record<Locale, { title: string; lastUpdated: string; updatedAt: string; body: RichBlock[] }> = {
+export const policyContent: Record<Locale, PolicyDocument> = {
   ar: { title: "سياسة الخصوصية", lastUpdated: "آخر تحديث:", updatedAt, body: policyBodyAr },
   en: { title: "Privacy policy", lastUpdated: "Last updated:", updatedAt, body: policyBodyEn },
 };
