@@ -85,6 +85,7 @@ export const siteText: Record<Locale, SiteText> = {
       { href: "/courses", label: "الدورات التدريبية" },
       { href: "/faqs", label: "أسئلة شائعة" },
       { href: "/policy", label: "سياسة الخصوصية" },
+      { href: "/refund-policy", label: "سياسة الاسترجاع والاسترداد" },
     ],
     account: { href: "/account", label: "حسابي" },
     chrome: {
@@ -132,6 +133,7 @@ export const siteText: Record<Locale, SiteText> = {
       { href: "/courses", label: "Courses" },
       { href: "/faqs", label: "FAQs" },
       { href: "/policy", label: "Privacy policy" },
+      { href: "/refund-policy", label: "Refund policy" },
     ],
     account: { href: "/account", label: "My account" },
     chrome: {
