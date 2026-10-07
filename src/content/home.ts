@@ -12,7 +12,7 @@ const accreditations: ContentImage[] = [
 ];
 
 interface HomeContent {
-  hero: { eyebrow: string; title: string; text: string; image: ContentImage; primaryAction: NavLink; secondaryAction: NavLink };
+  hero: { eyebrow: string; title: string; lead: string; text: string; image: ContentImage; primaryAction: NavLink; secondaryAction: NavLink };
   accreditationsTitle: string;
   accreditations: ContentImage[];
   featuredCourses: { title: string; subtitle: string; action: NavLink };
@@ -21,13 +21,17 @@ interface HomeContent {
   cta: { title: string; text: string; primaryAction: NavLink; secondaryAction: NavLink };
 }
 
+/** The academy's slogan stays in English in both languages. */
+const tagline = "Empowering Professionals Through Science & Practice";
+
 /** Hrefs are locale-free; the page adds the /en prefix. */
 export const homeContent: Record<Locale, HomeContent> = {
   ar: {
     hero: {
-      eyebrow: "برامج تدريبية معتمدة من QABA",
+      eyebrow: tagline,
       title: "أكاديمية الدكتور موفق عقل لتحليل السلوك التطبيقي والتأهيل",
-      text: "نقدّم برامج تدريب احترافية في مجالات تحليل السلوك التطبيقي (ABA)، التربية الخاصة، والتأهيل النفسي والسلوكي، بإشراف مباشر من الدكتور موفق عقل – الحاصل على البورد الأمريكي في تحليل السلوك التطبيقي.",
+      lead: "نُعدّ متخصصي المستقبل في تحليل السلوك التطبيقي والتربية الخاصة",
+      text: "تدريب احترافي قائم على الأدلة العلمية يجمع بين المعرفة العلمية، والتطبيق العملي، والخبرة الميدانية الممتدة لأكثر من 25 عامًا، لنُسهم في إعداد كوادر قادرة على إحداث أثر حقيقي في حياة الأطفال والأسر.",
       image: { src: hero, alt: "" },
       primaryAction: { href: "/courses", label: "استعرض الدورات" },
       secondaryAction: { href: "/contact-us", label: "تواصل معنا" },
@@ -60,9 +64,10 @@ export const homeContent: Record<Locale, HomeContent> = {
   },
   en: {
     hero: {
-      eyebrow: "QABA-approved training programmes",
+      eyebrow: tagline,
       title: "Dr Muaffaq Aqel Academy for Applied Behaviour Analysis and Rehabilitation",
-      text: "We offer professional training in Applied Behaviour Analysis (ABA), special education, and psychological and behavioural rehabilitation, supervised directly by Dr Muaffaq Aqel, who holds US board certification in Applied Behaviour Analysis.",
+      lead: "Preparing tomorrow's specialists in Applied Behaviour Analysis and special education",
+      text: "Professional, evidence-based training that brings together scientific knowledge, hands-on practice and more than 25 years of field experience, to prepare professionals who make a real difference to the lives of children and families.",
       image: { src: hero, alt: "" },
       primaryAction: { href: "/courses", label: "Browse courses" },
       secondaryAction: { href: "/contact-us", label: "Contact us" },
