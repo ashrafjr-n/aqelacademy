@@ -36,7 +36,7 @@ export default async function AdminHomePage() {
         <StatCard href={adminSections.students.href} label={adminCopy.studentsCard} value={counts.students} icon={Users} />
       </div>
 
-      <div className="grid items-start gap-6 xl:grid-cols-2">
+      <div className="grid gap-6 xl:grid-cols-2">
         <Card title={adminCopy.latestPending} action={<SeeAllLink href={adminSections.bookings.href} />} flush>
           {oldestPending.length === 0 ? (
             <EmptyState icon={<CircleCheck aria-hidden="true" />} title={adminCopy.noPending} text={adminCopy.noPendingText} />

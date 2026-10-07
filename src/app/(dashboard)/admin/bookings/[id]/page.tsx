@@ -25,7 +25,7 @@ export default async function AdminBookingPage({ params, searchParams }: PagePro
       <BackLink href={adminSections.bookings.href} label="كل الطلبات" />
       {noticeMessage && <FormAlert tone={noticeMessage.tone} message={noticeMessage.text} />}
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
-        <div className="xl:sticky xl:top-6 xl:order-last">
+        <div className="xl:sticky xl:top-28 xl:order-last">
           <AdminBookingCard booking={conversation.booking} returnTo="detail" />
         </div>
         <ConversationPanel

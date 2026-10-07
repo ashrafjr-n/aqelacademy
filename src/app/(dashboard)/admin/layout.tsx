@@ -69,7 +69,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line bg-white/90 px-4 backdrop-blur-md sm:px-8">
+        <header className="sticky top-0 z-30 flex h-16 items-center lg:h-20 gap-3 border-b border-line bg-white/90 px-4 backdrop-blur-md sm:px-8">
           <Link href={adminSections.home.href} className="flex items-center gap-2.5 lg:hidden">
             <Image src={site.logo.src} alt="" className="size-10" sizes="40px" />
             <span className="text-lg font-extrabold text-ink">{adminCopy.title}</span>
