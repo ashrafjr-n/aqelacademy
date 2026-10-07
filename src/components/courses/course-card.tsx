@@ -32,10 +32,12 @@ export async function CourseCard({ course, preload = false }: CourseCardProps) {
         </h3>
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed">{course.excerpt}</p>
         <ul className="mt-4 mb-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-          <li className="flex items-center gap-1.5">
-            <Clock aria-hidden="true" className="size-4 text-gold" />
-            {courseDurationLabel(course.durationWeeks, locale)}
-          </li>
+          {course.durationWeeks && (
+            <li className="flex items-center gap-1.5">
+              <Clock aria-hidden="true" className="size-4 text-gold" />
+              {courseDurationLabel(course.durationWeeks, locale)}
+            </li>
+          )}
           <li className="flex items-center gap-1.5">
             <GraduationCap aria-hidden="true" className="size-4 text-gold" />
             {courseHoursLabel(course.trainingHours, locale)}

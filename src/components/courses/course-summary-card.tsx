@@ -19,7 +19,7 @@ export async function CourseSummaryCard({ course, bookable = true }: CourseSumma
   const copy = courseCopy[locale];
   const questionUrl = whatsappUrl(copy.whatsappPrefill(course.title));
   const details = [
-    { id: "duration", icon: Clock, label: copy.duration, value: courseDurationLabel(course.durationWeeks, locale) },
+    ...(course.durationWeeks ? [{ id: "duration", icon: Clock, label: copy.duration, value: courseDurationLabel(course.durationWeeks, locale) }] : []),
     { id: "hours", icon: GraduationCap, label: copy.hours, value: courseHoursLabel(course.trainingHours, locale) },
     { id: "level", icon: Signal, label: copy.level, value: formatCourseLevel(course.level, locale) },
     { id: "instructor", icon: UserRound, label: copy.trainer, value: course.instructor.name },

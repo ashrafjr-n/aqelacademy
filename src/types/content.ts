@@ -30,7 +30,8 @@ export interface Course {
   excerpt: string;
   image: ContentImage;
   priceUsd: number;
-  durationWeeks: number;
+  /** Left out until the academy sets it; the duration is then hidden. */
+  durationWeeks?: number;
   trainingHours: number;
   level: CourseLevel;
   instructor: Instructor;
