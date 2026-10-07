@@ -69,6 +69,9 @@ export default async function BookCoursePage({ params }: PageProps<"/[lang]/cour
               </p>
             )}
             <BookingForm courseSlug={course.slug} />
+            <Link href={localePath(locale, "/refund-policy")} target="_blank" className="mt-4 inline-block text-sm font-bold text-brand underline hover:text-brand-dark">
+              {copy.refundNote}
+            </Link>
           </Card>
         </div>
 

@@ -25,6 +25,8 @@ interface BookingCopy {
   noteHint: string;
   submit: string;
   pending: string;
+  /** Links to the refund policy under the form. */
+  refundNote: string;
   /** Around the link to the profile page. */
   phoneTipBefore: string;
   phoneTipAfter: string;
@@ -58,6 +60,7 @@ export const bookingCopy: Record<Locale, BookingCopy> = {
     noteHint: "مثل الوقت المناسب للتواصل. لا تكتب معلومات صحية أو شخصية حساسة.",
     submit: "تأكيد الحجز",
     pending: "جارٍ إرسال الطلب…",
+    refundNote: "اطّلع على سياسة الاسترجاع والاسترداد المالي قبل الدفع",
     phoneTipBefore: "أضف رقم هاتفك ليتواصل معك الدكتور بسرعة أكبر، من صفحة",
     phoneTipAfter: "",
     requestedOn: "طُلب في",
@@ -92,6 +95,7 @@ export const bookingCopy: Record<Locale, BookingCopy> = {
     noteHint: "For example, the best time to contact you. Please don't include health or other sensitive personal information.",
     submit: "Confirm booking",
     pending: "Sending your request…",
+    refundNote: "Read our refund policy before you pay",
     phoneTipBefore: "Add your phone number on your",
     phoneTipAfter: " page so the doctor can reach you faster.",
     requestedOn: "Requested on",
