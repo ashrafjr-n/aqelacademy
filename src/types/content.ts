@@ -54,6 +54,13 @@ export interface Faq {
   link?: NavLink;
 }
 
+/** One numbered clause of a policy: an optional lead-in, then its points. */
+export interface PolicySection {
+  title: string;
+  text?: string;
+  items?: string[];
+}
+
 /** A dated legal page (privacy, refunds). */
 export interface PolicyDocument {
   title: string;
