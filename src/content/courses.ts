@@ -26,6 +26,7 @@ const courseImages: Record<Locale, Course["image"]> = {
 /** Facts that don't change with the language. */
 const abat = { slug: "abat", priceUsd: 300, durationWeeks: 10, trainingHours: 40, level: "all" } satisfies Partial<Course>;
 const qaspS = { slug: "qasp-s", priceUsd: 600, trainingHours: 180, level: "intermediate" } satisfies Partial<Course>;
+const qba = { slug: "qba", priceUsd: 900, trainingHours: 270, level: "advanced" } satisfies Partial<Course>;
 
 /**
  * Official credential and board names (Applied Behavior Analysis Technician, Qualified Behavior
@@ -144,6 +145,59 @@ const coursesByLocale: Record<Locale, Course[]> = {
         },
       ],
     },
+    {
+      ...qba,
+      title: "دورة محلل سلوك مؤهل QBA",
+      excerpt: "دورة متقدمة لحملة الماجستير تؤهلك لتقييم السلوك وتصميم البرامج العلاجية والإشراف على فرق تحليل السلوك التطبيقي، وتغطي متطلبات الدراسة لشهادة QBA من مجلس QABA.",
+      image: courseImages.ar,
+      instructor: instructors.ar,
+      body: [
+        {
+          type: "paragraph",
+          text: "دورة محلل السلوك المؤهل (Qualified Behavior Analyst – QBA) موجّهة لحملة الماجستير الذين يريدون العمل محللي سلوك: يقيّمون السلوك، ويصممون البرامج العلاجية، ويشرفون على الفرق العاملة في مجال تحليل السلوك التطبيقي (ABA).",
+        },
+        { type: "heading", level: 2, text: "ما هي شهادة QBA؟" },
+        {
+          type: "paragraph",
+          text: "شهادة QBA هي شهادة مجلس اعتماد تحليل السلوك التطبيقي المؤهل (QABA) لمحللي السلوك. يُجري حامل الشهادة تقييمات السلوك، ويضع الخطط العلاجية ويتابع تنفيذها، ويشرف على ممارسي QASP-S والفنيين (ABAT).",
+        },
+        { type: "heading", level: 2, text: "محتوى الدورة الأساسي (270 ساعة تدريبية)" },
+        {
+          type: "paragraph",
+          text: "تغطي الدورة متطلبات الدراسة التي يحددها مجلس QABA لهذه الشهادة، وتشمل محاور رئيسية مثل:",
+        },
+        {
+          type: "list",
+          ordered: false,
+          items: [
+            "المفاهيم والمبادئ المتقدمة في تحليل السلوك التطبيقي (ABA).",
+            "القياس وتصميم التجارب وتقييم فاعلية التدخلات.",
+            "تقييم السلوك الوظيفي وتحليل وظائف السلوك.",
+            "تصميم البرامج العلاجية وإجراءات تغيير السلوك.",
+            "المعرفة الأساسية حول اضطراب طيف التوحد (20 ساعة على الأقل).",
+            "الإشراف وإدارة الفرق وتدريب الكوادر (20 ساعة على الأقل).",
+            "الأخلاقيات المهنية والاعتبارات القانونية (20 ساعة على الأقل).",
+          ],
+        },
+        { type: "heading", level: 2, text: "متطلبات الحصول على شهادة QBA" },
+        { type: "paragraph", text: "تشمل المتطلبات الرئيسية وفقًا لمعايير QABA:" },
+        {
+          type: "list",
+          ordered: true,
+          items: [
+            "الحصول على درجة الماجستير على الأقل من جامعة معتمدة في تخصص ذي صلة، مثل تحليل السلوك التطبيقي أو علم النفس أو التربية الخاصة.",
+            "إكمال 270 ساعة دراسية معتمدة.",
+            "إكمال 2000 ساعة من الخبرة الميدانية تحت الإشراف، منها 1200 ساعة على الأقل في المهام غير المباشرة، مثل الإشراف وتقييم السلوك ومراجعة البيانات.",
+            "تقديم توصية مهنية من المشرف، وفحص السجل الجنائي (أو إقرار من جهة العمل).",
+            "اجتياز اختبار البورد (QABA) والالتزام بميثاق أخلاقيات المجلس.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "تساعدك هذه الدورة على استكمال متطلبات الدراسة والاستعداد للاختبار. إذا كنت مهتمًا بالتسجيل في هذه الدورة، **تواصل معنا فالمقاعد محدودة**.",
+        },
+      ],
+    },
   ],
   en: [
     {
@@ -246,6 +300,59 @@ const coursesByLocale: Record<Locale, Course[]> = {
             "Hold at least a bachelor's degree from an accredited university.",
             "Complete 180 hours of approved ABA coursework.",
             "Complete 1,000 hours of supervised fieldwork, including at least 600 hours supervising or developing programmes.",
+            "Provide a professional recommendation from your supervisor, and a criminal background check (or an employer attestation).",
+            "Pass the QABA examination and agree to the QABA Code of Ethics.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "This course helps you complete the coursework and prepare for the exam. If you would like to enrol, **contact us soon, as places are limited**.",
+        },
+      ],
+    },
+    {
+      ...qba,
+      title: "Qualified Behavior Analyst (QBA) course",
+      excerpt: "An advanced course for master's graduates that prepares you to assess behaviour, design treatment programmes and supervise ABA teams, covering the QABA coursework requirements for the QBA credential.",
+      image: courseImages.en,
+      instructor: instructors.en,
+      body: [
+        {
+          type: "paragraph",
+          text: "The Qualified Behavior Analyst (QBA) course is for master's graduates who want to work as behaviour analysts: assessing behaviour, designing treatment programmes and supervising teams in Applied Behaviour Analysis (ABA).",
+        },
+        { type: "heading", level: 2, text: "What is the QBA credential?" },
+        {
+          type: "paragraph",
+          text: "The QBA is the behaviour analyst credential of the Qualified Applied Behavior Analysis Credentialing Board (QABA). A QBA carries out behaviour assessments, writes and oversees treatment plans, and supervises QASP-S practitioners and technicians (ABATs).",
+        },
+        { type: "heading", level: 2, text: "Core course content (270 training hours)" },
+        {
+          type: "paragraph",
+          text: "The course covers the coursework QABA requires for this credential. The main topics are:",
+        },
+        {
+          type: "list",
+          ordered: false,
+          items: [
+            "Advanced concepts and principles of Applied Behaviour Analysis (ABA).",
+            "Measurement, experimental design and evaluating interventions.",
+            "Functional behaviour assessment and the functions of behaviour.",
+            "Treatment planning and behaviour-change procedures.",
+            "Autism core knowledge (at least 20 hours).",
+            "Supervision, team management and staff training (at least 20 hours).",
+            "Ethical and legal considerations (at least 20 hours).",
+          ],
+        },
+        { type: "heading", level: 2, text: "Requirements for the QBA credential" },
+        { type: "paragraph", text: "Under QABA standards, the main requirements are:" },
+        {
+          type: "list",
+          ordered: true,
+          items: [
+            "Hold at least a master's degree from an accredited university in a related field, such as ABA, psychology or special education.",
+            "Complete 270 hours of approved coursework.",
+            "Complete 2,000 hours of supervised fieldwork, including at least 1,200 indirect hours, such as supervision, behaviour assessment and reviewing data.",
             "Provide a professional recommendation from your supervisor, and a criminal background check (or an employer attestation).",
             "Pass the QABA examination and agree to the QABA Code of Ethics.",
           ],
