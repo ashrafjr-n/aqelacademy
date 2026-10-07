@@ -397,10 +397,12 @@ export function courseHoursLabel(hours: number, locale: Locale): string {
 /** Labels around the courses (cards, the course page, its summary card). */
 export const courseCopy: Record<
   Locale,
-  { listTitle: string; details: string; empty: string; trainer: string; duration: string; hours: string; level: string; whatsappQuestion: string; whatsappPrefill: (title: string) => string }
+  { listTitle: string; listIntro: string; details: string; empty: string; trainer: string; duration: string; hours: string; level: string; whatsappQuestion: string; whatsappPrefill: (title: string) => string }
 > = {
   ar: {
     listTitle: "الدورات التدريبية",
+    listIntro:
+      "تم تصميم كافة برامجنا التدريبية وتقديمها من قبل خبراء في تحليل السلوك التطبيقي، والتربية الخاصة، والتأهيل، وعلم النفس، استنادًا إلى أحدث الأبحاث، وبشهادات معتمدة دوليًا.",
     details: "التفاصيل والحجز",
     empty: "لا توجد دورات متاحة حاليًا.",
     trainer: "المدرب",
@@ -412,6 +414,8 @@ export const courseCopy: Record<
   },
   en: {
     listTitle: "Courses",
+    listIntro:
+      "All our training programmes are designed and delivered by experts in Applied Behaviour Analysis, special education, rehabilitation and psychology, based on the latest research, with internationally recognised certificates.",
     details: "Details and booking",
     empty: "No courses are available at the moment.",
     trainer: "Trainer",

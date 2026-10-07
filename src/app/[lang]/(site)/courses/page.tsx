@@ -12,11 +12,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function CoursesPage() {
   const locale = await getLocale();
+  const copy = courseCopy[locale];
 
   return (
     <>
-      <PageHeader title={courseCopy[locale].listTitle} />
+      <PageHeader title={copy.listTitle} />
       <section className="container-site py-20">
+        <p className="mb-12 max-w-3xl text-lg leading-loose">{copy.listIntro}</p>
         <CourseGrid courses={getCourses(locale)} preloadFirst />
       </section>
     </>
