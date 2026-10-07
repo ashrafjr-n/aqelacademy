@@ -35,7 +35,9 @@ export const aboutContent: Record<Locale, AboutContent> = {
         "تقدّم الأكاديمية برامج تدريبية ودورات علمية وفق أحدث المناهج العالمية في:",
       ],
       programs: [
-        "فني تحليل سلوك تطبيقي (RBT)",
+        "فني تحليل سلوك تطبيقي (ABAT)",
+        "ممارس خدمات التوحد المؤهل – مشرف (QASP-S)",
+        "محلل سلوك مؤهل (QBA)",
         "التوحد",
         "التربية الخاصة",
         "صعوبات التعلم",
@@ -47,7 +49,7 @@ export const aboutContent: Record<Locale, AboutContent> = {
     whyUs: {
       title: "لماذا تختارنا؟",
       points: [
-        "إشراف مباشر من دكتور متخصص بالبورد الأمريكي (ABA)",
+        "إشراف مباشر من دكتور حاصل على البورد الأمريكي في تحليل السلوك التطبيقي (ABA)",
         "محتوى علمي مُحدَّث باستمرار",
         "تدريب عملي وتطبيقي بأسلوب تفاعلي",
         "شهادات معتمدة ومجالات تطبيق واسعة",
@@ -64,7 +66,7 @@ export const aboutContent: Record<Locale, AboutContent> = {
       title: "قيمنا",
       items: [
         { title: "الاحترافية", text: "تقديم محتوى تدريبي عالي الجودة قائم على الأسس العلمية." },
-        { title: "الإنسانية", text: "نضع الإنسان أولاً في كل خطوة نخطوها." },
+        { title: "الإنسانية", text: "نضع الإنسان أولًا في كل خطوة نخطوها." },
         { title: "التميز", text: "نسعى دائمًا لتقديم الأفضل علميًا ومهنيًا." },
         { title: "التمكين", text: "نؤمن بقدرة المتدربين على أن يصبحوا قادة في مجالاتهم." },
       ],
@@ -87,7 +89,9 @@ export const aboutContent: Record<Locale, AboutContent> = {
         "The academy offers training programmes and courses based on the latest international curricula in:",
       ],
       programs: [
-        "Registered Behavior Technician (RBT) training",
+        "Applied Behavior Analysis Technician (ABAT)",
+        "Qualified Autism Services Practitioner-Supervisor (QASP-S)",
+        "Qualified Behavior Analyst (QBA)",
         "Autism",
         "Special education",
         "Specific learning difficulties",

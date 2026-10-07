@@ -10,7 +10,7 @@ const faqsAr: Faq[] = [
   },
   {
     id: "online-or-onsite",
-    question: "هل الدورات مقدّمة عبر الإنترنت أم حضورياً؟",
+    question: "هل الدورات مقدّمة عبر الإنترنت أم حضوريًا؟",
     answer:
       "جميع الدورات تُقدّم عبر الإنترنت (أونلاين) بنظام تعلم تفاعلي يتيح للمتدربين حضور المحاضرات، والمشاركة في الأنشطة، واستلام الشهادات دون الحاجة للحضور الميداني.",
   },
@@ -28,9 +28,9 @@ const faqsAr: Faq[] = [
   },
   {
     id: "prerequisites",
-    question: "هل تتطلب الدورات خبرة أو تخصص مسبق؟",
+    question: "هل تتطلب الدورات خبرة أو تخصصًا مسبقًا؟",
     answer:
-      "بعض الدورات مثل فني تحليل سلوك تطبيقي (RBT) تتطلب إلمامًا أساسيًا بالمجال، بينما هناك دورات أخرى تناسب المبتدئين وأولياء الأمور والمهتمين بمجال التربية الخاصة بشكل عام.",
+      "دورة فني تحليل السلوك التطبيقي (ABAT) تناسب المبتدئين، ويكفي للحصول على شهادتها مؤهل الثانوية العامة. أما شهادة QASP-S فتتطلب درجة البكالوريوس، وشهادة QBA تتطلب درجة الماجستير، وفق معايير مجلس QABA.",
   },
   {
     id: "contact",
@@ -68,7 +68,7 @@ const faqsEn: Faq[] = [
     id: "prerequisites",
     question: "Do the courses need previous experience or a specialist background?",
     answer:
-      "Some courses, such as Registered Behavior Technician (RBT) training, need a basic understanding of the field. Others are suitable for beginners, parents and anyone interested in special education.",
+      "The Applied Behavior Analysis Technician (ABAT) course suits beginners: a high school diploma is enough for its credential. The QASP-S credential needs a bachelor's degree and the QBA a master's degree, under QABA standards.",
   },
   {
     id: "contact",
