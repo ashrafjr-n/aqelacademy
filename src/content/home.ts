@@ -15,7 +15,7 @@ interface HomeContent {
   hero: { eyebrow: string; title: string; lead: string; text: string; image: ContentImage; primaryAction: NavLink; secondaryAction: NavLink };
   accreditationsTitle: string;
   accreditations: ContentImage[];
-  featuredCourses: { title: string; subtitle: string; action: NavLink };
+  featuredCourses: { title: string; action: NavLink };
   latestArticles: { title: string; action: NavLink };
   journey: { title: string; text: string; points: string[]; image: ContentImage; primaryAction: NavLink; secondaryAction: NavLink };
   cta: { title: string; text: string; primaryAction: NavLink; secondaryAction: NavLink };
@@ -40,7 +40,6 @@ export const homeContent: Record<Locale, HomeContent> = {
     accreditations,
     featuredCourses: {
       title: "الدورات المميزة",
-      subtitle: "أبرز الدورات التدريبية",
       action: { href: "/courses", label: "جميع الدورات" },
     },
     latestArticles: {
@@ -76,7 +75,6 @@ export const homeContent: Record<Locale, HomeContent> = {
     accreditations,
     featuredCourses: {
       title: "Featured courses",
-      subtitle: "Our main training courses",
       action: { href: "/courses", label: "All courses" },
     },
     latestArticles: {

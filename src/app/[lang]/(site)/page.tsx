@@ -9,7 +9,7 @@ import { CheckList } from "@/components/ui/check-list";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitSection } from "@/components/ui/split-section";
 import { getArticles } from "@/content/articles";
-import { getCourses } from "@/content/courses";
+import { courseCopy, getCourses } from "@/content/courses";
 import { homeContent } from "@/content/home";
 import { localeLink } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
@@ -37,7 +37,7 @@ export default async function HomePage() {
       <AccreditationStrip title={accreditationsTitle} badges={accreditations} />
 
       <section className="container-site py-20">
-        <SectionHeading title={featuredSection.title} subtitle={featuredSection.subtitle} action={featuredSection.action} />
+        <SectionHeading title={featuredSection.title} subtitle={courseCopy[locale].listIntro} action={featuredSection.action} />
         <CourseGrid courses={getCourses(locale).slice(0, 3)} />
       </section>
 
