@@ -12,7 +12,7 @@ The whole platform runs on free tiers. Payments and the courses themselves stay 
 
 ## Features
 
-- **Public site:** courses, articles, FAQ, contact and privacy pages, in Arabic and British English (a language switch in the header). Pages are statically rendered, with SEO metadata, hreflang links and link previews.
+- **Public site:** courses, articles, FAQ, contact, privacy and refund policy pages, in Arabic and British English (a language switch in the header). Pages are statically rendered, with SEO metadata, hreflang links and link previews.
 - **Accounts:** email and password with 8-digit email codes, "Continue with Google", captcha protection, and account deletion by the user.
 - **Bookings:** a student requests a seat, and the doctor approves or rejects it. The course page itself shows where the request stands, so students need no dashboard. One open request per course, with rate limits.
 - **Messages:** one conversation per booking, with read receipts and auto-refresh.
