@@ -6,7 +6,7 @@ interface RichTextProps {
 }
 
 /** Splits `**bold**` markers into <strong> segments. */
-function renderInline(text: string): ReactNode[] {
+export function renderInline(text: string): ReactNode[] {
   return text
     .split("**")
     .map((part, index) => (index % 2 === 1 ? <strong key={index} className="font-bold text-ink">{part}</strong> : part));

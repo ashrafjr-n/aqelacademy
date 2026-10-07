@@ -4,6 +4,7 @@ import { CourseGrid } from "@/components/courses/course-grid";
 import { AccreditationStrip } from "@/components/home/accreditation-strip";
 import { CtaBand } from "@/components/home/cta-band";
 import { HomeHero } from "@/components/home/home-hero";
+import { RefundPolicySection } from "@/components/home/refund-policy-section";
 import { ButtonLink } from "@/components/ui/button-link";
 import { CheckList } from "@/components/ui/check-list";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -11,6 +12,7 @@ import { SplitSection } from "@/components/ui/split-section";
 import { getArticles } from "@/content/articles";
 import { courseCopy, getCourses } from "@/content/courses";
 import { homeContent } from "@/content/home";
+import { refundPolicy } from "@/content/refund-policy";
 import { localeLink } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale";
 import { languageAlternates } from "@/lib/metadata";
@@ -65,6 +67,8 @@ export default async function HomePage() {
       </section>
 
       <CtaBand title={cta.title} text={cta.text} primaryAction={localeLink(locale, cta.primaryAction)} secondaryAction={localeLink(locale, cta.secondaryAction)} />
+
+      <RefundPolicySection title={refundPolicy[locale].title} intro={refundPolicy[locale].intro} sections={refundPolicy[locale].sections} />
     </>
   );
 }
