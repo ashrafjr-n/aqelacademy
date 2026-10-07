@@ -1,4 +1,4 @@
-import abatImage from "@/assets/images/courses/abat.jpg";
+import qabaLogo from "@/assets/images/courses/qaba.jpg";
 import drPortrait from "@/assets/images/dr-muaffaq-portrait.jpg";
 import { formatCount, formatEnglishCount } from "@/lib/format";
 import { defaultLocale, type Locale } from "@/lib/i18n";
@@ -17,8 +17,14 @@ export const instructors: Record<Locale, Instructor> = {
   },
 };
 
+/** Every course card shows the QABA credentialing board's logo. */
+const courseImages: Record<Locale, Course["image"]> = {
+  ar: { src: qabaLogo, alt: "شعار مجلس QABA" },
+  en: { src: qabaLogo, alt: "QABA logo" },
+};
+
 /** Facts that don't change with the language. */
-const abat = { slug: "abat", priceUsd: 100, durationWeeks: 10, trainingHours: 40, level: "all" } satisfies Partial<Course>;
+const abat = { slug: "abat", priceUsd: 300, durationWeeks: 10, trainingHours: 40, level: "all" } satisfies Partial<Course>;
 
 /**
  * Official credential and board names (Applied Behavior Analysis Technician, Qualified Behavior
@@ -31,7 +37,7 @@ const coursesByLocale: Record<Locale, Course[]> = {
       title: "دورة فني تحليل سلوك تطبيقي دولي ABAT",
       excerpt:
         "دورة تدريبية هامة ومطلوبة في مجال تحليل السلوك التطبيقي (ABA)، وتعد من أكثر الدورات حاجة في سوق العمل.",
-      image: { src: abatImage, alt: "تحليل السلوك التطبيقي ABA" },
+      image: courseImages.ar,
       instructor: instructors.ar,
       body: [
         {
@@ -90,7 +96,7 @@ const coursesByLocale: Record<Locale, Course[]> = {
       ...abat,
       title: "Applied Behavior Analysis Technician (ABAT) course",
       excerpt: "An essential, in-demand course in Applied Behaviour Analysis (ABA), and one of the qualifications employers ask for most.",
-      image: { src: abatImage, alt: "Applied Behaviour Analysis (ABA)" },
+      image: courseImages.en,
       instructor: instructors.en,
       body: [
         {
