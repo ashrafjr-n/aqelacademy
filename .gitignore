@@ -12,6 +12,7 @@ public_html/
 /*.sql.gz
 *.zip
 *.pdf
+/*.docx
 
 # dependencies
 /node_modules
