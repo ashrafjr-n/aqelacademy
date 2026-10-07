@@ -25,6 +25,7 @@ const courseImages: Record<Locale, Course["image"]> = {
 
 /** Facts that don't change with the language. */
 const abat = { slug: "abat", priceUsd: 300, durationWeeks: 10, trainingHours: 40, level: "all" } satisfies Partial<Course>;
+const qaspS = { slug: "qasp-s", priceUsd: 600, trainingHours: 180, level: "intermediate" } satisfies Partial<Course>;
 
 /**
  * Official credential and board names (Applied Behavior Analysis Technician, Qualified Behavior
@@ -90,6 +91,59 @@ const coursesByLocale: Record<Locale, Course[]> = {
         },
       ],
     },
+    {
+      ...qaspS,
+      title: "دورة ممارس خدمات التوحد المؤهل – مشرف QASP-S",
+      excerpt: "دورة متقدمة تؤهلك للإشراف على برامج تحليل السلوك التطبيقي وخدمات التوحد، وتغطي متطلبات الدراسة لشهادة QASP-S من مجلس QABA.",
+      image: courseImages.ar,
+      instructor: instructors.ar,
+      body: [
+        {
+          type: "paragraph",
+          text: "دورة ممارس خدمات التوحد المؤهل – مشرف (Qualified Autism Services Practitioner-Supervisor – QASP-S) موجّهة لحملة البكالوريوس الذين يريدون الانتقال من التطبيق المباشر إلى الإشراف على برامج تحليل السلوك التطبيقي (ABA) وتطويرها، خصوصًا في خدمات اضطراب طيف التوحد.",
+        },
+        { type: "heading", level: 2, text: "ما هي شهادة QASP-S؟" },
+        {
+          type: "paragraph",
+          text: "شهادة QASP-S يمنحها مجلس اعتماد تحليل السلوك التطبيقي المؤهل (QABA) للممارسين الذين يشرفون على تقديم خدمات تحليل السلوك، ويطوّرون البرامج العلاجية، ويدرّبون الفنيين (ABAT) ويتابعون عملهم. ويعمل حامل الشهادة تحت إشراف محلل سلوك مؤهل (QBA) أو ما يعادله.",
+        },
+        { type: "heading", level: 2, text: "محتوى الدورة الأساسي (180 ساعة تدريبية)" },
+        {
+          type: "paragraph",
+          text: "تغطي الدورة متطلبات الدراسة التي يحددها مجلس QABA لهذه الشهادة، وتشمل محاور رئيسية مثل:",
+        },
+        {
+          type: "list",
+          ordered: false,
+          items: [
+            "المبادئ والمفاهيم الأساسية لتحليل السلوك التطبيقي (ABA).",
+            "المعرفة الأساسية حول اضطراب طيف التوحد (15 ساعة على الأقل).",
+            "القياس وجمع البيانات وتحليلها واتخاذ القرارات بناءً عليها.",
+            "تقييم السلوك الوظيفي وتقييم المهارات.",
+            "تصميم الخطط العلاجية، واستراتيجيات اكتساب المهارات وخفض السلوكيات غير المرغوبة.",
+            "الإشراف على الفنيين وتدريب الكوادر وأولياء الأمور.",
+            "الأخلاقيات المهنية والاعتبارات القانونية (20 ساعة على الأقل).",
+          ],
+        },
+        { type: "heading", level: 2, text: "متطلبات الحصول على شهادة QASP-S" },
+        { type: "paragraph", text: "تشمل المتطلبات الرئيسية وفقًا لمعايير QABA:" },
+        {
+          type: "list",
+          ordered: true,
+          items: [
+            "الحصول على درجة البكالوريوس على الأقل من جامعة معتمدة.",
+            "إكمال 180 ساعة دراسية معتمدة في تحليل السلوك التطبيقي.",
+            "إكمال 1000 ساعة من الخبرة الميدانية تحت الإشراف، منها 600 ساعة على الأقل في الإشراف أو تطوير البرامج.",
+            "تقديم توصية مهنية من المشرف، وفحص السجل الجنائي (أو إقرار من جهة العمل).",
+            "اجتياز اختبار البورد (QABA) والالتزام بميثاق أخلاقيات المجلس.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "تساعدك هذه الدورة على استكمال متطلبات الدراسة والاستعداد للاختبار. إذا كنت مهتمًا بالتسجيل في هذه الدورة، **تواصل معنا فالمقاعد محدودة**.",
+        },
+      ],
+    },
   ],
   en: [
     {
@@ -146,6 +200,59 @@ const coursesByLocale: Record<Locale, Course[]> = {
         {
           type: "paragraph",
           text: "This course covers all of it, at an affordable price. If you would like to enrol, **contact us soon, as places are limited**.",
+        },
+      ],
+    },
+    {
+      ...qaspS,
+      title: "Qualified Autism Services Practitioner-Supervisor (QASP-S) course",
+      excerpt: "An advanced course that prepares you to supervise ABA and autism services, covering the QABA coursework requirements for the QASP-S credential.",
+      image: courseImages.en,
+      instructor: instructors.en,
+      body: [
+        {
+          type: "paragraph",
+          text: "The Qualified Autism Services Practitioner-Supervisor (QASP-S) course is for graduates who want to move from direct practice into supervising and developing Applied Behaviour Analysis (ABA) programmes, especially in autism services.",
+        },
+        { type: "heading", level: 2, text: "What is the QASP-S credential?" },
+        {
+          type: "paragraph",
+          text: "The QASP-S credential is awarded by the Qualified Applied Behavior Analysis Credentialing Board (QABA) to practitioners who oversee behaviour-analytic services, develop treatment programmes, and train and supervise technicians (ABATs). A QASP-S works under the supervision of a Qualified Behavior Analyst (QBA) or equivalent.",
+        },
+        { type: "heading", level: 2, text: "Core course content (180 training hours)" },
+        {
+          type: "paragraph",
+          text: "The course covers the coursework QABA requires for this credential. The main topics are:",
+        },
+        {
+          type: "list",
+          ordered: false,
+          items: [
+            "The core principles and concepts of Applied Behaviour Analysis (ABA).",
+            "Autism core knowledge (at least 15 hours).",
+            "Measurement, data collection and analysis, and data-based decision making.",
+            "Functional behaviour assessment and skills assessment.",
+            "Treatment planning, skill acquisition, and strategies to reduce behaviour that challenges.",
+            "Supervising technicians, and training staff and parents.",
+            "Ethical and legal considerations (at least 20 hours).",
+          ],
+        },
+        { type: "heading", level: 2, text: "Requirements for the QASP-S credential" },
+        { type: "paragraph", text: "Under QABA standards, the main requirements are:" },
+        {
+          type: "list",
+          ordered: true,
+          items: [
+            "Hold at least a bachelor's degree from an accredited university.",
+            "Complete 180 hours of approved ABA coursework.",
+            "Complete 1,000 hours of supervised fieldwork, including at least 600 hours supervising or developing programmes.",
+            "Provide a professional recommendation from your supervisor, and a criminal background check (or an employer attestation).",
+            "Pass the QABA examination and agree to the QABA Code of Ethics.",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "This course helps you complete the coursework and prepare for the exam. If you would like to enrol, **contact us soon, as places are limited**.",
         },
       ],
     },
