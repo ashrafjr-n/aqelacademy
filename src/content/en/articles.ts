@@ -129,7 +129,7 @@ export const articlesEn: Article[] = [
       { type: "heading", level: 2, text: "Results in practice" },
       {
         type: "paragraph",
-        text: "Recent studies suggest that children who had regular CBT sessions showed **improvements in communication and self-regulation** of more than 60%, along with a clear reduction in disruptive behaviour and social anxiety.",
+        text: "Many studies suggest that children who have regular CBT sessions show **improvements in communication and self-regulation**, along with a clear reduction in disruptive behaviour and social anxiety.",
       },
       { type: "heading", level: 2, text: "Summary" },
       {
@@ -171,7 +171,7 @@ export const articlesEn: Article[] = [
         type: "list",
         ordered: false,
         items: [
-          "**Reinforcement:** deliver a preferred consequence straight after the desired behaviour to make it more likely to happen again. Use a variable schedule, then thin it gradually.",
+          "**Reinforcement:** deliver a preferred consequence straight after the desired behaviour to make it more likely to happen again. Start by reinforcing every correct response, then move to an intermittent schedule and thin it gradually.",
           "**Shaping:** reinforce successive approximations of the target behaviour when the final behaviour is too hard to reach in one step.",
           "**Chaining:** break a skill into small steps (task analysis) and teach it with forward or backward chaining.",
           "**Prompting and fading:** give temporary help (verbal, physical or visual prompts), then fade it gradually to build independence.",
