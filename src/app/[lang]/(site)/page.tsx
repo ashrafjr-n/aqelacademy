@@ -30,8 +30,6 @@ export default async function HomePage() {
       <HomeHero
         eyebrow={hero.eyebrow}
         title={hero.title}
-        titleLines={hero.titleLines}
-        emphasisLine={hero.emphasisLine}
         lead={hero.lead}
         text={hero.text}
         image={hero.image}

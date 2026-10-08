@@ -12,7 +12,7 @@ const accreditations: ContentImage[] = [
 ];
 
 interface HomeContent {
-  hero: { eyebrow: string; title: string; titleLines: string[]; emphasisLine: number; lead: string; text: string; image: ContentImage; primaryAction: NavLink; secondaryAction: NavLink };
+  hero: { eyebrow: string; title: string; lead: string; text: string; image: ContentImage; primaryAction: NavLink; secondaryAction: NavLink };
   accreditationsTitle: string;
   accreditations: ContentImage[];
   featuredCourses: { title: string; action: NavLink };
@@ -21,7 +21,6 @@ interface HomeContent {
   cta: { title: string; text: string; primaryAction: NavLink; secondaryAction: NavLink };
 }
 
-/** `titleLines` is `title` split into lines for phones, where the `emphasisLine` is set large and the others small. */
 /** The academy's slogan stays in English in both languages. */
 const tagline = "Empowering Professionals Through Science & Practice";
 
@@ -31,8 +30,6 @@ export const homeContent: Record<Locale, HomeContent> = {
     hero: {
       eyebrow: tagline,
       title: "أكاديمية الدكتور موفق عقل لتحليل السلوك التطبيقي والتأهيل",
-      titleLines: ["أكاديمية", "الدكتور موفق عقل", "لتحليل السلوك التطبيقي والتأهيل"],
-      emphasisLine: 1,
       lead: "نُعدّ متخصصي المستقبل في تحليل السلوك التطبيقي والتربية الخاصة",
       text: "تدريب احترافي قائم على الأدلة العلمية يجمع بين المعرفة العلمية، والتطبيق العملي، والخبرة الميدانية الممتدة لأكثر من 25 عامًا، لنُسهم في إعداد كوادر قادرة على إحداث أثر حقيقي في حياة الأطفال والأسر.",
       image: { src: hero, alt: "" },
@@ -68,8 +65,6 @@ export const homeContent: Record<Locale, HomeContent> = {
     hero: {
       eyebrow: tagline,
       title: "Dr Muaffaq Aqel Academy for Applied Behaviour Analysis and Rehabilitation",
-      titleLines: ["Dr Muaffaq Aqel Academy", "for Applied Behaviour Analysis", "and Rehabilitation"],
-      emphasisLine: 0,
       lead: "Preparing tomorrow's specialists in Applied Behaviour Analysis and special education",
       text: "Professional, evidence-based training that brings together scientific knowledge, hands-on practice and more than 25 years of field experience, to prepare professionals who make a real difference to the lives of children and families.",
       image: { src: hero, alt: "" },
