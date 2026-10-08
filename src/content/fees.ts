@@ -7,8 +7,6 @@ interface FeesCopy {
   title: string;
   intro: string;
   lastUpdated: string;
-  course: string;
-  hours: string;
   fee: string;
   notesTitle: string;
   notes: string[];
@@ -22,9 +20,7 @@ export const feesCopy: Record<Locale, FeesCopy> = {
     title: "رسوم الدورات التدريبية",
     intro: "تعرض هذه الصفحة الرسوم المعتمدة لجميع الدورات التدريبية في الأكاديمية.",
     lastUpdated: "آخر تحديث:",
-    course: "الدورة",
-    hours: "ساعات التدريب",
-    fee: "الرسوم",
+    fee: "رسوم الدورة",
     notesTitle: "ملاحظات",
     notes: [
       "جميع الرسوم بالدولار الأمريكي (USD)، وهي رسوم الدورة كاملة.",
@@ -37,9 +33,7 @@ export const feesCopy: Record<Locale, FeesCopy> = {
     title: "Course fees",
     intro: "This page lists the current fees for all of the academy's training courses.",
     lastUpdated: "Last updated:",
-    course: "Course",
-    hours: "Training hours",
-    fee: "Fee",
+    fee: "Course fee",
     notesTitle: "Notes",
     notes: [
       "All fees are in US dollars (USD) and cover the whole course.",
