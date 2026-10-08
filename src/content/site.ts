@@ -75,7 +75,6 @@ export const siteText: Record<Locale, SiteText> = {
     nav: [
       { href: "/", label: "الرئيسية" },
       { href: "/courses", label: "الدورات التدريبية" },
-      { href: "/consultations", label: "الاستشارات" },
       { href: "/about-us", label: "من نحن" },
       { href: "/blog", label: "المقالات" },
       { href: "/faqs", label: "أسئلة شائعة" },
@@ -84,7 +83,6 @@ export const siteText: Record<Locale, SiteText> = {
     footerLinks: [
       { href: "/about-us", label: "من نحن" },
       { href: "/courses", label: "الدورات التدريبية" },
-      { href: "/consultations", label: "الاستشارات النفسية والسلوكية" },
       { href: "/faqs", label: "أسئلة شائعة" },
       { href: "/course-fees", label: "رسوم الدورات" },
       { href: "/policy", label: "سياسة الخصوصية" },
@@ -126,7 +124,6 @@ export const siteText: Record<Locale, SiteText> = {
     nav: [
       { href: "/", label: "Home" },
       { href: "/courses", label: "Courses" },
-      { href: "/consultations", label: "Consultations" },
       { href: "/about-us", label: "About us" },
       { href: "/blog", label: "Articles" },
       { href: "/faqs", label: "FAQs" },
@@ -135,7 +132,6 @@ export const siteText: Record<Locale, SiteText> = {
     footerLinks: [
       { href: "/about-us", label: "About us" },
       { href: "/courses", label: "Courses" },
-      { href: "/consultations", label: "Consultations" },
       { href: "/faqs", label: "FAQs" },
       { href: "/course-fees", label: "Course fees" },
       { href: "/policy", label: "Privacy policy" },
