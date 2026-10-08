@@ -9,17 +9,19 @@ interface PageHeaderProps {
   title: string;
   /** Parent pages between the home page and the current page, as locale-free paths. */
   parents?: NavLink[];
+  /** A shorter band with a smaller title, for long document pages. */
+  compact?: boolean;
 }
 
 /** The title band at the top of public pages, with the breadcrumb trail. */
-export async function PageHeader({ title, parents = [] }: PageHeaderProps) {
+export async function PageHeader({ title, parents = [], compact = false }: PageHeaderProps) {
   const locale = await getLocale();
   const { chrome } = siteText[locale];
   const trail: NavLink[] = [{ href: "/", label: chrome.home }, ...parents];
 
   return (
     <div className="border-b border-line bg-canvas">
-      <div className="container-site py-12 sm:py-16">
+      <div className={`container-site ${compact ? "py-8 sm:py-10" : "py-12 sm:py-16"}`}>
         <nav aria-label={chrome.breadcrumb}>
           <ol className="flex flex-wrap items-center gap-1.5 text-sm">
             {trail.map((link) => (
@@ -35,8 +37,8 @@ export async function PageHeader({ title, parents = [] }: PageHeaderProps) {
             </li>
           </ol>
         </nav>
-        <h1 className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-snug text-ink md:text-4xl md:leading-snug">{title}</h1>
-        <span aria-hidden="true" className="mt-5 block h-0.5 w-12 bg-gold" />
+        <h1 className={`max-w-3xl font-heading font-bold leading-snug text-ink ${compact ? "mt-3 text-2xl md:text-3xl md:leading-snug" : "mt-4 text-3xl md:text-4xl md:leading-snug"}`}>{title}</h1>
+        <span aria-hidden="true" className={`block h-0.5 w-12 bg-gold ${compact ? "mt-4" : "mt-5"}`} />
       </div>
     </div>
   );
