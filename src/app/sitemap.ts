@@ -4,7 +4,7 @@ import { courseSlugs } from "@/content/courses";
 import { site } from "@/content/site";
 import { localePath } from "@/lib/i18n";
 
-const staticPaths = ["/", "/courses", "/blog", "/about-us", "/faqs", "/contact-us", "/policy", "/refund-policy", "/register", "/login"];
+const staticPaths = ["/", "/courses", "/blog", "/about-us", "/faqs", "/contact-us", "/course-fees", "/policy", "/refund-policy", "/register", "/login"];
 
 /** Every public page in both languages, each pointing at its twin (hreflang). */
 function entriesFor(path: string, lastModified?: string): MetadataRoute.Sitemap {
