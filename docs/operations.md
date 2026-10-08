@@ -146,6 +146,8 @@ Every page below also exists in English under `/en` (for example `/en/courses`),
 | `/`                | Home                         |
 | `/courses`         | Course list                  |
 | `/courses/[slug]`  | Course details; signed-in students also see where their booking for it stands |
+| `/course-fees`     | Course fees (a standalone page for accreditation applications) |
+| `/consultations`   | Online psychological and behavioural consultations, booked over WhatsApp |
 | `/blog`            | Articles                     |
 | `/blog/[slug]`     | Article                      |
 | `/about-us`        | About the academy            |
@@ -181,8 +183,8 @@ src/
   app/          Routes (App Router):
                 [lang]/(site) public pages, [lang]/(app) sign-in/account/booking,
                 (dashboard)/admin the doctor's dashboard (its own root layout, Arabic only)
-  components/   UI components (layout, header, ui, forms, home, courses, blog,
-                bookings, messages, notifications, admin)
+  components/   UI components (layout, header, ui, forms, home, courses, consultations,
+                blog, bookings, messages, notifications, admin)
   content/      Site content in Arabic and English: courses, articles, pages, contact details
   lib/          Helpers, validation, Supabase clients, data access layer (dal/)
   types/        Shared content types
