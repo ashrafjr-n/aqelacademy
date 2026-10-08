@@ -1,20 +1,22 @@
 import { site } from "@/content/site";
 import type { Locale } from "@/lib/i18n";
-import type { PolicyDocument, PolicySection, RichBlock } from "@/types/content";
+import type { PolicySection } from "@/types/content";
 
 /** Shared by both languages; bump it when either text changes. */
-const updatedAt = "2026-10-07";
+export const refundPolicyUpdatedAt = "2026-10-07";
 
 interface RefundPolicy {
   title: string;
+  lastUpdated: string;
   intro: string;
   sections: PolicySection[];
 }
 
-/** Kept as sections so the home page can show each one as a card; the policy page flattens them. */
+/** One card per section, on the home page and on `/refund-policy`. */
 export const refundPolicy: Record<Locale, RefundPolicy> = {
   ar: {
     title: "سياسة الاسترجاع والاسترداد المالي",
+    lastUpdated: "آخر تحديث:",
     intro: `تحرص ${site.name} على تقديم تجربة تدريبية متميزة وشفافة، وعلى توضيح آلية الاسترجاع والاسترداد المالي وفق البنود التالية.`,
     sections: [
       {
@@ -60,6 +62,7 @@ export const refundPolicy: Record<Locale, RefundPolicy> = {
   },
   en: {
     title: "Refund policy",
+    lastUpdated: "Last updated:",
     intro: "Dr Muaffaq Aqel Academy is committed to an excellent, transparent training experience. This policy explains how cancellations and refunds work.",
     sections: [
       {
@@ -103,20 +106,4 @@ export const refundPolicy: Record<Locale, RefundPolicy> = {
       },
     ],
   },
-};
-
-function toBlocks({ intro, sections }: RefundPolicy): RichBlock[] {
-  return [
-    { type: "paragraph", text: intro },
-    ...sections.flatMap(({ title, text, items }): RichBlock[] => [
-      { type: "heading", level: 2, text: title },
-      ...(text ? [{ type: "paragraph", text } as const] : []),
-      ...(items ? [{ type: "list", ordered: false, items } as const] : []),
-    ]),
-  ];
-}
-
-export const refundPolicyContent: Record<Locale, PolicyDocument> = {
-  ar: { title: refundPolicy.ar.title, lastUpdated: "آخر تحديث:", updatedAt, body: toBlocks(refundPolicy.ar) },
-  en: { title: refundPolicy.en.title, lastUpdated: "Last updated:", updatedAt, body: toBlocks(refundPolicy.en) },
 };
