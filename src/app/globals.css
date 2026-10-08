@@ -65,3 +65,39 @@ body {
   background: var(--color-gold-soft);
   color: var(--color-ink);
 }
+
+/* Opening screen (src/components/layout/splash.tsx): the bar fills in 1.6 s, then the screen fades out. Pure CSS, so it runs once per full page load and never blocks the page if scripts fail. */
+@keyframes splash-fill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes splash-out {
+  to { opacity: 0; visibility: hidden; }
+}
+
+.splash {
+  animation: splash-out 0.35s ease-out 1.6s forwards;
+}
+
+.splash-bar {
+  animation: splash-fill 1.6s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+}
+
+/* Sections slide up once as they scroll into view (src/components/ui/reveal.tsx). The attribute is only set by script, so nothing is hidden without it. */
+[data-reveal] {
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(2rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash { animation-duration: 0.01s; animation-delay: 0.6s; }
+  .splash-bar { animation-duration: 0.6s; }
+  [data-reveal] { transition: none; }
+}

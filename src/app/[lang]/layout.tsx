@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { lang } from "next/root-params";
 import { notFound } from "next/navigation";
 import { fontClassName } from "@/app/fonts";
+import { Splash } from "@/components/layout/splash";
 import { LocaleProvider } from "@/components/locale-provider";
 import { site, siteText } from "@/content/site";
 import { dirOf, isLocale, locales } from "@/lib/i18n";
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   return (
     <html lang={locale} dir={dirOf(locale)} className={`${fontClassName} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
+        <Splash />
         <LocaleProvider locale={locale}>{children}</LocaleProvider>
       </body>
     </html>
