@@ -42,7 +42,7 @@ export function HomeHero({ eyebrow, title, lead, text, image, actions, accredita
     <section className="overflow-hidden border-b border-line">
       <div className="container-site grid items-center gap-x-16 gap-y-12 py-14 max-sm:gap-y-0 max-sm:pt-8 max-sm:pb-10 md:py-20 lg:grid-cols-[1.15fr_1fr]">
         <div>
-          <p lang="en" className="flex flex-col items-center gap-3 text-center text-xs font-bold tracking-wide text-gold-dark sm:flex-row sm:text-start sm:text-sm">
+          <p className="flex flex-col items-center gap-3 text-center text-xs font-bold text-gold-dark ltr:tracking-wide sm:flex-row sm:text-start sm:text-sm">
             <span aria-hidden="true" className="order-2 h-px w-12 bg-gold sm:order-none sm:w-10" />
             {eyebrow}
           </p>
@@ -52,12 +52,11 @@ export function HomeHero({ eyebrow, title, lead, text, image, actions, accredita
           <HeroActions actions={actions} className="mt-9 flex flex-wrap gap-3 max-sm:hidden" />
         </div>
 
-        <div className="relative max-sm:-mx-4 max-sm:mt-2 sm:pe-4 sm:pb-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+        <div className="relative max-sm:-mx-4 max-sm:mt-2 max-sm:border-b max-sm:border-line sm:pe-4 sm:pb-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div aria-hidden="true" className="absolute top-4 start-4 end-0 bottom-0 rounded-lg border border-gold/70 max-sm:hidden" />
           <div className="relative aspect-[3/4] overflow-hidden bg-surface sm:aspect-[3/2] sm:rounded-lg">
             <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1024px) 34rem, 100vw" preload className="object-cover object-[50%_75%] sm:object-center" />
             <div aria-hidden="true" className="absolute inset-x-0 top-0 h-3/5 bg-gradient-to-b from-white from-15% via-white/70 via-45% to-transparent sm:hidden" />
-            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/6 bg-gradient-to-t from-white to-transparent sm:hidden" />
             <HeroActions actions={actions} className="absolute inset-x-4 top-5 flex gap-3 sm:hidden [&>a]:flex-1 [&>a]:justify-center [&>a]:px-3" />
           </div>
           <div aria-hidden="true" className="pointer-events-none absolute -inset-x-1/4 top-[4.75rem] h-28 rounded-[50%] border-t border-gold/60 sm:hidden" />

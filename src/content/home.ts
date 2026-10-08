@@ -21,14 +21,16 @@ interface HomeContent {
   cta: { title: string; text: string; primaryAction: NavLink; secondaryAction: NavLink };
 }
 
-/** The academy's slogan stays in English in both languages. */
-const tagline = "Empowering Professionals Through Science & Practice";
+const taglines: Record<Locale, string> = {
+  ar: "تمكين المتخصصين من خلال العلم والممارسة",
+  en: "Empowering Professionals Through Science & Practice",
+};
 
 /** Hrefs are locale-free; the page adds the /en prefix. */
 export const homeContent: Record<Locale, HomeContent> = {
   ar: {
     hero: {
-      eyebrow: tagline,
+      eyebrow: taglines.ar,
       title: "أكاديمية الدكتور موفق عقل لتحليل السلوك التطبيقي والتأهيل",
       lead: "نُعدّ متخصصي المستقبل في تحليل السلوك التطبيقي والتربية الخاصة",
       text: "تدريب احترافي قائم على الأدلة العلمية يجمع بين المعرفة العلمية، والتطبيق العملي، والخبرة الميدانية الممتدة لأكثر من 25 عامًا، لنُسهم في إعداد كوادر قادرة على إحداث أثر حقيقي في حياة الأطفال والأسر.",
@@ -63,7 +65,7 @@ export const homeContent: Record<Locale, HomeContent> = {
   },
   en: {
     hero: {
-      eyebrow: tagline,
+      eyebrow: taglines.en,
       title: "Dr Muaffaq Aqel Academy for Applied Behaviour Analysis and Rehabilitation",
       lead: "Preparing tomorrow's specialists in Applied Behaviour Analysis and special education",
       text: "Professional, evidence-based training that brings together scientific knowledge, hands-on practice and more than 25 years of field experience, to prepare professionals who make a real difference to the lives of children and families.",

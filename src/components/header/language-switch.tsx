@@ -1,8 +1,11 @@
 "use client";
 
-import { Languages } from "lucide-react";
+import { Globe } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { localePath, pathWithoutLocale, type Locale } from "@/lib/i18n";
+
+/** What the button shows on phones, where the full name is hidden: the other language's own short name. */
+const shortLabels: Record<Locale, string> = { ar: "ع", en: "EN" };
 
 interface LanguageSwitchProps {
   /** The page's current locale; the link leads to the other one. */
@@ -28,7 +31,8 @@ export function LanguageSwitch({ locale, label }: LanguageSwitchProps) {
       aria-label={label}
       className="flex h-10 items-center gap-2 rounded-full px-2.5 text-ink transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-brand sm:px-3"
     >
-      <Languages aria-hidden="true" className="size-5" />
+      <Globe aria-hidden="true" className="size-5" />
+      <span aria-hidden="true" className="text-sm font-bold sm:hidden">{shortLabels[target]}</span>
       <span className="hidden text-sm font-bold sm:inline">{label}</span>
     </a>
   );
