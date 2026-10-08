@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ArticleGrid } from "@/components/blog/article-grid";
 import { CourseGrid } from "@/components/courses/course-grid";
-import { AccreditationStrip } from "@/components/home/accreditation-strip";
 import { CtaBand } from "@/components/home/cta-band";
 import { HomeHero } from "@/components/home/home-hero";
 import { RefundPolicySection } from "@/components/home/refund-policy-section";
@@ -34,9 +33,9 @@ export default async function HomePage() {
         text={hero.text}
         image={hero.image}
         actions={[localeLink(locale, hero.primaryAction), localeLink(locale, hero.secondaryAction)]}
+        accreditationsTitle={accreditationsTitle}
+        accreditations={accreditations}
       />
-
-      <AccreditationStrip title={accreditationsTitle} badges={accreditations} />
 
       <section className="container-site py-20">
         <SectionHeading title={featuredSection.title} subtitle={courseCopy[locale].listIntro} action={featuredSection.action} />
