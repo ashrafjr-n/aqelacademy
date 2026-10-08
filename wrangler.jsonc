@@ -14,7 +14,7 @@
 			"binding": "WORKER_SELF_REFERENCE",
 			"service": "aqelacademy"
 		}
-	],
+	], 
 	"images": {
 		// next/image optimization via Cloudflare Images (free: 5,000 unique transformations/month).
 		"binding": "IMAGES"
