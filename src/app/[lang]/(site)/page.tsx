@@ -6,6 +6,7 @@ import { HomeHero } from "@/components/home/home-hero";
 import { RefundPolicySection } from "@/components/home/refund-policy-section";
 import { ButtonLink } from "@/components/ui/button-link";
 import { CheckList } from "@/components/ui/check-list";
+import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitSection } from "@/components/ui/split-section";
 import { getArticles } from "@/content/articles";
@@ -38,12 +39,14 @@ export default async function HomePage() {
       />
 
       <section className="container-site py-20">
-        <SectionHeading title={featuredSection.title} subtitle={courseCopy[locale].listIntro} action={featuredSection.action} />
-        <CourseGrid courses={getCourses(locale).slice(0, 3)} />
+        <Reveal>
+          <SectionHeading title={featuredSection.title} subtitle={courseCopy[locale].listIntro} action={featuredSection.action} />
+          <CourseGrid courses={getCourses(locale).slice(0, 3)} />
+        </Reveal>
       </section>
 
       <section className="border-y border-line bg-canvas py-20">
-        <div className="container-site">
+        <Reveal className="container-site">
           <SplitSection image={journey.image}>
             <SectionHeading title={journey.title} />
             <p className="text-lg leading-loose">{journey.text}</p>
@@ -57,15 +60,19 @@ export default async function HomePage() {
               </ButtonLink>
             </div>
           </SplitSection>
-        </div>
+        </Reveal>
       </section>
 
       <section className="container-site py-20">
-        <SectionHeading title={articlesSection.title} action={articlesSection.action} />
-        <ArticleGrid articles={getArticles(locale).slice(0, 3)} />
+        <Reveal>
+          <SectionHeading title={articlesSection.title} action={articlesSection.action} />
+          <ArticleGrid articles={getArticles(locale).slice(0, 3)} />
+        </Reveal>
       </section>
 
-      <CtaBand title={cta.title} text={cta.text} primaryAction={localeLink(locale, cta.primaryAction)} secondaryAction={localeLink(locale, cta.secondaryAction)} />
+      <Reveal>
+        <CtaBand title={cta.title} text={cta.text} primaryAction={localeLink(locale, cta.primaryAction)} secondaryAction={localeLink(locale, cta.secondaryAction)} />
+      </Reveal>
 
       <RefundPolicySection title={refundPolicy[locale].title} intro={refundPolicy[locale].intro} sections={refundPolicy[locale].sections} />
     </>
