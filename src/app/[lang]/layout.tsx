@@ -34,7 +34,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   if (!isLocale(locale)) notFound();
 
   return (
-    <html lang={locale} dir={dirOf(locale)} className={`${fontClassName} h-full antialiased`}>
+    <html lang={locale} dir={dirOf(locale)} suppressHydrationWarning className={`${fontClassName} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <Splash />
         <LocaleProvider locale={locale}>{children}</LocaleProvider>
