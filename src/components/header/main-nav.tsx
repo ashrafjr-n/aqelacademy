@@ -26,13 +26,13 @@ export function MainNav({ links, label }: MainNavProps) {
 
   return (
     <nav aria-label={label} className="hidden lg:block">
-      <ul className="flex items-center xl:gap-2.5">
+      <ul className="flex items-center gap-1 xl:gap-2.5">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
               aria-current={isActiveLink(pathname, link.href) ? "page" : undefined}
-              className="relative block px-2 py-2 text-sm font-bold whitespace-nowrap text-ink/75 transition-colors after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:bg-gold after:opacity-0 after:transition-opacity hover:text-ink hover:after:opacity-40 aria-[current=page]:text-ink aria-[current=page]:after:opacity-100 xl:px-3 xl:after:inset-x-3"
+              className="relative block px-3 py-2 text-sm font-bold text-ink/75 transition-colors after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:bg-gold after:opacity-0 after:transition-opacity hover:text-ink hover:after:opacity-40 aria-[current=page]:text-ink aria-[current=page]:after:opacity-100"
             >
               {link.label}
             </Link>
