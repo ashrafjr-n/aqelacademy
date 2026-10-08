@@ -1,8 +1,10 @@
-import { type LucideIcon, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
+import type { ComponentType, SVGProps } from "react";
 import type { Metadata } from "next";
 import { cardClassName } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { contactContent } from "@/content/contact";
 import { site, siteText } from "@/content/site";
 import type { Locale } from "@/lib/i18n";
@@ -17,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 interface ContactChannel {
   id: "phone" | "whatsapp" | "email" | "location";
-  icon: LucideIcon;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
   label: string;
   value: string;
   href?: string;
@@ -30,7 +32,7 @@ function channelsFor(locale: Locale): ContactChannel[] {
   const { labels } = contactContent[locale];
   return [
     { id: "phone", icon: Phone, label: labels.phone, value: site.contact.phoneDisplay, href: `tel:${site.contact.phone}`, ltr: true },
-    { id: "whatsapp", icon: MessageCircle, label: labels.whatsapp, value: labels.whatsappValue, href: whatsappUrl(), external: true },
+    { id: "whatsapp", icon: WhatsAppIcon, label: labels.whatsapp, value: labels.whatsappValue, href: whatsappUrl(), external: true },
     { id: "email", icon: Mail, label: labels.email, value: site.contact.email, href: `mailto:${site.contact.email}`, ltr: true },
     { id: "location", icon: MapPin, label: labels.address, value: siteText[locale].location },
   ];

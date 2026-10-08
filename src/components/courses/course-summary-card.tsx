@@ -1,7 +1,8 @@
-import { Clock, GraduationCap, MessageCircle, Signal, UserRound } from "lucide-react";
+import { Clock, GraduationCap, Signal, UserRound } from "lucide-react";
 import Image from "next/image";
 import { CourseBookingAction } from "@/components/courses/course-booking-action";
 import { cardClassName } from "@/components/ui/card";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { courseCopy, courseDurationLabel, courseHoursLabel } from "@/content/courses";
 import { formatCourseLevel, formatPrice } from "@/lib/format";
 import { getLocale } from "@/lib/locale";
@@ -51,7 +52,7 @@ export async function CourseSummaryCard({ course, bookable = true }: CourseSumma
           rel="noopener noreferrer"
           className="mt-4 flex items-center justify-center gap-2 border-t border-line pt-4 text-sm font-bold text-whatsapp-dark hover:underline"
         >
-          <MessageCircle aria-hidden="true" className="size-4" />
+          <WhatsAppIcon aria-hidden="true" className="size-4" />
           {copy.whatsappQuestion}
         </a>
       </div>

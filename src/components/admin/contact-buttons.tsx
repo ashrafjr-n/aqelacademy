@@ -1,5 +1,6 @@
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { buttonClassName } from "@/components/ui/button-styles";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { whatsappLinkTo } from "@/lib/whatsapp";
 
 interface ContactButtonsProps {
@@ -16,7 +17,7 @@ export function ContactButtons({ email, phone, whatsappMessage, noPhoneText }: C
       {phone ? (
         <>
           <a href={whatsappLinkTo(phone, whatsappMessage)} target="_blank" rel="noopener noreferrer" className={buttonClassName("whatsapp")}>
-            <MessageCircle aria-hidden="true" className="size-5" />
+            <WhatsAppIcon aria-hidden="true" className="size-5" />
             واتساب
           </a>
           <a href={`tel:${phone}`} className={buttonClassName("outline")}>
