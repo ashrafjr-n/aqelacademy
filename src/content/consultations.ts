@@ -13,8 +13,6 @@ export interface ConsultationAudience {
 
 interface ConsultationsContent {
   title: string;
-  /** Shorter label for the menu. */
-  navLabel: string;
   heading: string;
   intro: string;
   offerTitle: string;
@@ -30,7 +28,6 @@ interface ConsultationsContent {
 export const consultationsContent: Record<Locale, ConsultationsContent> = {
   ar: {
     title: "الاستشارات النفسية والسلوكية",
-    navLabel: "الاستشارات",
     heading: "خطوتك نحو التغيير الإيجابي تبدأ من مكانك",
     intro:
       "سواء كنت تبحث عن استعادة توازنك وإدارة ضغوط الحياة، أو تسعى لفهم طفلك وتعديل سلوكه بأساليب علمية مدروسة، نوفر لك استشارات تخصصية عبر الإنترنت تجمع بين السرية التامة والحلول التطبيقية الواقعية.",
@@ -63,7 +60,6 @@ export const consultationsContent: Record<Locale, ConsultationsContent> = {
   },
   en: {
     title: "Psychological and behavioural consultations",
-    navLabel: "Consultations",
     heading: "Your step towards positive change starts where you are",
     intro:
       "Whether you want to regain your balance and manage the pressures of life, or understand your child and change their behaviour with proven scientific methods, we offer specialist online consultations that combine full confidentiality with practical, realistic solutions.",
