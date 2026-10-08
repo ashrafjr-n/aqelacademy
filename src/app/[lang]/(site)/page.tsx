@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ArticleGrid } from "@/components/blog/article-grid";
-import { ConsultationAudiences } from "@/components/consultations/consultation-audiences";
 import { CourseGrid } from "@/components/courses/course-grid";
 import { AccreditationStrip } from "@/components/home/accreditation-strip";
 import { CtaBand } from "@/components/home/cta-band";
@@ -11,7 +10,6 @@ import { CheckList } from "@/components/ui/check-list";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitSection } from "@/components/ui/split-section";
 import { getArticles } from "@/content/articles";
-import { consultationsContent } from "@/content/consultations";
 import { courseCopy, getCourses } from "@/content/courses";
 import { homeContent } from "@/content/home";
 import { refundPolicy } from "@/content/refund-policy";
@@ -25,7 +23,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   const locale = await getLocale();
-  const consultations = consultationsContent[locale];
   const { hero, accreditationsTitle, accreditations, featuredCourses: featuredSection, latestArticles: articlesSection, journey, cta } = homeContent[locale];
 
   return (
@@ -65,11 +62,6 @@ export default async function HomePage() {
       </section>
 
       <section className="container-site py-20">
-        <SectionHeading title={consultations.home.title} subtitle={consultations.intro} action={consultations.home.action} />
-        <ConsultationAudiences audiences={consultations.audiences} />
-      </section>
-
-      <section className="container-site pb-20">
         <SectionHeading title={articlesSection.title} action={articlesSection.action} />
         <ArticleGrid articles={getArticles(locale).slice(0, 3)} />
       </section>
