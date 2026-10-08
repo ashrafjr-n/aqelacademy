@@ -26,24 +26,15 @@ export default async function CourseFeesPage() {
         <p className="text-sm">
           {copy.lastUpdated} <time dateTime={copy.updatedAt}>{formatDate(copy.updatedAt, locale)}</time>
         </p>
-        <p className="mt-4 max-w-3xl text-lg leading-loose">{copy.intro}</p>
-
-        <div className="mt-10">
+        <div className="mt-8">
           <CourseGrid courses={courses} />
         </div>
 
-        <h2 className="mt-14 font-heading text-2xl font-bold text-ink">{copy.notesTitle}</h2>
-        <ul className="mt-4 max-w-3xl list-disc space-y-2 ps-6 text-lg leading-loose marker:text-gold">
-          {copy.notes.map((note) => (
-            <li key={note}>{note}</li>
-          ))}
-          <li>
-            <Link href={localePath(locale, "/refund-policy")} className="font-bold text-gold-dark underline">
-              {copy.refundLink}
-            </Link>
-            .
-          </li>
-        </ul>
+        <p className="mt-10 text-lg">
+          <Link href={localePath(locale, "/refund-policy")} className="font-bold text-gold-dark underline">
+            {copy.refundLink}
+          </Link>
+        </p>
       </div>
     </>
   );
