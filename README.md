@@ -34,3 +34,5 @@ The whole platform runs on free tiers. Payments and the courses themselves stay 
 ## Development
 
 Setup, environment variables, deployment, database and backups are covered in [docs/operations.md](docs/operations.md).
+
+<!-- secret -->
